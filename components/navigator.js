@@ -13,58 +13,19 @@ import SettingsScreen from '../screens/settingsscreen';
 
 
 
-// export const SignedIn = StackNavigator(
-//     {
-//         Map: {
-//             screen: MapScreen,
-//         },
-//         Profile: {
-//             screen: ProfileScreen,
-//         },
-//         Leaderboard: {
-//             screen: LeaderboardScreen,
-//         },
-//         Settings: {
-//             screen: SettingsScreen
-//         }
-//     },
-//     {
-//         initialRouteName: 'Map',
-//     }
-// );
-
-// export const SignedIn = TabNavigator(
-//     {
-        
-//         Profile: {
-//             screen: ProfileScreen,
-//             navigationOptions: {
-//                 tabBarLabel: 'Profile',
-//                 tabBarIcon:  ({ tintColor}) => <Icon name="contact" size={35} color={tintColor} />
-//                 }
-//         },
-//         Map: {
-//             screen: MapScreen,
-//             navigationOptions: {
-//                 tabBarLabel: 'Map',
-//                 tabBarIcon: ({ tintColor}) => <Icon name="list" size={35} color={tintColor} />
-//                 }
-//         },
-//         Leaderboard: {
-//             screen: LeaderboardScreen,
-//             navigationOptions: {
-//                 tabBarLabel: 'Profile',
-//                 tabBarIcon:  ({ tintColor}) => <Icon name="contact" size={35} color={tintColor} />
-//                 }
-//         }
-//     },
-//     {
-//         initialRouteName: 'Map',
-//     }
-// );
-export const SignedIn = TabNavigator(
+export const ProfileNav = StackNavigator(
     {
         Profile: ProfileScreen,
+        Settings: SettingsScreen
+    },
+    {
+        initialRouteName: 'Profile',
+    }
+)
+
+export const SignedIn = TabNavigator(
+    {
+        Profile: ProfileNav,
         Map: MapScreen,
         Leaderboard: LeaderboardScreen,
       },
@@ -80,7 +41,9 @@ export const SignedIn = TabNavigator(
               } else if (routeName === 'Leaderboard') {
                   iconName = `trophy`;
               }
-            //to add "-outline" for each icon if selected
+            
+            
+              //to add "-outline" for each icon if selected
             // if (routeName === 'Profile') {
             //   iconName = `contact${focused ? '' : '-outline'}`;
             // } else if (routeName === 'Map') {
@@ -100,6 +63,7 @@ export const SignedIn = TabNavigator(
         tabBarPosition: 'bottom',
         animationEnabled: true,
         swipeEnabled: true,
+        lazy: true,
       }
 );
 
@@ -117,8 +81,10 @@ export const SignedOut = StackNavigator(
         },
         SignUp: {
             screen: SignUpScreen
+        },
+        Settings: {
+            screen: SettingsScreen
         }
-
     },
     {
         initialRouteName: 'Splash',

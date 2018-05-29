@@ -99,7 +99,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.awesomeproject"
@@ -144,7 +144,7 @@ dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:24.0.0"
     compile "com.facebook.react:react-native:+"  // From node_modules
-    compile project(':react-native-vector-icons')
+    implementation project(':react-native-vector-icons')
     implementation project(':react-native-maps')
 }
 

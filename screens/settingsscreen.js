@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Item, Label, Input } from 'native-base';
 import { StyleSheet, View, Dimensions, Modal, TouchableHighlight } from 'react-native';
 
 import * as userService from '../services/users';
@@ -11,24 +11,38 @@ export default class SettingsScreen extends Component {
         super(props);
 
         this.state = {
+            id: this.props.navigation.state.params.playerInfo.id,
             name: '',
             email: '',
             password: '',
-            modalVisible: false,
+            newpassword: '',
+            modalOneVisible: false,
+            modalTwoVisible: false,
         }
     }
 
 
-    setModalVisible(visible) {
-        this.setState({ modalVisible: visible });
+    setModalOneVisible(visible) {
+        this.setState({ modalOneVisible: visible });
+    }
+
+    setModalTwoVisible(visible) {
+        this.setState({ modalTwoVisible: visible });
     }
 
 
+    changeEmail() {
+        userService.editEmail(this.state.id, this.state.email)
+            .then((result) => {
+                this.props.navigation.navigate('Profile', {});
+            }).catch((err) => {
+                console.log(err);
+            });
+    };
+
 
     render() {
-        // console.log(this.props.navigation.state.params);
         const player = this.props.navigation.state.params.playerInfo;
-
         return (
             <Container>
                 <Content contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
@@ -41,68 +55,112 @@ export default class SettingsScreen extends Component {
 
 
                         <View style={{ marginTop: 22 }}>
+
+
                             <Modal
                                 animationType="fade"
                                 transparent={false}
-                                visible={this.state.modalVisible}
+                                visible={this.state.modalOneVisible}
                                 onRequestClose={() => {
-                                    this.setModalVisible(!this.state.modalVisible);
+                                    this.setModalOneVisible(!this.state.modalOneVisible);
                                 }}>
                                 <View style={{ marginTop: 22 }}>
-                                    <View>
-                                        <Text>Hello World!</Text>
 
-                                        <TouchableHighlight
-                                            onPress={() => {
-                                                this.setModalVisible(!this.state.modalVisible);
-                                            }}>
-                                            <Text>GO BACK</Text>
-                                        </TouchableHighlight>
-                                    </View>
+                                    <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30, textDecorationLine: 'underline' }}>Change Email</Text></View>
+                                    <View><Text style={{ fontSize: 20, fontStyle: 'italic', marginTop: 80 }}>{`${player.email}`}</Text></View>
+                                    <Item floatingLabel>
+                                        <Label>Enter New Email</Label>
+                                        <Input onChangeText={(text) => this.setState({ email: text })} />
+                                    </Item>
+
+                                    <Button onPress={() => this.changeEmail()} block style={{ margin: 15, marginTop: 50 }}>
+                                        <Text>SUBMIT</Text>
+                                    </Button>
+
+                                    <TouchableHighlight
+                                        onPress={() => {
+                                            this.setModalOneVisible(!this.state.modalOneVisible);
+                                        }}>
+                                        <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 10 }}>GO BACK</Text>
+                                    </TouchableHighlight>
+
+
+
                                 </View>
                             </Modal>
 
+
                             <TouchableHighlight
                                 onPress={() => {
-                                    this.setModalVisible(true);
+                                    this.setModalOneVisible(true);
                                 }}>
                                 <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#7B17D3' }} >Change Email</Text>
                             </TouchableHighlight>
+
+
                         </View>
 
 
-       <View style={{ marginTop: 22 }}>
+                        <View style={{ marginTop: 22 }}>
+
                             <Modal
                                 animationType="fade"
                                 transparent={false}
-                                visible={this.state.modalVisible}
+                                visible={this.state.modalTwoVisible}
                                 onRequestClose={() => {
-                                    this.setModalVisible(!this.state.modalVisible);
+                                    this.setModalTwoVisible(!this.state.modalTwoVisible);
                                 }}>
-                                <View style={{ marginTop: 22 }}>
+
+
+                                <View style={{ marginTop: 22 }} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+
+
                                     <View>
-                                        <Text>Hello World!</Text>
+
+
+                                        <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30, textDecorationLine: 'underline' }}>Change Password</Text></View>
+
+                                        <Item floatingLabel>
+                                            <Label>Enter Old Password</Label>
+                                            <Input onChangeText={(text) => this.setState({ password: text })} />
+                                        </Item>
+
+
+                                        <Item floatingLabel>
+                                            <Label>Enter New Password</Label>
+                                            <Input onChangeText={(text) => this.setState({ newpassword: text })} />
+                                        </Item>
+
+                                        <Button onPress={() => this.changePassword()} block style={{ margin: 15, marginTop: 50 }}>
+                                            <Text>SUBMIT</Text>
+                                        </Button>
+
 
                                         <TouchableHighlight
                                             onPress={() => {
-                                                this.setModalVisible(!this.state.modalVisible);
+                                                this.setModalTwoVisible(!this.state.modalTwoVisible);
                                             }}>
-                                            <Text>GO BACK</Text>
+                                            <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 10 }}>GO BACK</Text>
                                         </TouchableHighlight>
+
+
                                     </View>
+
+
                                 </View>
+
+
                             </Modal>
 
                             <TouchableHighlight
                                 onPress={() => {
-                                    this.setModalVisible(true);
+                                    this.setModalTwoVisible(true);
                                 }}>
                                 <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#7B17D3' }} >Change Password</Text>
                             </TouchableHighlight>
+
+
                         </View>
-
-
-
 
                     </View>
 

@@ -73,5 +73,9 @@ function newUser(name, email, username, hash) {
     return baseService.post('/api/auth/signup', {name, email, username, hash})
 }
 
+function editEmail(id, email) {
+    return baseService.put(`/api/players/email/${id}`, { email })
+}
 
-export { isLoggedIn, checkLogin, login, logout, newUser, me, profile };
+
+export { isLoggedIn, checkLogin, login, logout, newUser, me, profile, editEmail };

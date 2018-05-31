@@ -3,6 +3,9 @@ import { createStackNavigator } from 'react-navigation';
 import { StyleSheet, View, Image } from 'react-native';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, H1, Segment } from 'native-base';
 import * as usersService from '../services/users';
+import ProfileScore from '../components/profilescore';
+import { getMyPlayerId } from '../services/playergame';
+import * as playergameService from '../services/playergame';
 
 
 
@@ -10,18 +13,22 @@ export default class ProfileScreen extends Component {
         constructor(props) {
             super(props);
             this.state = {
-                player: ''
+                player: '' 
             };
         }
 
-        componentWillMount() {
+        componentDidMount() {
             usersService.profile()
             .then((player) => {
                 this.setState({ player });
-                console.log(this.state.player);
+                // console.log(this.state.player);
             }).catch((err) => {
                 console.log(err);
             })
+        }
+
+        static navigationOptions = {
+            header: null
         }
 
     render() {
@@ -57,14 +64,16 @@ export default class ProfileScreen extends Component {
                             <Text style={styles.bold}>Name: <Text>{this.state.player.name}</Text></Text>
                             <Text style={styles.bold}>Email: <Text>{this.state.player.email}</Text></Text>
                         </View>
+                            <View>
+                            <H1>Score</H1>
+                              <ProfileScore value={this.state.player} />
+                            </View>
 
-                
                 </Content>
             </Container>
         )
+
     }
-
-
 }
 
 const styles = StyleSheet.create({

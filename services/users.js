@@ -77,5 +77,12 @@ function editEmail(id, email) {
     return baseService.put(`/api/players/email/${id}`, { email })
 }
 
+function checkPassword(id, password) {
+    return baseService.post(`/api/players/checkpassword/${id}`, { password })
+}
 
-export { isLoggedIn, checkLogin, login, logout, newUser, me, profile, editEmail };
+function editPassword(id, hash) {
+    return baseService.put(`/api/players/password/${id}`, { hash })
+}
+
+export { isLoggedIn, checkLogin, login, logout, newUser, me, profile, editEmail, checkPassword, editPassword };

@@ -11,4 +11,14 @@ function getMyAllTimeScore(id) {
 
 }
 
-export { getMyPlayerId, getMyAllTimeScore };
+function getAllScores(id) {
+    return baseService.get(`/api/playergame/leaderboard/${id}`);
+
+}
+
+function getAllTimeScores() {
+    return baseService.get(`/api/playergame/everyleader/all`);
+
+}
+
+export { getMyPlayerId, getMyAllTimeScore, getAllScores, getAllTimeScores };

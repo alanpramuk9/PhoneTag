@@ -58,10 +58,24 @@ function me() {
     return baseService.get('/api/players/me');
 }
 
+function profile() {
+    return me()
+        .then((player) => {
+            delete player.hash;
+            return player
+        }).catch((err) => {
+            console.log(err);
+        })
+}
+
 
 function newUser(name, email, username, hash) {
     return baseService.post('/api/auth/signup', {name, email, username, hash})
 }
 
+function editEmail(id, email) {
+    return baseService.put(`/api/players/email/${id}`, { email })
+}
 
-export { isLoggedIn, checkLogin, login, logout, newUser };
+
+export { isLoggedIn, checkLogin, login, logout, newUser, me, profile, editEmail };

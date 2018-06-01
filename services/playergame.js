@@ -11,6 +11,7 @@ function getMyAllTimeScore(id) {
 
 }
 
+
 function getAllScores(id) {
     return baseService.get(`/api/playergame/leaderboard/${id}`);
 
@@ -21,4 +22,14 @@ function getAllTimeScores() {
 
 }
 
-export { getMyPlayergame, getMyAllTimeScore, getAllScores, getAllTimeScores };
+function getAllTimeRankings() {
+    return baseService.get(`/api/playergame/alltimerank/all`);
+
+}
+
+function profileRankings(id) {
+    return baseService.get(`/api/playergame/profilerank/${id}`);
+
+}
+
+export { getMyPlayergame, getMyAllTimeScore, getAllScores, getAllTimeScores, profileRankings, getAllTimeRankings };

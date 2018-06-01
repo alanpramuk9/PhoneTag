@@ -4,14 +4,14 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Icon } from 'native-base';
 import * as pinsService from '../services/pins';
 import * as playerGameService from '../services/playergame';
-
+import * as userService from '../services/users';
 
 const { width, height } = Dimensions.get('window');
 
 const SCREEN_HEIGHT = height;
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.00922;
+const LATITUDE_DELTA = 0.0421;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 // const initialRegion = {
@@ -31,7 +31,9 @@ class MapScreen extends Component {
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA,
             },
-            pins: []
+            pins: [],
+            gameId: '',
+            playerId: ''
             //oldMarker: [],
             // markers: [{
             //     id: 99,
@@ -40,35 +42,9 @@ class MapScreen extends Component {
             //         longitude: -86.7670841419839
             //     },
             // },
-            // {
-            //     id: 98,
-            //     coordinate: {
-            //         latitude: 36.14295050095192,
-            //         longitude: -86.7675496962903
-            //     },
-            // },
-            // {
-            //     id: 100,
-            //     coordinate: {
-            //         latitude: 36.142560615074984,
-            //         longitude: -86.76765430252374
-            //     },
-            // },
-            // {
-            //     id: 101,
-            //     coordinate: {
-            //         latitude: 36.14239433636711,
-            //         longitude: -86.76614760948053
-            //     },
-            // }
+            //
             // ],
-            //to check previous location to current positiion
-            // lastLat: null,
-            // lastLong: null,
-            //myPosition: null
-            //locationChosen: false
-        };
-
+        }
     }
 
     // setRegion(region) {
@@ -118,31 +94,40 @@ class MapScreen extends Component {
         })
 
         pinsService.getAllPins()
-          
             .then((result) => {
                 //console.log(result);
                 this.setState({ pins: result });
-                //console.log('THE STATE OF ');
-                // console.log('**********************************')
-                // console.log('**********************************')
-                // console.log('**********************************')
                 // console.log(this.state.pins);
-                // console.log('**********************************')
-                // console.log('**********************************')
-                // console.log('**********************************')
-                // console.log('lat ' + this.state.pins[0].latitude);
-
-
             }).catch((err) => {
                 console.log(err);
             });
+        // playerGameService.getMyPlayerID() 
+        // .then((result) => {
+
+        // })
+        userService.me()
+            .then((result) => {
+                this.setState({ id: result })
+            }).then((result) => {
+                playerGameService.getMyPlayergame(this.state.id)
+            }).then((result) => {
+                 this.setState({playerId: result.player_id})
+                 this.setState({gameId: result.game_id})
+            }).catch((err) => {
+                console.log(err);
+            });
+    
+    
     }
-    // playerGameService.getMyPlayerID() 
-    // .then((result) => {
 
-    // })
-
-
+    savePins = () => {
+        pinsService.setPins(this.state.region.latitude, this.state.region.longitude, this.state.gameId, this.state.playerId)
+        .then((result) => {
+            console.log('*********** save pins ******** ' + result)     
+        }).catch((err) => {
+                console.log(err);
+        });
+    }  
     //updates latLong of current position
     // onRegionChangeComplete(region, lastLat, lastLong) {
     //     this.setState({
@@ -393,7 +378,7 @@ class MapScreen extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={this.onPressAddMarker}>
+                    <TouchableOpacity onPress={this.savePins}>
                         <Text style={styles.buttonMarker}>Add a Marker</Text>
                     </TouchableOpacity>
                 </View>

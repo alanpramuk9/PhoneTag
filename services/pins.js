@@ -5,8 +5,8 @@ function getAllPins() {
     return baseService.get('/api/pins/');
 }
 
-function setPins() {
-    return baseService.post('/api/pins/', {Lat, Long, gameId, playerId})
+function setPins(lat, long, gameId, playerId) {
+    return baseService.post('/api/pins/', {lat, long, gameId, playerId})
 }
 
 

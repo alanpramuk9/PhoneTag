@@ -101,33 +101,40 @@ class MapScreen extends Component {
             }).catch((err) => {
                 console.log(err);
             });
-        // playerGameService.getMyPlayerID() 
-        // .then((result) => {
+        
 
-        // })
         userService.me()
             .then((result) => {
                 this.setState({ id: result })
-            }).then((result) => {
-                playerGameService.getMyPlayergame(this.state.id)
-            }).then((result) => {
-                 this.setState({playerId: result.player_id})
-                 this.setState({gameId: result.game_id})
+                console.log('******* id *****')
+                console.log(result)
+            }).catch((err) => {
+                console.log(err);
+            })
+
+        playerGameService.getMyPlayergame(this.state.id)
+            .then((result) => {
+                console.log('******  result getplayergame ******* ')
+                console.log(result.getplayergame )
+                this.setState({ playerId: result.playergame_ok_id })
+                this.setState({ gameId: result.game_ok_id })
+                console.log(this.state.playerId)
+                console.log(this.state.gameId)
             }).catch((err) => {
                 console.log(err);
             });
-    
-    
+
+
     }
 
     savePins = () => {
         pinsService.setPins(this.state.region.latitude, this.state.region.longitude, this.state.gameId, this.state.playerId)
-        .then((result) => {
-            console.log('*********** save pins ******** ' + result)     
-        }).catch((err) => {
+            .then((result) => {
+                console.log('*********** save pins ******** ' + result)
+            }).catch((err) => {
                 console.log(err);
-        });
-    }  
+            });
+    }
     //updates latLong of current position
     // onRegionChangeComplete(region, lastLat, lastLong) {
     //     this.setState({
@@ -336,13 +343,11 @@ class MapScreen extends Component {
 
                             <MapView.Marker
                                 pinColor={'yellow'}
-                                onPress={e => console.log(e.nativeEvent)}
+                                onPress={e => console.log('+++ pressed marker +++++' + e.nativeEvent)}
                                 key={index}
                                 coordinate={latLong}
 
                             />
-
-
                         )
                     })}
                 </MapView>

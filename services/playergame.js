@@ -2,7 +2,7 @@ import * as baseService from './base';
 
 
 
-function getMyPlayerId(id) {
+function getMyPlayergame(id) {
     return baseService.get(`/api/playergame/${id}`);
 }
 
@@ -21,4 +21,4 @@ function getAllTimeScores() {
 
 }
 
-export { getMyPlayerId, getMyAllTimeScore, getAllScores, getAllTimeScores };
+export { getMyPlayergame, getMyAllTimeScore, getAllScores, getAllTimeScores };

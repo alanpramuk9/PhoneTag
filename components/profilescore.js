@@ -26,21 +26,27 @@ export default class ProfileScore extends Component {
             seg: 1,
             playergame: '',
             lastgame: '',
+            currentGameId: '',
+            lastGameId: '',
             total: '' };
     }
         componentWillReceiveProps(newProps) {
             let id = newProps.value.id;
             // console.log(newProps.value.id);
     
-            playergameService.getMyPlayerId(id)
+            playergameService.getMyPlayergame(id)
             .then((player) => {
                 console.log(player);
                 // console.log(player.length -1);
                 let playergame = player[player.length -1].total_points;
+                let currentGameId = player[player.length -1].game_id;
                 let lastgame = player[player.length -2].total_points;
-                this.setState({ playergame, lastgame });
+                let lastGameId = player[player.length -2].game_id;
+                this.setState({ playergame, lastgame, currentGameId, lastGameId });
                 console.log(this.state.playergame);
                 console.log(this.state.lastgame);
+                console.log(currentGameId);
+                console.log(lastGameId);
             }).catch((err) => {
                 console.log(err);
             })
@@ -50,6 +56,15 @@ export default class ProfileScore extends Component {
                 console.log(score[0].Total_Score);
                 let total = score[0].Total_Score;
                 this.setState({ total })
+            }).catch((err) => {
+
+            })
+
+            playergameService.getAllScores()
+            .then((scores) => {
+                console.log(scores);
+            }).catch((err) => {
+                console.log(err);
             })
         }
     

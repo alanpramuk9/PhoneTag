@@ -44,6 +44,11 @@ function makeFetch(url, info) {
     return fetch(`${HEROKU_URL}${url}`, info);
 }
 
+//for testing on local host
+// function makeFetch(url, info) {
+//     return fetch(`http://10.0.2.2:3000${url}`, info);
+// }
+
 function json(url, method = 'GET', payload = {}) {
     let data = {
         method,
@@ -60,7 +65,6 @@ function json(url, method = 'GET', payload = {}) {
     
     return makeFetch(url, data)
         .then((response) => {
-            console.log(response);
             if (response.ok) {
                 let contentType = response.headers.get('Content-Type');
 

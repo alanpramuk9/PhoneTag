@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Item, Label, Input } from 'native-base';
-import { StyleSheet, View, Dimensions, Modal, TouchableHighlight } from 'react-native';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Item, Label, Input, Form, Textarea } from 'native-base';
+import { StyleSheet, View, Dimensions, Modal, TouchableHighlight, Alert } from 'react-native';
 
+import * as contactService from '../services/contactService';
 import * as userService from '../services/users';
 
 
@@ -14,10 +15,12 @@ export default class SettingsScreen extends Component {
             id: this.props.navigation.state.params.playerInfo.id,
             name: '',
             email: '',
+            message: '',
             password: '',
             newpassword: '',
             modalOneVisible: false,
             modalTwoVisible: false,
+            modalThreeVisible: false,
         }
     }
 
@@ -30,15 +33,62 @@ export default class SettingsScreen extends Component {
         this.setState({ modalTwoVisible: visible });
     }
 
+    setModalThreeVisible(visible) {
+        this.setState({ modalThreeVisible: visible });
+    }
+
 
     changeEmail() {
         userService.editEmail(this.state.id, this.state.email)
             .then((result) => {
+                this.setModalOneVisible(!this.state.modalOneVisible);
                 this.props.navigation.navigate('Profile', {});
             }).catch((err) => {
                 console.log(err);
             });
     };
+
+    changePassword() {
+        userService.checkPassword(this.state.id, this.state.password)
+            .then((result) => {
+                if (result) {
+                    userService.editPassword(this.state.id, this.state.newpassword)
+                        .then((result) => {
+                            this.setModalOneVisible(!this.state.modalOneVisible);
+                            this.props.navigation.navigate('Profile', {});
+                        }).catch((err) => {
+                            console.log(err);
+                        });
+                } else {
+                    console.log('PREVIOUS PASSWORD IS INCORRECT');
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+    };
+
+
+    sendEmail() {
+        contactService.sendContactEmail(this.state.name, this.state.email, this.state.message)
+            .then((result) => {
+                Alert.alert(
+                    'Thanks for your feedback!',
+                    'We like totally care and stuff',
+                    [
+                        {
+                            text: 'OK', onPress: () => {
+                                this.setModalOneVisible(!this.state.modalOneVisible);
+                                this.props.navigation.navigate('Profile', {});
+                            }
+                        },
+                    ],
+                    { cancelable: false }
+                )
+            }).catch((err) => {
+                console.log(err);
+            });
+
+    }
 
 
     render() {
@@ -53,7 +103,7 @@ export default class SettingsScreen extends Component {
                         <View><Text style={{ fontSize: 35 }}>{`${player.name}`}</Text></View>
                         <View><Text style={{ fontSize: 30, fontStyle: 'italic' }}>{`${player.email}`}</Text></View>
 
-
+                        {/* Change Email -------------------------------------------------------- */}
                         <View style={{ marginTop: 22 }}>
 
 
@@ -100,7 +150,7 @@ export default class SettingsScreen extends Component {
 
                         </View>
 
-
+                        {/* Change Password --------------------------------------------------- */}
                         <View style={{ marginTop: 22 }}>
 
                             <Modal
@@ -162,9 +212,80 @@ export default class SettingsScreen extends Component {
 
                         </View>
 
+
                     </View>
 
-                    <View style={{ alignSelf: 'center', marginTop: 50, marginBottom: 10, }}><Text style={{ fontSize: 15, textDecorationLine: 'underline', color: '#796789' }}>Contact Us</Text></View>
+                    {/* CONTACT FORM -------------------------------------- */}
+
+                    <View style={{ alignSelf: 'center', marginTop: 50, marginBottom: 10, }}>
+
+
+                        <View style={{ marginTop: 22 }}>
+
+                            <Modal
+                                animationType="fade"
+                                transparent={false}
+                                visible={this.state.modalThreeVisible}
+                                onRequestClose={() => {
+                                    this.setModalThreeVisible(!this.state.modalThreeVisible);
+                                }}>
+
+
+                                <View style={{ marginTop: 22 }} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+
+
+                                    <View>
+
+
+                                        <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30, textDecorationLine: 'underline' }}>Contact Us</Text></View>
+
+                                        <Item floatingLabel>
+                                            <Label>Enter Name</Label>
+                                            <Input onChangeText={(text) => this.setState({ name: text })} />
+                                        </Item>
+
+
+                                        <Item floatingLabel>
+                                            <Label>Enter Email</Label>
+                                            <Input onChangeText={(text) => this.setState({ email: text })} />
+                                        </Item>
+
+                                        <Form>
+                                            <Textarea onChangeText={(text) => this.setState({ message: text })} rowSpan={5} bordered placeholder="What's Up?" />
+                                        </Form>
+
+                                        <Button onPress={() => this.sendEmail()} block style={{ margin: 15, marginTop: 50 }}>
+                                            <Text>SUBMIT</Text>
+                                        </Button>
+
+
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                this.setModalThreeVisible(!this.state.modalThreeVisible);
+                                            }}>
+                                            <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 10 }}>GO BACK</Text>
+                                        </TouchableHighlight>
+
+
+                                    </View>
+
+
+                                </View>
+
+
+                            </Modal>
+
+                            <TouchableHighlight
+                                onPress={() => {
+                                    this.setModalThreeVisible(true);
+                                }}>
+                                <Text style={{ fontSize: 15, textDecorationLine: 'underline', color: '#796789' }} >Contact Us</Text>
+                            </TouchableHighlight>
+
+
+                        </View>
+
+                    </View>
 
                 </Content>
             </Container>

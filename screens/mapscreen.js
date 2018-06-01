@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Button, StyleSheet, TouchableOpacity, Text, Dimensions, Image, StatusBar, Animated } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Icon } from 'native-base';
 
 const {width, height} = Dimensions.get('window');
@@ -11,23 +11,24 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.00922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const initialRegion = {
-    latitude: 36.14319077106534,
-    longitude: -86.76708101838142,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  }
+// const initialRegion = {
+//     latitude: 36.14319077106534,
+//     longitude: -86.76708101838142,
+//     latitudeDelta: 0.0922,
+//     longitudeDelta: 0.0421,
+//   }
 
-class Mapscreen extends Component {
+class MapScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-        initialPosition: {
-            latitude: 0,
-            longitude: 0,
-            latitudeDelta: 0,
-            longitudeDelta: 0,
+        region: {
+            latitude: 36.14319077106534,
+            longitude: -86.76708101838142,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
         },
+        oldMarker: [],
         markers: [{
             id: 99,
             coordinate: {
@@ -58,34 +59,38 @@ class Mapscreen extends Component {
             }
         ],
         //to check previous location to current positiion
-        lastLat: null,
-        lastLong: null,
+        // lastLat: null,
+        // lastLong: null,
         //myPosition: null
         //locationChosen: false
     };
 
 }
 
-setRegion(region) {
-    if(this.state.ready) {
-      setTimeout(() => this.map.animateToRegion(region), 10);
-    }
-    //this.setState({ region });
-  }
+// setRegion(region) {
+//     if(this.state.ready) {
+//       setTimeout(() => this.map.animateToRegion(region), 10);
+//     }
+//     //this.setState({ region });
+//   }
 
 componentDidMount() {
     navigator.geolocation.getCurrentPosition((position) => {
+        
         let lat = parseFloat(position.coords.latitude);
         let long = parseFloat(position.coords.longitude);
-        let initialRegion = {
+        console.log('Current position lat: ' + lat);
+        console.log('Current position long: ' + long);
+        
+        this.setState({
+          region: {
             latitude: lat,
             longitude: long,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA
-        };
-        this.setState({initialPosition: initialRegion});
-        this.setState({markerPosition: initialRegion});
-        
+          }
+          });
+                
     }, 
         (error) => alert(JSON.stringify(error)), 
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000, distanceFilter: 1 })
@@ -102,7 +107,7 @@ componentDidMount() {
             longitudeDelta: LONGITUDE_DELTA
         }
         
-        this.setState({initialPosition: lastRegion});
+        this.setState({region: lastRegion});
         //this.setState({markerPosition: lastRegion});
         //this.onRegionChangeComplete(region, region.latitude, region.longitude);
         //this.map.animateToRegion(region, 100);
@@ -117,17 +122,12 @@ componentDidMount() {
 //         lastLong: lastLong || this.state.lastLong
 //     });
 // }
-// onRegionChangeComplete = (region) => {
-//     console.log('onRegionChangeComplete', region);
-//   };
+onRegionChangeComplete = (region) => {
+    console.log('onRegionChangeComplete', region);
+  };
 
-// componentWillMount() {
-//     //setTimeout(() => this.setState({ statusBarHeight: screenHeight - 74 }), 500);
-// }
 
-componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
-}
+
 onPressAnimate = () => {
     Animated.sequence([
       Animated.spring(this.state._legalLabelPositionY, {
@@ -141,13 +141,13 @@ onPressAnimate = () => {
 
 //set marker on pressing map
 onMapPress(e) {
-    console.log(e)
+    console.log('value of e when pressing map.' + e)
     this.setState({
       markers: [
         ...this.state.markers,
         {
           coordinate: e.nativeEvent.coordinate,
-          key: id++,
+          // key: id++,
         },
       ],
     });
@@ -169,7 +169,7 @@ onPressZoomIn() {
             longitude: this.region.longitude
         }
     })
-    //this.map.animateToRegion(this.region, 100);
+    
 
 }
 
@@ -191,6 +191,50 @@ onPressZoomOut() {
     //this.map.animateToRegion(this.region, 100);
     //console.log('lt : ' + region.ltDelta + ' lg : ' + region.lgDelta)
 }
+
+onPressAddMarker = () => {
+  navigator.geolocation.getCurrentPosition((position) => {
+        
+    let lat = parseFloat(position.coords.latitude);
+    let long = parseFloat(position.coords.longitude);
+    console.log('Button pressed position lat2: ' + lat);
+    console.log('Button pressed current position long2: ' + long);
+    console.log('state of markers ' + this.state.markers);
+
+  
+          this.setState(prevState => {
+            return {
+              markers: {
+                ...prevState.markers,
+                latitude: lat,
+                longitude: long
+              },
+              //ocationChosen: true
+            };
+          })
+          console.log('previously only 5 markers set ' + this.state.markers.coordinate)
+  })}
+        
+    // let latLong = [lat, long];
+    // console.log('lanlong array' + latLong);
+    // this.state.oldMarker.concat(latLong);
+    // console.log('oldmarker array' + this.state.oldMarker);
+    // this.setState({
+    //   markers: [...this.state.markers, ...this.state.oldMarker]
+    //   })
+    //   console.log('new marker added to state? 5 things now in markers ' + this.state.markers)
+    // })
+            
+    
+
+    // this.setState({
+    //   ...markers: {
+    //     latitude: lat,
+    //     longitude: long
+    //   }
+    //   });
+            
+
 // pickLocationHandler = event => {
 //   const coords = event.nativeEvent.coordinate;
 //   //smooth animation function
@@ -229,27 +273,37 @@ onPressZoomOut() {
 //   alert("Fetching the Position failed, please pick one manually!");
 // })
 // }
+componentWillUnmount() {
+  navigator.geolocation.clearWatch(this.watchID);
+}
 
 render() {
-   
+    
     //console.log('region is ' + this.state.focusedLocation)
 
     return (
         <View style={styles.container}>
             <MapView
                 //initialRegion={this.state.initialRegion}
+                //provider={"google"}
+                provider={PROVIDER_GOOGLE}
                 region={this.state.initialPosition}
                 style={styles.map}
                 onPress={(e) => this.onMapPress(e)}
                 mapType={"hybrid"}
-                //onPress={this.pickLocationHandler}
+                //onPress={this.onMapPress(e)}
+                showsScale={true}
+                showsCompass={true}
                 showsUserLocation={true}
-                followUserLocation={true}
+                followsUserLocation={true}
                 zoomEnabled={true}
                 //onRegionChange={this.onRegionChange.bind(this)}
-                onRegionChange={this.onRegionChange}
+                //onRegionChange={this.onRegionChange}
                 onRegionChangeComplete={this.onRegionChangeComplete}
                 customMapStyle={mapStyle}
+                loadingEnabled={true}
+                loadingIndicatorColor={'#606060'}
+                loadingBackgroundColor={'#FFFFFF'}
                 //onMarkerSelect= callback for when a marker on map becomes selected
                 
                 //store a reference to the MapView object so that we can call method animate 
@@ -259,7 +313,7 @@ render() {
                 //containerStyle={{backgroundColor: 'white', borderColor: '#BC8B00'}}
             >
                 
-                {this.state.markers.map((marker, index) => (
+                {/* {this.state.markers.map((marker, index) => (
                     <MapView.Marker
                         pinColor={'yellow'}
                         onPress={e => console.log(e.nativeEvent)}
@@ -267,7 +321,7 @@ render() {
                         coordinate={marker.coordinate}
                         id={marker.id}
                     />
-                ))}
+                ))} */}
             </MapView>
 
             <View style={styles.zoom}>
@@ -298,10 +352,14 @@ render() {
                     <Text style={styles.usernameText}>Username</Text>
                 </TouchableOpacity>
                 </View>
-
+                <View style={styles.button}>
+                <TouchableOpacity onPress={this.onPressAddMarker}>
+                    <Text style={styles.buttonMarker}>Add a Marker</Text>
+                </TouchableOpacity>
+                </View>
                 <View style={styles.bio}>
                 <Text style={styles.bioText}>
-                    Bio description lorem ipsum Ullamco exercitation
+                    lorem ipsum Ullamco exercitation
                     aliqua ullamco nostrud dolor et aliquip
                 </Text>
                 </View>
@@ -398,7 +456,13 @@ bio: {
   photoText: {
     fontSize: 9,
     textAlign: 'center',
+  },
+
+  buttonMarker: {
+    backgroundColor: 'yellow',
+    width: 30,
+    padding: 5
   }
 });
 
-export default Mapscreen;
+export default MapScreen;

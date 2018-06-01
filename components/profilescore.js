@@ -43,15 +43,15 @@ export default class ProfileScore extends Component {
                 let lastgame = player[player.length -2].total_points;
                 let lastGameId = player[player.length -2].game_id;
                 this.setState({ playergame, lastgame, currentGameId, lastGameId });
-                console.log(this.state.playergame);
-                console.log(this.state.lastgame);
+                // console.log(this.state.playergame);
+                // console.log(this.state.lastgame);
                 console.log(currentGameId);
                 console.log(lastGameId);
             }).catch((err) => {
                 console.log(err);
             })
 
-            playergameService.getMyAllTimeScore(id)
+            playergameService.getMyAllTimeScore()
             .then((score) => {
                 console.log(score[0].Total_Score);
                 let total = score[0].Total_Score;

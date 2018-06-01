@@ -28,41 +28,68 @@ export default class ProfileScore extends Component {
             lastgame: '',
             currentGameId: '',
             lastGameId: '',
-            total: '' };
+            total: '',
+            currentRank: '',
+            lastRank: '',
+            allTimeRank: '' };
     }
         componentWillReceiveProps(newProps) {
             let id = newProps.value.id;
-            // console.log(newProps.value.id);
     
             playergameService.getMyPlayergame(id)
             .then((player) => {
-                console.log(player);
-                // console.log(player.length -1);
                 let playergame = player[player.length -1].total_points;
                 let currentGameId = player[player.length -1].game_id;
                 let lastgame = player[player.length -2].total_points;
                 let lastGameId = player[player.length -2].game_id;
                 this.setState({ playergame, lastgame, currentGameId, lastGameId });
-                // console.log(this.state.playergame);
-                // console.log(this.state.lastgame);
-                console.log(currentGameId);
-                console.log(lastGameId);
+                this.getMyCurrentRank(currentGameId, id);
+                this.getMyLastRank(lastGameId, id);
             }).catch((err) => {
                 console.log(err);
             })
 
-            playergameService.getMyAllTimeScore()
-            .then((score) => {
-                console.log(score[0].Total_Score);
-                let total = score[0].Total_Score;
+            playergameService.getAllTimeRankings()
+            .then((rank) => {
+                let total = rank[0].Total_Score;
                 this.setState({ total })
+                    let rankLength = rank.length;
+                    for ( let i = 0; i < rankLength; i++) {
+                        if ( id === rank[i].player_id) {
+                            let allTimeRank = i + 1;
+                            this.setState({ allTimeRank });
+                        }
+                    }
             }).catch((err) => {
-
+                console.log(err);
             })
+        }
+        
+        getMyCurrentRank(gameId, playerId) {
+            playergameService.profileRankings(gameId, playerId)
+            .then((rank) => {
+                let rankLength = rank.length;
+                for ( let i = 0; i < rankLength; i++) {
+                  if ( playerId === rank[i].player_id) {
+                      let currentRank = i + 1;
+                      this.setState({ currentRank })
+                  } 
+                }
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
 
-            playergameService.getAllScores()
-            .then((scores) => {
-                console.log(scores);
+        getMyLastRank(gameId, playerId) {
+            playergameService.profileRankings(gameId, playerId)
+            .then((rank) => {
+                let rankLength = rank.length;
+                for ( let i = 0; i < rankLength; i++) {
+                  if ( playerId === rank[i].player_id) {
+                      let lastRank = i + 1;
+                      this.setState({ lastRank })
+                  } 
+                }
             }).catch((err) => {
                 console.log(err);
             })
@@ -102,6 +129,7 @@ export default class ProfileScore extends Component {
                         }}>
                         <View>
                         <Text>Your Current Score: {this.state.playergame}</Text>
+                        <Text>Your Current Rank: {this.state.currentRank}</Text>
                         </View>
                     </Content>
                 </Container>
@@ -139,6 +167,7 @@ export default class ProfileScore extends Component {
                         }}>
                         <View>
                         <Text>Your Last Games Score: {this.state.lastgame}</Text>
+                        <Text>Your Last Games Rank: {this.state.lastRank}</Text>
                         </View>
                     </Content>
                 </Container>
@@ -176,6 +205,7 @@ export default class ProfileScore extends Component {
                         }}>
                         <View>
                         <Text>Your AllTime Score: {this.state.total}</Text>
+                        <Text>Your AllTime Rank: {this.state.allTimeRank}</Text>
                         </View>
                     </Content>
                 </Container>

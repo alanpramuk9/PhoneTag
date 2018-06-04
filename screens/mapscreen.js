@@ -32,8 +32,9 @@ class MapScreen extends Component {
                 longitudeDelta: LONGITUDE_DELTA,
             },
             pins: [],
-            gameId: '',
-            playerId: ''
+            gameId: null,
+            playerId: null,
+
             //oldMarker: [],
             // markers: [{
             //     id: 99,
@@ -55,6 +56,9 @@ class MapScreen extends Component {
     //   }
 
     componentDidMount() {
+
+        this.allThePins();
+
         navigator.geolocation.getCurrentPosition((position) => {
 
             let lat = parseFloat(position.coords.latitude);
@@ -93,6 +97,20 @@ class MapScreen extends Component {
             //this.map.animateToRegion(region, 100);
         })
 
+
+        userService.me()
+            .then((result) => {
+                this.myPlayerGame(result.id)
+                // console.log('GETTING ID RESULT')
+                // console.log(result);
+            }).catch((err) => {
+                console.log(err);
+            })
+
+
+    }
+
+    allThePins() {
         pinsService.getAllPins()
             .then((result) => {
                 //console.log(result);
@@ -101,40 +119,49 @@ class MapScreen extends Component {
             }).catch((err) => {
                 console.log(err);
             });
-        
+    }
 
-        userService.me()
+    myPlayerGame(id) {
+        playerGameService.getMyPlayergame(id)
             .then((result) => {
-                this.setState({ id: result })
-                console.log('******* id *****')
-                console.log(result)
-            }).catch((err) => {
-                console.log(err);
-            })
+                let currentResult = result[result.length - 1]
 
-        playerGameService.getMyPlayergame(this.state.id)
-            .then((result) => {
-                console.log('******  result getplayergame ******* ')
-                console.log(result.getplayergame )
-                this.setState({ playerId: result.playergame_ok_id })
-                this.setState({ gameId: result.game_ok_id })
-                console.log(this.state.playerId)
-                console.log(this.state.gameId)
+                this.setState({ playerId: currentResult.player_id })
+                this.setState({ gameId: currentResult.game_id })
+                // console.log('GETTING RESULTS FROM PLAYERGAME TABLE')
+                // console.log(currentResult.player_id);
+                // console.log(currentResult.game_id)
+
+
             }).catch((err) => {
                 console.log(err);
             });
-
-
     }
 
-    savePins = () => {
+
+    savePin() {
         pinsService.setPins(this.state.region.latitude, this.state.region.longitude, this.state.gameId, this.state.playerId)
             .then((result) => {
-                console.log('*********** save pins ******** ' + result)
+                console.log('A PIN IS BEING SET')
+                allThePins();
+
             }).catch((err) => {
                 console.log(err);
             });
     }
+
+
+    pickUpPin(ID, lat, long) {
+        pinsService.pickUpPin(ID, lat, long)
+        .then((result) => {
+            console.log('A PIN HAS BEEN PICKED UP');
+            allThePins();
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+
+
     //updates latLong of current position
     // onRegionChangeComplete(region, lastLat, lastLong) {
     //     this.setState({
@@ -176,14 +203,14 @@ class MapScreen extends Component {
 
     onPressZoomIn() {
         this.region = {
-            latitude: this.state.initialPosition.latitude,
-            longitude: this.state.initialPosition.longitude,
-            latitudeDelta: this.state.initialPosition.latitudeDelta * 10,
-            longitudeDelta: this.state.initialPosition.longitudeDelta * 10
+            latitude: this.state.region.latitude,
+            longitude: this.state.region.longitude,
+            latitudeDelta: this.state.region.latitudeDelta * 10,
+            longitudeDelta: this.state.region.longitudeDelta * 10
         }
 
         this.setState({
-            initialPosition: {
+            region: {
                 latitudeDelta: this.region.latitudeDelta,
                 longitudeDelta: this.region.longitudeDelta,
                 latitude: this.region.latitude,
@@ -196,13 +223,13 @@ class MapScreen extends Component {
 
     onPressZoomOut() {
         this.region = {
-            latitude: this.state.initialPosition.latitude,
-            longitude: this.state.initialPosition.longitude,
-            latitudeDelta: this.state.initialPosition.latitudeDelta / 10,
-            longitudeDelta: this.state.initialPosition.longitudeDelta / 10
+            latitude: this.state.region.latitude,
+            longitude: this.state.region.longitude,
+            latitudeDelta: this.state.region.latitudeDelta / 10,
+            longitudeDelta: this.state.region.longitudeDelta / 10
         }
         this.setState({
-            initialPosition: {
+            region: {
                 latitudeDelta: this.region.latitudeDelta,
                 longitudeDelta: this.region.longitudeDelta,
                 latitude: this.region.latitude,
@@ -309,10 +336,10 @@ class MapScreen extends Component {
                     //initialRegion={this.state.initialRegion}
                     //provider={"google"}
                     provider={PROVIDER_GOOGLE}
-                    region={this.state.initialPosition}
+                    region={this.state.region}
                     style={styles.map}
-                    onPress={(e) => this.onMapPress(e)}
-                    mapType={"hybrid"}
+                    // onPress={(e) => this.onMapPress(e)}
+                    mapType={"standard"}
                     //onPress={this.onMapPress(e)}
                     showsScale={true}
                     showsCompass={true}
@@ -343,7 +370,10 @@ class MapScreen extends Component {
 
                             <MapView.Marker
                                 pinColor={'yellow'}
-                                onPress={e => console.log('+++ pressed marker +++++' + e.nativeEvent)}
+                                onPress={(e) => {
+                                    console.log('PIN HAS BEEN PRESSED')
+                                    this.pickUpPin(this.state.playerId, e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
+                                }}
                                 key={index}
                                 coordinate={latLong}
 
@@ -357,7 +387,7 @@ class MapScreen extends Component {
                 <View style={styles.zoom}>
                     <TouchableOpacity
                         style={styles.zoomIn}
-                        onPress={() => { this.onPressZoomIn() }}
+                        onPress={() => { () => this.onPressZoomIn() }}
                     >
                         <Icon
                             name="add"
@@ -367,7 +397,7 @@ class MapScreen extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.zoomOut}
-                        onPress={() => { this.onPressZoomOut() }}
+                        onPress={() => { () => this.onPressZoomOut() }}
                     >
                         <Icon
                             name="remove"
@@ -383,9 +413,9 @@ class MapScreen extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={this.savePins}>
-                        <Text style={styles.buttonMarker}>Add a Marker</Text>
-                    </TouchableOpacity>
+                    <Button title="Add Marker" onPress={() => this.savePin()}>
+
+                    </Button>
                 </View>
                 <View style={styles.bio}>
                     <Text style={styles.bioText}>
@@ -491,7 +521,7 @@ const styles = StyleSheet.create({
     buttonMarker: {
         backgroundColor: 'yellow',
         width: 30,
-        padding: 5
+        paddingLeft: 20,
     }
 });
 

@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import { View, Button, StyleSheet, TouchableOpacity, Text, Dimensions, Image, StatusBar, Animated } from "react-native";
+import { View, Button, StyleSheet, TouchableOpacity, Text, Dimensions, Image, StatusBar, Animated, Alert } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Icon } from 'native-base';
+
+import JellyBeanBlue from '../images/jellybeanbluesmall.png';
+import JellyBeanGreen from '../images/jellybeangreensmall.png'
+
 import * as pinsService from '../services/pins';
 import * as playerGameService from '../services/playergame';
 import * as userService from '../services/users';
@@ -34,6 +38,8 @@ class MapScreen extends Component {
             pins: [],
             gameId: null,
             playerId: null,
+            id: null,
+            playerGameId: null,
 
             //oldMarker: [],
             // markers: [{
@@ -110,10 +116,10 @@ class MapScreen extends Component {
 
     }
 
+
     allThePins() {
         pinsService.getAllPins()
             .then((result) => {
-                //console.log(result);
                 this.setState({ pins: result });
                 // console.log(this.state.pins);
             }).catch((err) => {
@@ -125,9 +131,13 @@ class MapScreen extends Component {
         playerGameService.getMyPlayergame(id)
             .then((result) => {
                 let currentResult = result[result.length - 1]
-
+                console.log('HERE IS THE CURRENT RESULT  ------------------------------------------------------------')
+                console.log(currentResult);
+                
+                this.setState({ playerGameId: currentResult.id})
                 this.setState({ playerId: currentResult.player_id })
                 this.setState({ gameId: currentResult.game_id })
+                this.setState({ id: currentResult.player_id })
                 // console.log('GETTING RESULTS FROM PLAYERGAME TABLE')
                 // console.log(currentResult.player_id);
                 // console.log(currentResult.game_id)
@@ -140,7 +150,7 @@ class MapScreen extends Component {
 
 
     savePin() {
-        pinsService.setPins(this.state.region.latitude, this.state.region.longitude, this.state.gameId, this.state.playerId)
+        pinsService.setPins(this.state.region.latitude, this.state.region.longitude, this.state.gameId, this.state.playerGameId)
             .then((result) => {
                 console.log('A PIN IS BEING SET')
                 allThePins();
@@ -151,14 +161,36 @@ class MapScreen extends Component {
     }
 
 
-    pickUpPin(ID, lat, long) {
-        pinsService.pickUpPin(ID, lat, long)
+    pickUpPin(playerID, pinID, lat, long) {
+        pinsService.getOnePin(pinID)
             .then((result) => {
-                console.log('A PIN HAS BEEN PICKED UP');
-                allThePins();
+                if (result.playergame_ok_id === this.state.playerGameId) {
+                    console.log('YOU OWN THIS PIN -----------------------------------------------------------------')
+                    Alert.alert(
+                        "You can't pick up your own pin!",
+                        "Nice try though.",
+                        [
+                            {
+                                text: "GO BACK", onPress: () => {
+                                    console.log("Alert dismissed for trying to pick up own pin");
+                                }
+                            },
+                        ],
+                        { cancelable: false }
+                    )
+                } else {
+                    console.log('YOU DONT OWN THIS PIN -----------------------------------------------------------------')
+                    pinsService.pickUpPin(ID, lat, long)
+                        .then((result) => {
+                            console.log('A PIN HAS BEEN PICKED UP ------------------------------------------------------------');
+                            allThePins();
+                        }).catch((err) => {
+                            console.log(err);
+                        });
+                }
             }).catch((err) => {
                 console.log(err);
-            })
+            });
     }
 
 
@@ -322,6 +354,8 @@ class MapScreen extends Component {
     //   alert("Fetching the Position failed, please pick one manually!");
     // })
     // }
+
+
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchID);
     }
@@ -366,18 +400,33 @@ class MapScreen extends Component {
                     {this.state.pins.map((pin, index) => {
 
                         let latLong = { latitude: this.state.pins[index].latitude, longitude: this.state.pins[index].longitude }
+                        let pincolor;
+                        
+                        if (this.state.pins[index].playergame_ok_id === this.state.playerGameId) {
+                            console.log('color should be blue');
+                            pincolor = JellyBeanBlue
+                        } else {
+                            console.log('color should be green');
+                            pincolor = JellyBeanGreen
+                        }
+
+
                         return (
 
                             <MapView.Marker
-                                pinColor={'yellow'}
+                                
+                                image={pincolor}
+                                style={styles.jellybean}
                                 onPress={(e) => {
                                     console.log('PIN HAS BEEN PRESSED')
-                                    this.pickUpPin(this.state.playerId, e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
+                                    
+                                    this.pickUpPin(this.state.playerId, this.state.pins[index].id, e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
                                 }}
                                 key={index}
                                 coordinate={latLong}
-
-                            />
+                            >
+                                {/* <Image source={pincolor} style={{width: 70, height: 70}} /> */}
+                            </MapView.Marker>
                         )
                     })}
                 </MapView>
@@ -522,6 +571,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'yellow',
         width: 30,
         paddingLeft: 20,
+    },
+    jellybean: {
+        width: 10,
+        height: 10,
     }
 });
 

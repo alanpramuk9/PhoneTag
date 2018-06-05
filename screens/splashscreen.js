@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
-
+import { AppRegistry, View, Image } from 'react-native';
 
 export default class SplashScreen extends Component {
 
@@ -13,7 +13,10 @@ export default class SplashScreen extends Component {
         return (
             <Container>
                 <Content contentContainerStyle={{ justifyContent: 'space-around', alignItems: 'center', flex: 1 }}>
-                    <Text>This is the splash page.</Text>
+                    <Text>Jelly Drop</Text>
+                    <Image
+                        source={require('../images/jellybean.png')}
+                        />
                     <Button style={{ alignSelf: 'center' }} onPress={() => this.props.navigation.navigate('SignIn')}>
                         <Text>Sign In</Text>
                     </Button>

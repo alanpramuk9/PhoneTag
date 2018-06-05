@@ -42,7 +42,7 @@ function populateAuthToken() {
 }
 
 function makeFetch(url, info) {
-    return fetch(`${localhost}${url}`, info);
+    return fetch(`${HEROKU_URL}${url}`, info);
 }
 
 //for testing on local host

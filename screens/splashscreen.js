@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { AppRegistry, View, Image, StyleSheet } from 'react-native';
 
+import { Fonts } from '../utility/fonts';
 export default class SplashScreen extends Component {
 
     static navigationOptions = {

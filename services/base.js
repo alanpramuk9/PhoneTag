@@ -4,7 +4,7 @@ import { AsyncStorage } from 'react-native';
 
 const AUTH_TOKEN_KEY = 'authtoken';
 let authToken = '';
-const localhost = 'http://10.0.2.2:3000';
+const localhost = 'http://169.254.80.80:3000';
 const HEROKU_URL = 'https://covalence-final.herokuapp.com';
 
 function setAuthToken(token) {

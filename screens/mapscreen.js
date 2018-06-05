@@ -5,7 +5,6 @@ import { Icon } from 'native-base';
 import * as pinsService from '../services/pins';
 import * as playerGameService from '../services/playergame';
 import * as userService from '../services/users';
-import Toast, {DURATION} from 'react-native-easy-toast'
 
 const { width, height } = Dimensions.get('window');
 
@@ -154,12 +153,12 @@ class MapScreen extends Component {
 
     pickUpPin(ID, lat, long) {
         pinsService.pickUpPin(ID, lat, long)
-        .then((result) => {
-            console.log('A PIN HAS BEEN PICKED UP');
-            allThePins();
-        }).catch((err) => {
-            console.log(err);
-        })
+            .then((result) => {
+                console.log('A PIN HAS BEEN PICKED UP');
+                allThePins();
+            }).catch((err) => {
+                console.log(err);
+            })
     }
 
 
@@ -383,7 +382,8 @@ class MapScreen extends Component {
                     })}
                 </MapView>
 
-                        
+
+
                 <View style={styles.zoom}>
                     <TouchableOpacity
                         style={styles.zoomIn}
@@ -417,26 +417,6 @@ class MapScreen extends Component {
 
                     </Button>
                 </View>
-                <Button
-                    style={{padding: 10}}
-                    title="Press Me"
-                    onPress={()=>{
-                        this.refs.toast.show('+10 Points',5000);
-                    
-                    }}>
-                    
-                </Button>
-                <Toast
-                    ref="toast"
-                    style={{backgroundColor:'red', padding: 20, width: '100%'}}
-                    position='top'
-                    positionValue={200}
-                    fadeInDuration={2500}
-                    fadeOutDuration={2500}
-                    opacity={0.5}
-                    textStyle={{color:'white', fontSize: 50, textAlign: 'center'}}
-                />
-                
                 <View style={styles.bio}>
                     <Text style={styles.bioText}>
                         lorem ipsum Ullamco exercitation

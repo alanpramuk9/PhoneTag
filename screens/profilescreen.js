@@ -7,7 +7,8 @@ import ProfileScore from '../components/profilescore';
 import { getMyPlayerId } from '../services/playergame';
 import * as playergameService from '../services/playergame';
 
-import ViewPhotos from '../components/ViewPhotos';
+import { RNS3 } from 'react-native-aws3';
+import ImagePicker from 'react-native-image-picker';
 
 
 
@@ -16,8 +17,7 @@ export default class ProfileScreen extends Component {
         super(props);
         this.state = {
             player: '',
-            photoArray: [],
-            showPhotoGallery: false
+            pickedImage: null
         };
     }
 
@@ -36,29 +36,51 @@ export default class ProfileScreen extends Component {
     }
 
 
-    addProfile(image) {
-        let formData = new FormData();
-        formData.append("image", image);
-        fetch('api')
-    }
+    // addProfile(image) {
+    //     let formData = new FormData();
+    //     formData.append("image", image);
+    //     fetch('api')
+    // }
 
-    //handle camera roll to show pics
-    getPhotosFromGallery() {
-        CameraRoll.getPhotos({ first: 1000 })
-            .then(res => {
-                let photoArray = res.edges;
-                this.setState({ showPhotoGallery: true, photoArray: photoArray })
+    pickImageHandler = () => {
+        ImagePicker.showImagePicker({title: "Pick an Image"}, res => {
+          if (res.didCancel) {
+            console.log("User cancelled!");
+          } else if (res.error) {
+            console.log("Error", res.error);
+          } else {
+            console.log(file);
+            const file = {
+                uri: res.uri,
+                name: res.fileName,
+                type: 'image/jpeg'
+            }
+            const config = {
+                keyPrefix: "s3/",
+                bucket: "alanblogimage",
+                region: "us-east-1",
+                accessKey: "AKIAINN3DOEWB3CYD7XA",
+                secretKey: "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",
+                successActionStatus: 201
+              }
+            RNS3.put(file, config)
+            .then((response) => {
+                console.log('Response  ')
+                console.log(response);
+                console.log(response.body.postResponse.location);
             })
-    }
+            this.setState({
+                pickedImage: { uri: res.uri, base64: res.data }
+
+            });
+            
+          }
+        });
+      }
 
     render() {
         let playerInfo = this.state.player;
-        if (this.state.showPhotoGallery) {
-            return (
-                <ViewPhotos
-                    photoArray={this.state.photoArray} />
-            )
-        }
+
         return (
             <Container>
                 <Header>
@@ -88,15 +110,16 @@ export default class ProfileScreen extends Component {
 
                     </View>
                     <View>
-                        <TouchableHighlight
-                            onPress={() => this.getPhotosFromGallery()}>
-                            <Image
-                                source={require('../images/addPhoto.png')} />
-                        </TouchableHighlight>
+                        {/* <View style={styles.placeholder}>
+                            <Image source={this.state.pickedImage} style={styles.previewImage} />
+                        </View> */}
+                        <View style={styles.button}>
+                            <Button onPress={this.pickImageHandler} >
+                                <Text> Change Profile Pic </Text>
+                            </Button>
+                        </View>
                     </View>
-
-
-                        
+                    
                     <View>
                         <Text style={styles.bold}>User Name: <Text>{this.state.player.username}</Text></Text>
                         <Text style={styles.bold}>Name: <Text>{this.state.player.name}</Text></Text>

@@ -77,7 +77,7 @@ class Leaderboard extends Component {
     }
 
     render() {
-      console.log(this.state);
+      console.log(this.state.currentScores);
         if (this.state.seg === 1) {
             return (
                 <Container style={styles.container}>
@@ -120,7 +120,7 @@ class Leaderboard extends Component {
                                         {/* <Thumbnail small source={data.img} /> */}
                                     </Left>
                                     <Body>
-                                        <Text>{currentScore.name}</Text>
+                                        <Text>{currentScore.username}</Text>
                                     </Body>
                                     <Right>
                                         <Text note>{currentScore.total_points}</Text>
@@ -172,7 +172,7 @@ class Leaderboard extends Component {
                                         {/* <Thumbnail small source={data.img} /> */}
                                     </Left>
                                     <Body>
-                                        <Text>{lastScore.name}</Text>
+                                        <Text>{lastScore.username}</Text>
                                     </Body>
                                     <Right>
                                         <Text note>{lastScore.total_points}</Text>
@@ -224,7 +224,7 @@ class Leaderboard extends Component {
                                         {/* <Thumbnail small source={data.img} /> */}
                                     </Left>
                                     <Body>
-                                        <Text>{combinedScore.name}</Text>
+                                        <Text>{combinedScore.username}</Text>
                                     </Body>
                                     <Right>
                                         <Text note>{combinedScore.Total_Score}</Text>

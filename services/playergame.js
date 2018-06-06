@@ -1,6 +1,9 @@
 import * as baseService from './base';
 
 
+function addPlayergame(player_id, game_id) {
+    return baseService.post(`/api/playergame/`, { player_id, game_id});
+}
 
 function getMyPlayergame(id) {
     return baseService.get(`/api/playergame/${id}`);
@@ -32,4 +35,4 @@ function profileRankings(id) {
 
 }
 
-export { getMyPlayergame, getMyAllTimeScore, getAllScores, getAllTimeScores, profileRankings, getAllTimeRankings };
+export { getMyPlayergame, getMyAllTimeScore, getAllScores, getAllTimeScores, profileRankings, getAllTimeRankings, addPlayergame };

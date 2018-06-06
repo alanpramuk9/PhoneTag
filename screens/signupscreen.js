@@ -3,7 +3,8 @@ import { createStackNavigator } from 'react-navigation';
 import { Container, Header, Title, Content, Form, Item, Input, Label, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { StyleSheet, View, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import App from '../App';
-
+import * as gameService from '../services/game';
+import * as playergameService from '../services/playergame';
 import * as userService from '../services/users';
 import { Fonts } from '../utility/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -17,14 +18,30 @@ export default class SignUpScreen extends Component {
             name: '',
             email: '',
             username: '',
-            password: ''
+            password: '',
+            game_id: null
         };
+    }
+
+    componentDidMount() {
+        gameService.findGames()
+        .then((games) => {
+            let currentGameId = games[games.length -1 ].id;
+            this.setState({ game_id: currentGameId })
+        })
     }
 
     signup() {
         userService.newUser(this.state.name, this.state.email, this.state.username, this.state.password)
             .then(() => {
                return userService.login(this.state.email, this.state.password)
+            }).then(() => {
+                userService.me()
+                .then((newUser) => {
+                    let player_id = newUser.id;
+                    playergameService.addPlayergame(player_id, this.state.game_id)
+                })
+            
             }).then(() => {
                 this.props.navigation.navigate('Map', {});
             })

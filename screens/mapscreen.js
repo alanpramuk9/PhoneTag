@@ -16,7 +16,7 @@ const { width, height } = Dimensions.get('window');
 const SCREEN_HEIGHT = height;
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.0421;
+const LATITUDE_DELTA = 0.0021;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 // const initialRegion = {
@@ -41,6 +41,8 @@ class MapScreen extends Component {
             playerId: null,
             id: null,
             playerGameId: null,
+            totalPoints: null,
+            numberPins: null,
 
             //oldMarker: [],
             // markers: [{
@@ -107,6 +109,7 @@ class MapScreen extends Component {
 
         userService.me()
             .then((result) => {
+                this.setState({ id: result.id })
                 this.myPlayerGame(result.id)
                 // console.log('GETTING ID RESULT')
                 // console.log(result);
@@ -132,13 +135,14 @@ class MapScreen extends Component {
         playerGameService.getMyPlayergame(id)
             .then((result) => {
                 let currentResult = result[result.length - 1]
-                console.log('HERE IS THE CURRENT RESULT  ------------------------------------------------------------')
+                console.log('HERE IS THE CURRENT RESULT  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
                 console.log(currentResult);
 
                 this.setState({ playerGameId: currentResult.id })
                 this.setState({ playerId: currentResult.player_id })
                 this.setState({ gameId: currentResult.game_id })
-                this.setState({ id: currentResult.player_id })
+                this.setState({ totalPoints: currentResult.total_points })
+                this.setState({ numberPins: currentResult.number_pins})
                 // console.log('GETTING RESULTS FROM PLAYERGAME TABLE')
                 // console.log(currentResult.player_id);
                 // console.log(currentResult.game_id)
@@ -154,9 +158,8 @@ class MapScreen extends Component {
         pinsService.setPins(this.state.region.latitude, this.state.region.longitude, this.state.gameId, this.state.playerGameId)
             .then((result) => {
                 console.log('A PIN IS BEING SET')
-                allThePins();
-                console.log('----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
-                console.log(this.state.pins.length)
+                this.allThePins();
+                this.myPlayerGame(this.state.id);
 
             }).catch((err) => {
                 console.log(err);
@@ -187,9 +190,8 @@ class MapScreen extends Component {
                     pinsService.pickUpPin(pinID, playerGameId)
                         .then((result) => {
                             // console.log('A PIN HAS BEEN PICKED UP ------------------------------------------------------------');
-                            allThePins();
-                            console.log('----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
-                            console.log(this.state.pins.length);
+                            this.allThePins();
+                            this.myPlayerGame(this.state.id);
                         }).catch((err) => {
                             console.log(err);
                         });
@@ -449,11 +451,11 @@ class MapScreen extends Component {
                                         style={{color: '#81BCFF'}}
                                         size={40}
                             />
-                            <Text style={{marginLeft: 12, fontSize: 20}}> 17 remaining </Text>
+                            <Text style={{marginLeft: 12, fontSize: 20}}> {this.state.numberPins} remaining </Text>
                         </View>
                         <View style={{flex:1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
                             <Image style={styles.scorePic} source={require('../images/scorecard.png')}/>
-                            <Text style={{marginLeft: 12, fontSize: 20}}> 175 points </Text> 
+                            <Text style={{marginLeft: 12, fontSize: 20}}> {this.state.totalPoints} points </Text> 
                         </View>
                    
                 </View> 

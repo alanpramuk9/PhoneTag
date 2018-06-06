@@ -104,7 +104,7 @@ export default class ProfileScore extends Component {
                                 first
                                 active={this.state.seg === 1 ? true : false}
                                 onPress={() => this.setState({ seg: 1 })}>
-                                <Text>Current </Text>
+                                <Text>Current Game </Text>
                             </Button>
                             <Button
                                 active={this.state.seg === 2 ? true : false}
@@ -124,7 +124,11 @@ export default class ProfileScore extends Component {
                             flexDirection: 'column',
                             justifyContent: 'flex-start'
                         }}>
-                        <View style={styles.boxShadow}>
+                        <View>
+                            <Text>Score: {this.state.playergame}</Text>
+                            <Text>Rank: {this.state.currentRank}</Text>
+                        </View>
+                        {/* <View style={styles.boxShadow}>
                             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
                                 <Text style={{textDecorationLine: 'underline', fontWeight: 'bold' }} >Score: </Text>
                                 <Text>{this.state.playergame}</Text>
@@ -133,7 +137,7 @@ export default class ProfileScore extends Component {
                                 <Text style={{textDecorationLine: 'underline', fontWeight: 'bold' }}> Rank: </Text>
                                 <Text>{this.state.currentRank}</Text>
                             </View> 
-                        </View>
+                        </View> */}
                     </Content>
                 </Container>
             );
@@ -146,12 +150,12 @@ export default class ProfileScore extends Component {
                                 first
                                 active={this.state.seg === 1 ? true : false}
                                 onPress={() => this.setState({ seg: 1 })}>
-                                <Text>Current </Text>
+                                <Text>Current Game </Text>
                             </Button>
                             <Button
                                 active={this.state.seg === 2 ? true : false}
                                 onPress={() => this.setState({ seg: 2 })}>
-                                <Text>Last </Text>
+                                <Text>Last Game </Text>
                             </Button>
                             <Button
                                 last
@@ -184,12 +188,12 @@ export default class ProfileScore extends Component {
                                 first
                                 active={this.state.seg === 1 ? true : false}
                                 onPress={() => this.setState({ seg: 1 })}>
-                                <Text>Current </Text>
+                                <Text>Current Game </Text>
                             </Button>
                             <Button
                                 active={this.state.seg === 2 ? true : false}
                                 onPress={() => this.setState({ seg: 2 })}>
-                                <Text>Last </Text>
+                                <Text>Last Game </Text>
                             </Button>
                             <Button
                                 last

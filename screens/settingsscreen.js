@@ -294,3 +294,10 @@ export default class SettingsScreen extends Component {
 
 
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#81BCFF"
+    }
+
+});

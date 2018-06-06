@@ -26,6 +26,7 @@ export default class App extends Component {
     
     const Layout = createRootNavigator(this.state.signedIn);
     return <Layout />
+    
    
   }
 }

@@ -2,8 +2,8 @@
   "name": "awesomeproject",
   "version": "0.0.1",
   "private": true,
-  "rnpm" : {
-    "assets" : [
+  "rnpm": {
+    "assets": [
       "./assets/fonts"
     ]
   },

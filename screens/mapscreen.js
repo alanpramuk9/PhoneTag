@@ -16,7 +16,7 @@ const { width, height } = Dimensions.get('window');
 const SCREEN_HEIGHT = height;
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.0421;
+const LATITUDE_DELTA = 0.0021;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 // const initialRegion = {
@@ -41,6 +41,8 @@ class MapScreen extends Component {
             playerId: null,
             id: null,
             playerGameId: null,
+            totalPoints: null,
+            numberPins: null,
 
             //oldMarker: [],
             // markers: [{
@@ -84,7 +86,7 @@ class MapScreen extends Component {
 
         },
             (error) => alert(JSON.stringify(error)),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000, distanceFilter: 1 })
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000, distanceFilter: 10 })
 
         this.watchID = navigator.geolocation.watchPosition((position) => {
             // Create the object to update this.state.mapRegion through the onRegionChange function
@@ -107,6 +109,7 @@ class MapScreen extends Component {
 
         userService.me()
             .then((result) => {
+                this.setState({ id: result.id })
                 this.myPlayerGame(result.id)
                 // console.log('GETTING ID RESULT')
                 // console.log(result);
@@ -132,13 +135,14 @@ class MapScreen extends Component {
         playerGameService.getMyPlayergame(id)
             .then((result) => {
                 let currentResult = result[result.length - 1]
-                console.log('HERE IS THE CURRENT RESULT  ------------------------------------------------------------')
+                console.log('HERE IS THE CURRENT RESULT  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
                 console.log(currentResult);
 
                 this.setState({ playerGameId: currentResult.id })
                 this.setState({ playerId: currentResult.player_id })
                 this.setState({ gameId: currentResult.game_id })
-                this.setState({ id: currentResult.player_id })
+                this.setState({ totalPoints: currentResult.total_points })
+                this.setState({ numberPins: currentResult.number_pins})
                 // console.log('GETTING RESULTS FROM PLAYERGAME TABLE')
                 // console.log(currentResult.player_id);
                 // console.log(currentResult.game_id)
@@ -154,7 +158,8 @@ class MapScreen extends Component {
         pinsService.setPins(this.state.region.latitude, this.state.region.longitude, this.state.gameId, this.state.playerGameId)
             .then((result) => {
                 console.log('A PIN IS BEING SET')
-                allThePins();
+                this.allThePins();
+                this.myPlayerGame(this.state.id);
 
             }).catch((err) => {
                 console.log(err);
@@ -162,11 +167,13 @@ class MapScreen extends Component {
     }
 
 
-    pickUpPin(playerID, pinID, lat, long) {
+    pickUpPin(playerGameId, pinID) {
         pinsService.getOnePin(pinID)
             .then((result) => {
-                if (result.playergame_ok_id === this.state.playerGameId) {
-                    console.log('YOU OWN THIS PIN -----------------------------------------------------------------')
+                // console.log('RESULT OF THE PIN PICKUP - BACK FROM THE SERVER -------------------------------------------------')
+                // console.log(result)
+                if (result.playergame_ok_id === playerGameId) {
+                    // console.log('YOU OWN THIS PIN -----------------------------------------------------------------')
                     Alert.alert(
                         "You can't pick up your own pin!",
                         "Nice try though.",
@@ -180,11 +187,11 @@ class MapScreen extends Component {
                         { cancelable: false }
                     )
                 } else {
-                    console.log('YOU DONT OWN THIS PIN -----------------------------------------------------------------')
-                    pinsService.pickUpPin(ID, lat, long)
+                    pinsService.pickUpPin(pinID, playerGameId)
                         .then((result) => {
-                            console.log('A PIN HAS BEEN PICKED UP ------------------------------------------------------------');
-                            allThePins();
+                            // console.log('A PIN HAS BEEN PICKED UP ------------------------------------------------------------');
+                            this.allThePins();
+                            this.myPlayerGame(this.state.id);
                         }).catch((err) => {
                             console.log(err);
                         });
@@ -418,11 +425,11 @@ class MapScreen extends Component {
                                 image={pincolor}
                                 style={styles.jellybean}
                                 onPress={(e) => {
-                                    console.log('PIN HAS BEEN PRESSED')
-
-                                    this.pickUpPin(this.state.playerId, this.state.pins[index].id, e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
+                                    console.log('--------------------------------------PIN HAS BEEN PRESSED----------------------------------------------------------------------------------------------')
+                                    console.log(this.state.pins.length)
+                                    this.pickUpPin(this.state.playerGameId, this.state.pins[index].id)
                                 }}
-                                key={index}
+                                key={Math.random()}
                                 coordinate={latLong}
                             >
                                 {/* <Image source={pincolor} style={{width: 70, height: 70}} /> */}
@@ -444,11 +451,11 @@ class MapScreen extends Component {
                                         style={{color: '#81BCFF'}}
                                         size={40}
                             />
-                            <Text style={{marginLeft: 12, fontSize: 20}}> 17 remaining </Text>
+                            <Text style={{marginLeft: 12, fontSize: 20}}> {this.state.numberPins} remaining </Text>
                         </View>
                         <View style={{flex:1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
                             <Image style={styles.scorePic} source={require('../images/scorecard.png')}/>
-                            <Text style={{marginLeft: 12, fontSize: 20}}> 175 points </Text> 
+                            <Text style={{marginLeft: 12, fontSize: 20}}> {this.state.totalPoints} points </Text> 
                         </View>
                    
                 </View> 

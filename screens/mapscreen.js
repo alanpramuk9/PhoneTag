@@ -84,7 +84,7 @@ class MapScreen extends Component {
 
         },
             (error) => alert(JSON.stringify(error)),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000, distanceFilter: 1 })
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000, distanceFilter: 10 })
 
         this.watchID = navigator.geolocation.watchPosition((position) => {
             // Create the object to update this.state.mapRegion through the onRegionChange function
@@ -155,6 +155,8 @@ class MapScreen extends Component {
             .then((result) => {
                 console.log('A PIN IS BEING SET')
                 allThePins();
+                console.log('----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
+                console.log(this.state.pins.length)
 
             }).catch((err) => {
                 console.log(err);
@@ -162,11 +164,13 @@ class MapScreen extends Component {
     }
 
 
-    pickUpPin(playerID, pinID, lat, long) {
+    pickUpPin(playerGameId, pinID) {
         pinsService.getOnePin(pinID)
             .then((result) => {
-                if (result.playergame_ok_id === this.state.playerGameId) {
-                    console.log('YOU OWN THIS PIN -----------------------------------------------------------------')
+                // console.log('RESULT OF THE PIN PICKUP - BACK FROM THE SERVER -------------------------------------------------')
+                // console.log(result)
+                if (result.playergame_ok_id === playerGameId) {
+                    // console.log('YOU OWN THIS PIN -----------------------------------------------------------------')
                     Alert.alert(
                         "You can't pick up your own pin!",
                         "Nice try though.",
@@ -180,11 +184,12 @@ class MapScreen extends Component {
                         { cancelable: false }
                     )
                 } else {
-                    console.log('YOU DONT OWN THIS PIN -----------------------------------------------------------------')
-                    pinsService.pickUpPin(ID, lat, long)
+                    pinsService.pickUpPin(pinID, playerGameId)
                         .then((result) => {
-                            console.log('A PIN HAS BEEN PICKED UP ------------------------------------------------------------');
+                            // console.log('A PIN HAS BEEN PICKED UP ------------------------------------------------------------');
                             allThePins();
+                            console.log('----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
+                            console.log(this.state.pins.length);
                         }).catch((err) => {
                             console.log(err);
                         });
@@ -418,11 +423,11 @@ class MapScreen extends Component {
                                 image={pincolor}
                                 style={styles.jellybean}
                                 onPress={(e) => {
-                                    console.log('PIN HAS BEEN PRESSED')
-
-                                    this.pickUpPin(this.state.playerId, this.state.pins[index].id, e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
+                                    console.log('--------------------------------------PIN HAS BEEN PRESSED----------------------------------------------------------------------------------------------')
+                                    console.log(this.state.pins.length)
+                                    this.pickUpPin(this.state.playerGameId, this.state.pins[index].id)
                                 }}
-                                key={index}
+                                key={Math.random()}
                                 coordinate={latLong}
                             >
                                 {/* <Image source={pincolor} style={{width: 70, height: 70}} /> */}

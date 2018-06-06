@@ -85,4 +85,9 @@ function editPassword(id, hash) {
     return baseService.put(`/api/players/password/${id}`, { hash })
 }
 
-export { isLoggedIn, checkLogin, login, logout, newUser, me, profile, editEmail, checkPassword, editPassword };
+function editPhoto(id, photo) {
+    return baseService.put(`/api/players/photo/${id}`, { photo })
+}
+
+
+export { isLoggedIn, checkLogin, login, logout, newUser, me, profile, editEmail, checkPassword, editPassword, editPhoto };

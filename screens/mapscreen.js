@@ -10,6 +10,7 @@ import JellyBeanGreen from '../images/jellybeangreensmall.png'
 import * as pinsService from '../services/pins';
 import * as playerGameService from '../services/playergame';
 import * as userService from '../services/users';
+import CustomMap from '../assets/customMap/custommap';
 
 const { width, height } = Dimensions.get('window');
 
@@ -381,6 +382,7 @@ class MapScreen extends Component {
                     provider={PROVIDER_GOOGLE}
                     region={this.state.region}
                     style={styles.map}
+                    customMapStyle={CustomMap}
                     // onPress={(e) => this.onMapPress(e)}
                     mapType={"standard"}
                     //onPress={this.onMapPress(e)}
@@ -392,7 +394,7 @@ class MapScreen extends Component {
                     //onRegionChange={this.onRegionChange.bind(this)}
                     //onRegionChange={this.onRegionChange}
                     onRegionChangeComplete={this.onRegionChangeComplete}
-                    customMapStyle={mapStyle}
+                    // customMapStyle={mapStyle}
                     loadingEnabled={true}
                     loadingIndicatorColor={'#606060'}
                     loadingBackgroundColor={'#FFFFFF'}
@@ -425,8 +427,6 @@ class MapScreen extends Component {
                                 image={pincolor}
                                 style={styles.jellybean}
                                 onPress={(e) => {
-                                    console.log('--------------------------------------PIN HAS BEEN PRESSED----------------------------------------------------------------------------------------------')
-                                    console.log(this.state.pins.length)
                                     this.pickUpPin(this.state.playerGameId, this.state.pins[index].id)
                                 }}
                                 key={Math.random()}
@@ -451,11 +451,11 @@ class MapScreen extends Component {
                                         style={{color: '#81BCFF'}}
                                         size={40}
                             />
-                            <Text style={{marginLeft: 12, fontSize: 20}}> {this.state.numberPins} remaining </Text>
+                            <Text style={{marginLeft: 12, fontSize: 20, fontFamily: Fonts.TCB}}> {this.state.numberPins} remaining </Text>
                         </View>
                         <View style={{flex:1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
                             <Image style={styles.scorePic} source={require('../images/scorecard.png')}/>
-                            <Text style={{marginLeft: 12, fontSize: 20}}> {this.state.totalPoints} points </Text> 
+                            <Text style={{marginLeft: 12, fontSize: 20, fontFamily: Fonts.TCB}}> {this.state.totalPoints} points </Text> 
                         </View>
                    
                 </View> 

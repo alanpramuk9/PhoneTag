@@ -17,7 +17,8 @@ export default class ProfileScreen extends Component {
         super(props);
         this.state = {
             player: '',
-            pickedImage: null
+            pickedImage: null,
+            photo: 'https://s3.amazonaws.com/alanblogimage/s3/defaultphoto.png'
         };
     }
 
@@ -25,10 +26,19 @@ export default class ProfileScreen extends Component {
         usersService.profile()
             .then((player) => {
                 this.setState({ player });
-                // console.log(this.state.player);
+                this.setState({ photo: player.picture})
             }).catch((err) => {
                 console.log(err);
-            })
+            });
+
+        // usersService.getPhoto(this.state.player.id)
+        // .then((result) => {
+        //     console.log(result);
+        //     this.setState({ photo: result.picture})
+        // }).catch((err) => {
+        //     console.log(err);
+        // });
+
     }
 
     static navigationOptions = {
@@ -68,6 +78,8 @@ export default class ProfileScreen extends Component {
                         console.log('Response  ')
                         console.log(response);
                         console.log(response.body.postResponse.location);
+                        this.setState({ photo: response.body.postResponse.location })
+                        usersService.editPhoto(this.state.player.id, response.body.postResponse.location)
                     })
                 this.setState({
                     pickedImage: { uri: res.uri, base64: res.data }
@@ -83,7 +95,7 @@ export default class ProfileScreen extends Component {
 
         return (
             <Container>
-                <Header style={{borderBottomWidth: 0, shadowOffset: {height: 0, width: 0}, shadowOpacity: 0, elevation: 0}}>
+                <Header style={{ borderBottomWidth: 0, shadowOffset: { height: 0, width: 0 }, shadowOpacity: 0, elevation: 0 }}>
                     <Left>
                         <Button onPress={() => this.props.navigation.navigate('Settings', { playerInfo })}>
                             <Icon name="ios-settings-outline" />
@@ -98,15 +110,15 @@ export default class ProfileScreen extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <Content contentContainerStyle={{flex: 1}}>
-                        <View> 
+                <Content contentContainerStyle={{ flex: 1 }}>
+                    <View>
                         <View style={styles.main}>
-                            <View style={{ alignSelf: 'center', marginBottom: 20, marginTop: 15}}>
+                            <View style={{ alignSelf: 'center', marginBottom: 20, marginTop: 15 }}>
                                 <TouchableOpacity
                                     style={styles.pictureBtn}
                                     onPress={() => this.pickImageHandler()}
                                 >
-                                    <Image source={require('../images/bird.jpg')} style={{ height: 150, width: 175, borderRadius: 50 }} />
+                                    <Image source={{uri: `${this.state.photo}`}} style={{ height: 150, width: 175, borderRadius: 50 }} />
                                     <View style={{ position: 'absolute', top: 120, left: 0, right: 0 }}>
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', width: 150, marginLeft: 15, opacity: 0.9, borderRadius: 50 }}>
                                             <FontAwesome
@@ -119,26 +131,26 @@ export default class ProfileScreen extends Component {
                                     </View>
                                 </TouchableOpacity>
                             </View>
-                            <View style={{alignItems: 'center', marginBottom: 15}}> 
+                            <View style={{ alignItems: 'center', marginBottom: 15 }}>
                                 <Text style={styles.bold}>Name: <Text style={styles.bold} >{this.state.player.name}</Text></Text>
                                 <Text style={styles.lessbold}><Text style={styles.lessbold}>@{this.state.player.username}</Text></Text>
                             </View>
                         </View>
-                            <View>
-                                <ProfileScore value={this.state.player} />
-                            </View>
+                        <View>
+                            <ProfileScore value={this.state.player} />
+                        </View>
 
 
 
                         {/* start of badges */}
-                            
-                        </View>
-                    
+
+                    </View>
+
                 </Content>
             </Container>
-                    )
-            
-                }
+        )
+
+    }
 }
 
 const styles = StyleSheet.create({
@@ -148,7 +160,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     pictureBtn: {
-        
+
     },
     lessbold: {
 

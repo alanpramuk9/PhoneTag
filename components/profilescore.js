@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Image } from 'react-native';
+import { StyleSheet, ScrollView, Image, TouchableOpacity, Text } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import * as playergameService from '../services/playergame';
 import {
@@ -8,14 +8,13 @@ import {
     Title,
     Content,
     Footer,
+    View,
     FooterTab,
     Button,
     Left,
     Right,
     Body,
     Icon,
-    Text,
-    H1,
     Segment,
 } from 'native-base';
 
@@ -110,7 +109,7 @@ export default class ProfileScore extends Component {
                             <Button
                                 active={this.state.seg === 2 ? true : false}
                                 onPress={() => this.setState({ seg: 2 })}>
-                                <Text>Last </Text>
+                                <Text>Last Game </Text>
                             </Button>
                             <Button
                                 last
@@ -123,13 +122,17 @@ export default class ProfileScore extends Component {
                         contentContainerStyle={{
                             flex: 1,
                             flexDirection: 'column',
-                            justifyContent: 'flex-start',
-                            paddingLeft: 10,
-                            paddingRight: 10
+                            justifyContent: 'flex-start'
                         }}>
-                        <View>
-                        <Text>Your Current Score: {this.state.playergame}</Text>
-                        <Text>Your Current Rank: {this.state.currentRank}</Text>
+                        <View style={styles.boxShadow}>
+                            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                <Text style={{textDecorationLine: 'underline', fontWeight: 'bold' }} >Score: </Text>
+                                <Text>{this.state.playergame}</Text>
+                            </View>
+                            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
+                                <Text style={{textDecorationLine: 'underline', fontWeight: 'bold' }}> Rank: </Text>
+                                <Text>{this.state.currentRank}</Text>
+                            </View> 
                         </View>
                     </Content>
                 </Container>
@@ -166,8 +169,8 @@ export default class ProfileScore extends Component {
                             paddingRight: 10
                         }}>
                         <View>
-                        <Text>Your Last Games Score: {this.state.lastgame}</Text>
-                        <Text>Your Last Games Rank: {this.state.lastRank}</Text>
+                        <Text>Score: {this.state.lastgame}</Text>
+                        <Text>Rank: {this.state.lastRank}</Text>
                         </View>
                     </Content>
                 </Container>
@@ -213,3 +216,36 @@ export default class ProfileScore extends Component {
         }
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#81BCFF"
+    },
+    boxShadow: {
+        flex: 1, 
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        // alignItems: 'center',
+        // borderWidth: 1,
+        // borderRadius: 2,
+        // borderColor: '#ddd',
+        // elevation: 2,
+        // marginLeft: 5,
+        // marginRight: 5,
+        // marginTop: 10
+    }
+});
+
+
+// borderWidth: 1,
+//     borderRadius: 2,
+//     borderColor: '#ddd',
+//     borderBottomWidth: 0,
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.8,
+//     shadowRadius: 2,
+//     elevation: 1,
+//     marginLeft: 5,
+//     marginRight: 5,
+//     marginTop: 10,

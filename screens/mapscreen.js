@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { View, Button, StyleSheet, TouchableOpacity, Text, Dimensions, Image, StatusBar, Animated, Alert } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Icon } from 'native-base';
-
+import { Fonts } from '../utility/fonts';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import JellyBeanBlue from '../images/jellybeanbluesmall.png';
 import JellyBeanGreen from '../images/jellybeangreensmall.png'
-
+//import Scorecard from '../images/scorecard.png';
 import * as pinsService from '../services/pins';
 import * as playerGameService from '../services/playergame';
 import * as userService from '../services/users';
@@ -133,8 +134,8 @@ class MapScreen extends Component {
                 let currentResult = result[result.length - 1]
                 console.log('HERE IS THE CURRENT RESULT  ------------------------------------------------------------')
                 console.log(currentResult);
-                
-                this.setState({ playerGameId: currentResult.id})
+
+                this.setState({ playerGameId: currentResult.id })
                 this.setState({ playerId: currentResult.player_id })
                 this.setState({ gameId: currentResult.game_id })
                 this.setState({ id: currentResult.player_id })
@@ -365,6 +366,7 @@ class MapScreen extends Component {
         //console.log('region is ' + this.state.focusedLocation)
 
         return (
+            <View>
             <View style={styles.container}>
                 <MapView
                     //initialRegion={this.state.initialRegion}
@@ -401,7 +403,7 @@ class MapScreen extends Component {
 
                         let latLong = { latitude: this.state.pins[index].latitude, longitude: this.state.pins[index].longitude }
                         let pincolor;
-                        
+
                         if (this.state.pins[index].playergame_ok_id === this.state.playerGameId) {
                             console.log('color should be blue');
                             pincolor = JellyBeanBlue
@@ -410,16 +412,14 @@ class MapScreen extends Component {
                             pincolor = JellyBeanGreen
                         }
 
-
                         return (
 
                             <MapView.Marker
-                                
                                 image={pincolor}
                                 style={styles.jellybean}
                                 onPress={(e) => {
                                     console.log('PIN HAS BEEN PRESSED')
-                                    
+
                                     this.pickUpPin(this.state.playerId, this.state.pins[index].id, e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
                                 }}
                                 key={index}
@@ -430,9 +430,28 @@ class MapScreen extends Component {
                         )
                     })}
                 </MapView>
+                
+                {/* //Zoom in and Zoom out buttons */}
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around'}}>
+                
+                
 
-
-
+                {/* Leaderboard component */}
+                <View style={styles.scoreboard}>
+                        <View style={{flex:1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}} >
+                            <FontAwesome
+                                        name="map-marker"
+                                        style={{color: '#81BCFF'}}
+                                        size={40}
+                            />
+                            <Text style={{marginLeft: 12, fontSize: 20}}> 17 remaining </Text>
+                        </View>
+                        <View style={{flex:1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
+                            <Image style={styles.scorePic} source={require('../images/scorecard.png')}/>
+                            <Text style={{marginLeft: 12, fontSize: 20}}> 175 points </Text> 
+                        </View>
+                   
+                </View> 
                 <View style={styles.zoom}>
                     <TouchableOpacity
                         style={styles.zoomIn}
@@ -455,32 +474,31 @@ class MapScreen extends Component {
                         />
                     </TouchableOpacity>
                 </View>
+                
+                </View>
+                
+                {/* Add-marker component */}
+                <View style={styles.button}>
+                    <TouchableOpacity
+                        onPress={() => this.savePin()}
+                        style={styles.addMarker}
+                    >
+                        <FontAwesome
+                            name="crosshairs"
+                            style={{alignSelf: 'center', paddingTop: 5}}
+                            size={55}
+                        />
+                        <Text style={{ fontSize: 12, textAlign: 'center' }}>Add Marker </Text>
 
-                <View style={styles.username}>
-                    <TouchableOpacity onPress={this.onPressAnimate}>
-                        <Text style={styles.usernameText}>Username</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.button}>
-                    <Button title="Add Marker" onPress={() => this.savePin()}>
+                
+        
+                
+                
+                
 
-                    </Button>
-                </View>
-                <View style={styles.bio}>
-                    <Text style={styles.bioText}>
-                        lorem ipsum Ullamco exercitation
-                        aliqua ullamco nostrud dolor et aliquip
-                </Text>
-                </View>
-
-                <View style={styles.photo}>
-                    <View style={styles.photoInner}>
-                        <Text style={styles.photoText}>
-                            Profile Photo
-                    </Text>
-                    </View>
-                </View>
-
+            </View>
             </View>
         );
     }
@@ -490,7 +508,7 @@ class MapScreen extends Component {
 // *****        Custom StyleSheet   **********
 // *******************************************
 
-//custom map configurations if we want to change how default map looks like. 
+//custom map configurations if we want to change how default map looks like. JSON FILE
 mapStyle = [
 
 ]
@@ -501,49 +519,88 @@ const mapHeight = SCREEN_HEIGHT - 130;
 const styles = StyleSheet.create({
     container: {
         width: "100%",
-        height: "100%",
+        height: "100%"
     },
     map: {
         ...StyleSheet.absoluteFillObject
     },
+    scoreboard: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent:'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        opacity: 0.8,
+        width: 55,
+        height: 150,
+        marginLeft: 15,
+        marginTop: 15,
+        borderRadius: 3
+    
+        // bottom: 0,
+        // right: 5,
+        // marginLeft: 15,
+        // marginTop: 15
+    },
+    scoreboardItems: {
+        // flex: 1,
+        // flexDirection: 'column',
+        // alignItems: 'center'
+        // width: 250,
+        // height: 100
+    },
+    scorePic: {
+        height: 55,
+        width: 40
+    },
     button: {
-        margin: 8
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
     zoom: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end'
+        justifyContent: 'flex-start',
+        alignItems: 'flex-end',
+        marginTop: 15
 
     },
+    zoomIn: {
+        backgroundColor: 'white',
+        height: 60,
+        width: 60,
+        borderRadius: 45,
+        paddingTop: 5,
+        marginRight: 15,
+        marginBottom: 20,
+        marginTop: 15,
+        opacity: .8
+    },
+    zoomOut: {
+        backgroundColor: 'white',
+        height: 60,
+        width: 60,
+        borderRadius: 45,
+        paddingTop: 5,
+        marginRight: 15,
+        marginBottom: 15,
+        opacity: .8
+    },
     icon: {
-        color: 'white',
+        color: 'grey',
         fontSize: 50,
-        marginRight: 25,
+        marginLeft: 15,
         marginBottom: 15
     },
-    bio: {
-        marginHorizontal: padding,
-        marginBottom: 0,
-        paddingVertical: padding / 2,
-        backgroundColor: 'white'
-    },
-    bioText: {
-        fontSize: 16,
-        lineHeight: 16 * 1.5,
-        backgroundColor: 'white'
-    },
-    username: {
-        paddingLeft: photoSize + padding + padding,
-        paddingTop: padding,
-        backgroundColor: 'white'
-    },
-    usernameText: {
-        fontSize: 24,
-        lineHeight: 36,
-        color: 'blue',
-        textDecorationLine: 'underline',
-        backgroundColor: 'white'
+    addMarker: {
+        width: 90,
+        height: 90,
+        backgroundColor: 'white',
+        borderRadius: 15,
+        marginBottom: 20,
+        opacity: .8
     },
     photo: {
         padding: 2,
@@ -557,16 +614,6 @@ const styles = StyleSheet.create({
         height: photoSize,
         backgroundColor: 'grey'
     },
-    photoInner: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1,
-    },
-    photoText: {
-        fontSize: 9,
-        textAlign: 'center',
-    },
-
     buttonMarker: {
         backgroundColor: 'yellow',
         width: 30,

@@ -102,34 +102,39 @@ export default class ProfileScreen extends Component {
                     flex: 0,
                     flexDirection: 'column',
                     justifyContent: 'flex-start',
-                    alignItems: 'center',
-                    paddingTop: 50
+                    alignItems: 'center'    
                 }}>
+                    <View style={styles.main}>
 
-                    <View><Image source={require('../images/bird.jpg')} style={{ height: 100, width: 100, borderRadius: 50, flex: 0 }} />
+                        <View><Image source={require('../images/bird.jpg')} style={{ height: 150, width: 150, borderRadius: 50, flex: 0 }} />
 
-                    </View>
-                    <View>
-                        {/* <View style={styles.placeholder}>
-                            <Image source={this.state.pickedImage} style={styles.previewImage} />
-                        </View> */}
-                        <View style={styles.button}>
-                            <Button onPress={this.pickImageHandler} >
-                                <Text> Change Profile Pic </Text>
-                            </Button>
                         </View>
-                    </View>
-                    
-                    <View>
-                        <Text style={styles.bold}>User Name: <Text>{this.state.player.username}</Text></Text>
-                        <Text style={styles.bold}>Name: <Text>{this.state.player.name}</Text></Text>
-                        <Text style={styles.bold}>Email: <Text>{this.state.player.email}</Text></Text>
-                    </View>
-                    <View>
-                        <H1>Score</H1>
-                        <ProfileScore value={this.state.player} />
-                    </View>
+                        <View>
+                            <View style={styles.button}>
+                                <Button onPress={this.pickImageHandler} >
+                                    <Text> Change Profile Pic </Text>
+                                </Button>
+                            </View>
+                        </View>
+                        
+                        <View>
+                            <Text style={styles.bold}>User Name: <Text style={styles.bold} >{this.state.player.name}</Text></Text>
+                            <Text style={styles.lessbold}>Name: <Text>@{this.state.player.username}</Text></Text>
 
+                        </View>
+                        </View>
+                        <View>
+                            
+                            <ProfileScore value={this.state.player} />
+                        </View>
+
+                    
+
+                    {/* start of badges */}
+                    <View> 
+
+
+                    </View> 
                 </Content>
             </Container>
         )
@@ -139,11 +144,17 @@ export default class ProfileScreen extends Component {
 
 const styles = StyleSheet.create({
     bold: {
-        fontWeight: '700',
-        fontSize: 24
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: 'white'
     },
-    profilePhoto: {
-        borderRadius: 50
+    lessbold: {
+        
+        fontSize: 17,
+        color: 'white'
+    },
+    main: {
+        backgroundColor: "#81BCFF"
     },
     viewStyleContainer: {
         flex: 0,

@@ -50,8 +50,6 @@ export default class ProfileScore extends Component {
 
             playergameService.getAllTimeRankings()
             .then((rank) => {
-                let total = rank[0].Total_Score;
-                this.setState({ total })
                     let rankLength = rank.length;
                     for ( let i = 0; i < rankLength; i++) {
                         if ( id === rank[i].player_id) {
@@ -62,7 +60,17 @@ export default class ProfileScore extends Component {
             }).catch((err) => {
                 console.log(err);
             })
+
+            playergameService.getMyAllTimeScore(id)
+            .then((total) => {
+                this.setState({ total });
+            }).catch((err) => {
+                console.log(err);
+            })
+
+
         }
+
         
         getMyCurrentRank(gameId, playerId) {
             playergameService.profileRankings(gameId, playerId)
@@ -95,7 +103,7 @@ export default class ProfileScore extends Component {
         }
     
     render() {
-        if (this.state.seg === 1) {
+                if (this.state.seg === 1) {
             return (
 
                 <Container>
@@ -211,7 +219,7 @@ export default class ProfileScore extends Component {
                             paddingRight: 10
                         }}>
                         <View>
-                        <Text>Your AllTime Score: {this.state.total}</Text>
+                        <Text>Your AllTime Score: {this.state.total[0].Total_Score}</Text>
                         <Text>Your AllTime Rank: {this.state.allTimeRank}</Text>
                         </View>
                     </Content>

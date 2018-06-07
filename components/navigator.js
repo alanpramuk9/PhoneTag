@@ -10,6 +10,10 @@ import SignUpScreen from '../screens/signupscreen';
 import ProfileScreen from '../screens/profilescreen';
 import LeaderboardScreen from '../screens/leaderboardscreen';
 import SettingsScreen from '../screens/settingsscreen';
+import CurrentProfileScreen from '../screens/currentprofilescreen';
+import LastProfileScreen from '../screens/lastprofilescreen';
+import CombinedProfileScreen from '../screens/combinedprofilescreen';
+
 
 
 
@@ -23,11 +27,23 @@ export const ProfileNav = StackNavigator(
     }
 )
 
+export const LeaderboardNav = StackNavigator(
+    {
+        Leaderboard: LeaderboardScreen,
+        CurrentProfile: CurrentProfileScreen,
+        LastProfile: LastProfileScreen,
+        CombinedProfile: CombinedProfileScreen
+    },
+    {
+        initialRouteName: 'Leaderboard',
+    }
+)
+
 export const SignedIn = TabNavigator(
     {
         Profile: ProfileNav,
         Map: MapScreen,
-        Leaderboard: LeaderboardScreen,
+        Leaderboard: LeaderboardNav,
       },
       {
         navigationOptions: ({ navigation }) => ({

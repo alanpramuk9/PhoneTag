@@ -9,6 +9,17 @@ function isLoggedIn() {
     return loggedIn;
 }
 
+function whoIsThis(id) {
+    return baseService.get(`/api/players/${id}`)
+    .then((player) => {
+        delete player.hash;
+        return player
+    }).catch((err) => {
+        console.log(err);
+    })
+
+}
+
 function checkLogin() {
     if (loggedIn) {
         return Promise.resolve(true);
@@ -90,4 +101,4 @@ function editPhoto(id, photo) {
 }
 
 
-export { isLoggedIn, checkLogin, login, logout, newUser, me, profile, editEmail, checkPassword, editPassword, editPhoto };
+export { isLoggedIn, checkLogin, login, logout, newUser, me, profile, editEmail, checkPassword, editPassword, editPhoto, whoIsThis };

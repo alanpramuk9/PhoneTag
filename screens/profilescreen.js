@@ -110,7 +110,7 @@ export default class ProfileScreen extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <Content contentContainerStyle={{ flex: 1 }}>
+                <Content contentContainerStyle={{ flex: 0 }}>
                     <View>
                         <View style={styles.main}>
                             <View style={{ alignSelf: 'center', marginBottom: 20, marginTop: 15 }}>

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
 import * as gameService from '../services/game';
 import * as playergameService from '../services/playergame';
+import CurrentProfileScreen from './currentprofilescreen';
+import CombinedProfileScreen from './combinedprofilescreen';
+import LastProfileScreen from './lastprofilescreen';
 
 import { StyleSheet, View, Image, Text } from 'react-native';
 import {
@@ -20,7 +23,6 @@ import {
     Body,
 } from 'native-base';
 
-// let userimage = require('../images/bird.jpg');
 
 class Leaderboard extends Component {
     constructor(props) {
@@ -38,7 +40,6 @@ class Leaderboard extends Component {
       playergameService.getAllTimeScores() 
         .then((alltimeScores) => {
           this.setState({ combinedScores: alltimeScores });
-          console.log(this.state.combinedScores);
         }).catch((err) => {
           console.log(err);
         })
@@ -46,9 +47,7 @@ class Leaderboard extends Component {
       gameService.findGames()
       .then((games) => {
         let currentGameId = games[games.length -1 ].id;
-        // console.log(`current game id is ${currentGameId}`);
         let lastGameId = games[games.length -2 ].id;
-        // console.log(`the last game id is ${lastGameId}`)
 
         this.getCurrentPlayersScores(currentGameId);
         this.getPlayersScores(lastGameId);
@@ -62,7 +61,6 @@ class Leaderboard extends Component {
     getPlayersScores(gameId) {
       playergameService.getAllScores(gameId)
           .then((scores) => {
-            console.log(scores);
             this.setState({ 'lastScores': scores })
           }).catch((err) => {
             console.log(err)})
@@ -70,14 +68,16 @@ class Leaderboard extends Component {
     getCurrentPlayersScores(gameId) {
       playergameService.getAllScores(gameId)
           .then((scores) => {
-            console.log(scores);
             this.setState({ 'currentScores': scores })
           }).catch((err) => {
             console.log(err)})
     }
 
+    static navigationOptions = {
+        header: null
+    }
+
     render() {
-      console.log(this.state.currentScores);
         if (this.state.seg === 1) {
             return (
                 <Container style={styles.container}>
@@ -120,7 +120,9 @@ class Leaderboard extends Component {
                                         {/* <Thumbnail small source={data.img} /> */}
                                     </Left>
                                     <Body>
-                                        <Text>{currentScore.username}</Text>
+                                        <Button style={{backgroundColor: 'transparent'}} onPress={() => this.props.navigation.navigate('CurrentProfile', { currentScore })}>
+                                            <Text>{currentScore.username}</Text>
+                                        </Button>
                                     </Body>
                                     <Right>
                                         <Text note>{currentScore.total_points}</Text>
@@ -172,7 +174,9 @@ class Leaderboard extends Component {
                                         {/* <Thumbnail small source={data.img} /> */}
                                     </Left>
                                     <Body>
-                                        <Text>{lastScore.username}</Text>
+                                    <Button style={{backgroundColor: 'transparent'}} onPress={() => this.props.navigation.navigate('LastProfile', { lastScore })}>
+                                            <Text>{lastScore.username}</Text>
+                                        </Button>
                                     </Body>
                                     <Right>
                                         <Text note>{lastScore.total_points}</Text>
@@ -224,7 +228,9 @@ class Leaderboard extends Component {
                                         {/* <Thumbnail small source={data.img} /> */}
                                     </Left>
                                     <Body>
-                                        <Text>{combinedScore.username}</Text>
+                                        <Button style={{backgroundColor: 'transparent'}} onPress={() => this.props.navigation.navigate('CombinedProfile', { combinedScore })}>
+                                            <Text>{combinedScore.username}</Text>
+                                        </Button>
                                     </Body>
                                     <Right>
                                         <Text note>{combinedScore.Total_Score}</Text>

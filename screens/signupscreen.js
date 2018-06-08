@@ -41,7 +41,6 @@ export default class SignUpScreen extends Component {
                         let player_id = newUser.id;
                         playergameService.addPlayergame(player_id, this.state.game_id)
                     })
-
             }).then(() => {
                 this.props.navigation.navigate('Map', {});
             })
@@ -60,9 +59,7 @@ export default class SignUpScreen extends Component {
         }
     }
 
-
     render() {
-
         return (
             <Container style={styles.container}>
                 <Content padder style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}  >
@@ -72,12 +69,11 @@ export default class SignUpScreen extends Component {
                             style={{ marginTop: 30, alignSelf: 'center' }} source={require('../images/jellybeansmedium.png')}
                         />
                     </View>
-
                     <View style={{ flex: 1, justifyContent: 'flex-start', marginBottom: 220 }}>
                         <KeyboardAvoidingView style={styles.avoidingView} enabled>
                             <Form style={{ marginBottom: 15 }}>
                                 <Item >
-                                    <Icon style={{ color: '#4054b2'}} active name="person" />
+                                    <Icon style={{ color: '#4054b2' }} active name="person" />
                                     <Input placeholderTextColor='black' placeholder="Name" onChangeText={(text) => this.setState({ name: text })} />
                                 </Item>
                                 <Item >
@@ -89,7 +85,7 @@ export default class SignUpScreen extends Component {
                                     <Input placeholderTextColor='black' placeholder="Username" onChangeText={(text) => this.setState({ username: text })} />
                                 </Item>
                                 <Item>
-                                    <Icon active name="lock" style={{ color: '#4054b2'}} />
+                                    <Icon active name="lock" style={{ color: '#4054b2' }} />
                                     <TextInput placeholderTextColor='black' style={{ width: 150 }} underlineColorAndroid='transparent' secureTextEntry={true} placeholder="Password" onChangeText={(text) => this.setState({ password: text })} />
                                 </Item>
                             </Form>
@@ -97,38 +93,33 @@ export default class SignUpScreen extends Component {
                                 <Text style={{ color: 'black', fontSize: 30, fontFamily: Fonts.TCB }}>SIGN UP</Text>
                             </Button>
                         </KeyboardAvoidingView>
-
-
-
                     </View>
                 </Content>
             </Container>
-                )
-            }
-        
-        
-        }
+        )
+    }
+}
 const styles = StyleSheet.create({
-                    container: {
-                    backgroundColor: "#81BCFF"
-            },
+    container: {
+        backgroundColor: "#81BCFF"
+    },
     main: {
-                    flex: 1,
-                backgroundColor: 'blue'
-            },
+        flex: 1,
+        backgroundColor: 'blue'
+    },
     button: {
-                paddingLeft: 40,
-                paddingRight: 40,
-                paddingTop: 20,
-                paddingBottom: 20,
-                marginBottom: 15,
-                alignSelf: 'center',
-                backgroundColor: '#00FF72',
-                borderColor: 'black',
-                borderRadius: 25,
-                borderWidth: 5,
-            },
+        paddingLeft: 40,
+        paddingRight: 40,
+        paddingTop: 20,
+        paddingBottom: 20,
+        marginBottom: 15,
+        alignSelf: 'center',
+        backgroundColor: '#00FF72',
+        borderColor: 'black',
+        borderRadius: 25,
+        borderWidth: 5,
+    },
     avoidingView: {
         backgroundColor: "#81BCFF",
     }
-        });
+});

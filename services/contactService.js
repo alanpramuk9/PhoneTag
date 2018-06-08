@@ -8,5 +8,4 @@ function sendContactEmail(name, email, message) {
     });
 }
 
-
 export { sendContactEmail };

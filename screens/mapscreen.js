@@ -12,15 +12,11 @@ import * as userService from '../services/users';
 import CustomMap from '../assets/customMap/custommap';
 
 const { width, height } = Dimensions.get('window');
-
 const SCREEN_HEIGHT = height;
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0021;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
-
-
 class MapScreen extends Component {
     constructor(props) {
         super(props)
@@ -38,21 +34,15 @@ class MapScreen extends Component {
             playerGameId: null,
             totalPoints: null,
             numberPins: null,
-
-
         }
     }
 
-
     componentDidMount() {
-
         this.allThePins();
-
         navigator.geolocation.getCurrentPosition((position) => {
 
             let lat = parseFloat(position.coords.latitude);
             let long = parseFloat(position.coords.longitude);
-
 
             this.setState({
                 region: {
@@ -68,7 +58,6 @@ class MapScreen extends Component {
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000, distanceFilter: 10 })
 
         this.watchID = navigator.geolocation.watchPosition((position) => {
-            // Create the object to update this.state.mapRegion through the onRegionChange function
             let lat = parseFloat(position.coords.latitude)
             let long = parseFloat(position.coords.longitude)
 
@@ -83,7 +72,6 @@ class MapScreen extends Component {
 
         })
 
-
         userService.me()
             .then((result) => {
                 this.setState({ id: result.id })
@@ -92,10 +80,7 @@ class MapScreen extends Component {
             }).catch((err) => {
                 console.log(err);
             })
-
-
     }
-
 
     allThePins() {
         pinsService.getAllPins()
@@ -110,20 +95,15 @@ class MapScreen extends Component {
         playerGameService.getMyPlayergame(id)
             .then((result) => {
                 let currentResult = result[result.length - 1];
-
                 this.setState({ playerGameId: currentResult.id })
                 this.setState({ playerId: currentResult.player_id })
                 this.setState({ gameId: currentResult.game_id })
                 this.setState({ totalPoints: currentResult.total_points })
-                this.setState({ numberPins: currentResult.number_pins})
-
-
-
+                this.setState({ numberPins: currentResult.number_pins })
             }).catch((err) => {
                 console.log(err);
             });
     }
-
 
     savePin() {
         pinsService.setPins(this.state.region.latitude, this.state.region.longitude, this.state.gameId, this.state.playerGameId)
@@ -135,7 +115,6 @@ class MapScreen extends Component {
                 console.log(err);
             });
     }
-
 
     pickUpPin(playerGameId, pinID) {
         pinsService.getOnePin(pinID)
@@ -168,14 +147,10 @@ class MapScreen extends Component {
             });
     }
 
-
     //updates latLong of current position
-
     onRegionChangeComplete = (region) => {
         console.log('onRegionChangeComplete', region);
     };
-
-
 
     onPressAnimate = () => {
         Animated.sequence([
@@ -218,8 +193,6 @@ class MapScreen extends Component {
                 longitude: this.region.longitude
             }
         })
-
-
     }
 
     onPressZoomOut() {
@@ -237,146 +210,113 @@ class MapScreen extends Component {
                 longitude: this.region.longitude
             }
         })
-  
+
     }
-
-    
-
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchID);
     }
 
     render() {
-
-
-
         return (
             <View>
-            <View style={styles.container}>
-                <MapView
-                    //initialRegion={this.state.initialRegion}
-                    provider={PROVIDER_GOOGLE}
-                    region={this.state.region}
-                    style={styles.map}
-                    customMapStyle={CustomMap}
-                    mapType={"standard"}
-                    showsScale={true}
-                    showsCompass={true}
-                    showsUserLocation={true}
-                    followsUserLocation={true}
-                    zoomEnabled={true}
-                    //onRegionChange={this.onRegionChange}
-                    onRegionChangeComplete={this.onRegionChangeComplete}
-                    loadingEnabled={true}
-                    loadingIndicatorColor={'#606060'}
-                    loadingBackgroundColor={'#FFFFFF'}
+                <View style={styles.container}>
+                    <MapView
+                        //initialRegion={this.state.initialRegion}
+                        provider={PROVIDER_GOOGLE}
+                        region={this.state.region}
+                        style={styles.map}
+                        customMapStyle={CustomMap}
+                        mapType={"standard"}
+                        showsScale={true}
+                        showsCompass={true}
+                        showsUserLocation={true}
+                        followsUserLocation={true}
+                        zoomEnabled={true}
+                        onRegionChangeComplete={this.onRegionChangeComplete}
+                        loadingEnabled={true}
+                        loadingIndicatorColor={'#606060'}
+                        loadingBackgroundColor={'#FFFFFF'}
+                        ref={map => this.map = map}
+                    >
+                        {this.state.pins.map((pin, index) => {
+                            let latLong = { latitude: this.state.pins[index].latitude, longitude: this.state.pins[index].longitude }
+                            let pincolor;
+                            if (this.state.pins[index].playergame_ok_id === this.state.playerGameId) {
+                                pincolor = JellyBeanBlue
+                            } else {
+                                pincolor = JellyBeanGreen
+                            }
+                            return (
+                                <MapView.Marker
+                                    image={pincolor}
+                                    style={styles.jellybean}
+                                    onPress={(e) => {
+                                        this.pickUpPin(this.state.playerGameId, this.state.pins[index].id)
+                                    }}
+                                    key={Math.random()}
+                                    coordinate={latLong}
+                                >
+                                </MapView.Marker>
+                            )
+                        })}
+                    </MapView>
 
-                    //store a reference to the MapView object so that we can call method animate 
-                    //to region in the pickLocationHandler
-                    ref={map => this.map = map}
-                >
+                    {/* //Zoom in and Zoom out buttons */}
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
 
-
-                    {this.state.pins.map((pin, index) => {
-
-                        let latLong = { latitude: this.state.pins[index].latitude, longitude: this.state.pins[index].longitude }
-                        let pincolor;
-
-                        if (this.state.pins[index].playergame_ok_id === this.state.playerGameId) {
-                            
-                            pincolor = JellyBeanBlue
-                        } else {
-                            
-                            pincolor = JellyBeanGreen
-                        }
-
-                        return (
-
-                            <MapView.Marker
-                                image={pincolor}
-                                style={styles.jellybean}
-                                onPress={(e) => {
-                                    this.pickUpPin(this.state.playerGameId, this.state.pins[index].id)
-                                }}
-                                key={Math.random()}
-                                coordinate={latLong}
+                        {/* Leaderboard component */}
+                        <View style={styles.scoreboard}>
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} >
+                                <Image
+                                    source={require('../images/jellybeanbluextrasmall.png')}
+                                />
+                                <Text style={{ marginLeft: 12, fontSize: 20, fontFamily: Fonts.TCB }}> {this.state.numberPins} remaining </Text>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <Image style={styles.scorePic} source={require('../images/scorecard.png')} />
+                                <Text style={{ marginLeft: 12, fontSize: 20, fontFamily: Fonts.TCB }}> {this.state.totalPoints} points </Text>
+                            </View>
+                        </View>
+                        <View style={styles.zoom}>
+                            <TouchableOpacity
+                                style={styles.zoomIn}
+                                onPress={() => { () => this.onPressZoomIn() }}
                             >
-                            </MapView.Marker>
-                        )
-                    })}
-                </MapView>
-                
-                {/* //Zoom in and Zoom out buttons */}
-                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around'}}>
-                
-                
-
-                {/* Leaderboard component */}
-                <View style={styles.scoreboard}>
-                        <View style={{flex:1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}} >
-                        <Image
-                        source={require('../images/jellybeanbluextrasmall.png')}
-                    />
-                            {/* <FontAwesome
-                                        name="map-marker"
-                                        style={{color: '#81BCFF'}}
-                                        size={40}
-                            /> */}
-                            <Text style={{marginLeft: 12, fontSize: 20, fontFamily: Fonts.TCB}}> {this.state.numberPins} remaining </Text>
+                                <Icon
+                                    name="add"
+                                    style={styles.icon}
+                                    size={20}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.zoomOut}
+                                onPress={() => { () => this.onPressZoomOut() }}
+                            >
+                                <Icon
+                                    name="remove"
+                                    style={styles.icon}
+                                    size={20}
+                                />
+                            </TouchableOpacity>
                         </View>
-                        <View style={{flex:1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
-                            <Image style={styles.scorePic} source={require('../images/scorecard.png')}/>
-                            <Text style={{marginLeft: 12, fontSize: 20, fontFamily: Fonts.TCB}}> {this.state.totalPoints} points </Text> 
-                        </View>
-                   
-                </View> 
-                <View style={styles.zoom}>
-                    <TouchableOpacity
-                        style={styles.zoomIn}
-                        onPress={() => { () => this.onPressZoomIn() }}
-                    >
-                        <Icon
-                            name="add"
-                            style={styles.icon}
-                            size={20}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.zoomOut}
-                        onPress={() => { () => this.onPressZoomOut() }}
-                    >
-                        <Icon
-                            name="remove"
-                            style={styles.icon}
-                            size={20}
-                        />
-                    </TouchableOpacity>
-                </View>
-                
-                </View>
-                
-                {/* Add-marker component */}
-                <View style={styles.button}>
-                    <TouchableOpacity
-                        onPress={() => this.savePin()}
-                        style={styles.addMarker}
-                    >
-                        <FontAwesome
-                            name="crosshairs"
-                            style={{alignSelf: 'center', paddingTop: 5}}
-                            size={55}
-                        />
-                        <Text style={{ fontSize: 12, textAlign: 'center' }}>Add Marker </Text>
+                    </View>
 
-                    </TouchableOpacity>
-                </View>
-                
-        
-                
-                
-                
+                    {/* Add-marker component */}
+                    <View style={styles.button}>
+                        <TouchableOpacity
+                            onPress={() => this.savePin()}
+                            style={styles.addMarker}
+                        >
+                            <FontAwesome
+                                name="crosshairs"
+                                style={{ alignSelf: 'center', paddingTop: 5 }}
+                                size={55}
+                            />
+                            <Text style={{ fontSize: 12, textAlign: 'center' }}>Add Jelly </Text>
 
-            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
         );
     }
@@ -405,7 +345,7 @@ const styles = StyleSheet.create({
     scoreboard: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent:'center',
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
         opacity: 0.8,
@@ -414,8 +354,6 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         marginTop: 15,
         borderRadius: 3
-    
-
     },
     scorePic: {
         height: 55,

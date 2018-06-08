@@ -1,7 +1,4 @@
 import { AsyncStorage } from 'react-native';
-
-
-
 const AUTH_TOKEN_KEY = 'authtoken';
 let authToken = '';
 const HEROKU_URL = 'https://covalence-final.herokuapp.com';
@@ -20,16 +17,6 @@ function clearAuthToken() {
     }
 }
 
-// function populateAuthToken() {
-//     let token = AsyncStorage.getItem(AUTH_TOKEN_KEY);
-//     if (token && token !== null) {
-//         authToken = token;
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
 function populateAuthToken() {
     AsyncStorage.getItem(AUTH_TOKEN_KEY)
     .then((token) => {
@@ -44,11 +31,6 @@ function makeFetch(url, info) {
     return fetch(`${HEROKU_URL}${url}`, info);
 }
 
-//for testing on local host
-// function makeFetch(url, info) {
-//     return fetch(`http://10.0.2.2:3000${url}`, info);
-// }
-
 function json(url, method = 'GET', payload = {}) {
     let data = {
         method,
@@ -58,23 +40,18 @@ function json(url, method = 'GET', payload = {}) {
             'Authorization': authToken
         })
     };
-
     if (method === 'GET') {
         delete data.body;
     }
-    
     return makeFetch(url, data)
         .then((response) => {
             if (response.ok) {
                 let contentType = response.headers.get('Content-Type');
-
                 if (contentType.indexOf('application/json') > -1) {
                     return response.json();
                 }
-
                 return response.statusText;
             }
-
             throw response;
         });
 }

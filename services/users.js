@@ -17,7 +17,6 @@ function whoIsThis(id) {
     }).catch((err) => {
         console.log(err);
     })
-
 }
 
 function checkLogin() {
@@ -79,7 +78,6 @@ function profile() {
         })
 }
 
-
 function newUser(name, email, username, hash) {
     return baseService.post('/api/auth/signup', {name, email, username, hash})
 }
@@ -99,6 +97,5 @@ function editPassword(id, hash) {
 function editPhoto(id, photo) {
     return baseService.put(`/api/players/photo/${id}`, { photo })
 }
-
 
 export { isLoggedIn, checkLogin, login, logout, newUser, me, profile, editEmail, checkPassword, editPassword, editPhoto, whoIsThis };

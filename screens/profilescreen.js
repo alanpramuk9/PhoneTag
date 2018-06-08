@@ -30,19 +30,11 @@ export default class ProfileScreen extends Component {
             }).catch((err) => {
                 console.log(err);
             });
-
     }
 
     static navigationOptions = {
         header: null
     }
-
-
-    // addProfile(image) {
-    //     let formData = new FormData();
-    //     formData.append("image", image);
-    //     fetch('api')
-    // }
 
     pickImageHandler() {
         ImagePicker.showImagePicker({ title: "Pick an Image" }, res => {
@@ -77,7 +69,6 @@ export default class ProfileScreen extends Component {
                     pickedImage: { uri: res.uri, base64: res.data }
 
                 });
-
             }
         });
     }
@@ -130,18 +121,10 @@ export default class ProfileScreen extends Component {
                         <View style={{ height: 280 }}>
                             <ProfileScore value={this.state.player} />
                         </View>
-
-
-
-
-                        {/* start of badges */}
-
                     </View>
-
                 </Content>
             </Container>
         )
-
     }
 }
 
@@ -151,11 +134,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'white'
     },
-    pictureBtn: {
-
-    },
     lessbold: {
-
         fontSize: 12,
         color: 'white'
     },

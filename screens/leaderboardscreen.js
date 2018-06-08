@@ -6,8 +6,6 @@ import CurrentProfileScreen from './currentprofilescreen';
 import CombinedProfileScreen from './combinedprofilescreen';
 import LastProfileScreen from './lastprofilescreen';
 import { RNS3 } from 'react-native-aws3';
-
-
 import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import {
     Container,
@@ -25,7 +23,6 @@ import {
     Body,
 } from 'native-base';
 
-
 class Leaderboard extends Component {
     constructor(props) {
         super(props);
@@ -38,41 +35,39 @@ class Leaderboard extends Component {
         };
     }
     componentDidMount() {
+        playergameService.getAllTimeScores()
+            .then((alltimeScores) => {
+                this.setState({ combinedScores: alltimeScores });
+            }).catch((err) => {
+                console.log(err);
+            })
 
-      playergameService.getAllTimeScores() 
-        .then((alltimeScores) => {
-          this.setState({ combinedScores: alltimeScores });
-        }).catch((err) => {
-          console.log(err);
-        })
-
-      gameService.findGames()
-      .then((games) => {
-        let currentGameId = games[games.length -1 ].id;
-        let lastGameId = games[games.length -2 ].id;
-
-        this.getCurrentPlayersScores(currentGameId);
-        this.getPlayersScores(lastGameId);
-
-      }).catch((err) => {
-        console.log(err);
-      })
-
+        gameService.findGames()
+            .then((games) => {
+                let currentGameId = games[games.length - 1].id;
+                let lastGameId = games[games.length - 2].id;
+                this.getCurrentPlayersScores(currentGameId);
+                this.getPlayersScores(lastGameId);
+            }).catch((err) => {
+                console.log(err);
+            })
     }
 
     getPlayersScores(gameId) {
-      playergameService.getAllScores(gameId)
-          .then((scores) => {
-            this.setState({ 'lastScores': scores })
-          }).catch((err) => {
-            console.log(err)})
+        playergameService.getAllScores(gameId)
+            .then((scores) => {
+                this.setState({ 'lastScores': scores })
+            }).catch((err) => {
+                console.log(err)
+            })
     }
     getCurrentPlayersScores(gameId) {
-      playergameService.getAllScores(gameId)
-          .then((scores) => {
-            this.setState({ 'currentScores': scores })
-          }).catch((err) => {
-            console.log(err)})
+        playergameService.getAllScores(gameId)
+            .then((scores) => {
+                this.setState({ 'currentScores': scores })
+            }).catch((err) => {
+                console.log(err)
+            })
     }
 
     static navigationOptions = {
@@ -109,9 +104,7 @@ class Leaderboard extends Component {
                             <Text>AllTime Score</Text>
                         </Button>
                     </Segment>
-
                     <Content>
-
                         <List>
                             {this.state.currentScores.map((currentScore, i) => (
                                 <ListItem key={currentScore.player_id} style={styles.leaderlist}>
@@ -119,13 +112,12 @@ class Leaderboard extends Component {
                                         <Text style={styles.number}>
                                             {i + 1}
                                         </Text>
-                                        <Thumbnail small source={{uri: `${currentScore.picture}`}} />
+                                        <Thumbnail small source={{ uri: `${currentScore.picture}` }} />
                                     </Left>
                                     <Body>
-                                         <TouchableOpacity onPress={() => this.props.navigation.navigate('CurrentProfile', { currentScore })}>
-                                                <Text style={{ fontSize: 15,  color: '#7B17D3', textDecorationLine: 'underline'}}>{currentScore.username}</Text>
-                                                </TouchableOpacity>
-                                        
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('CurrentProfile', { currentScore })}>
+                                            <Text style={{ fontSize: 15, color: '#7B17D3', textDecorationLine: 'underline' }}>{currentScore.username}</Text>
+                                        </TouchableOpacity>
                                     </Body>
                                     <Right>
                                         <Text note>{currentScore.total_points}</Text>
@@ -174,13 +166,12 @@ class Leaderboard extends Component {
                                         <Text style={styles.number}>
                                             {i + 1}
                                         </Text>
-                                        <Thumbnail small source={{uri: `${lastScore.picture}`}} />
+                                        <Thumbnail small source={{ uri: `${lastScore.picture}` }} />
                                     </Left>
                                     <Body>
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('LastProfile', { lastScore })}>
-                                                <Text style={{ fontSize: 15,  color: '#7B17D3', textDecorationLine: 'underline'}}>{lastScore.username}</Text>
-                                                </TouchableOpacity>
-                                        
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('LastProfile', { lastScore })}>
+                                            <Text style={{ fontSize: 15, color: '#7B17D3', textDecorationLine: 'underline' }}>{lastScore.username}</Text>
+                                        </TouchableOpacity>
                                     </Body>
                                     <Right>
                                         <Text note>{lastScore.total_points}</Text>
@@ -229,13 +220,12 @@ class Leaderboard extends Component {
                                         <Text style={styles.number}>
                                             {i + 1}
                                         </Text>
-                                        <Thumbnail small source={{uri: `${combinedScore.picture}`}} />
+                                        <Thumbnail small source={{ uri: `${combinedScore.picture}` }} />
                                     </Left>
                                     <Body>
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('CombinedProfile', { combinedScore })}>
-                                                <Text style={{ fontSize: 15,  color: '#7B17D3', textDecorationLine: 'underline'}}>{combinedScore.username}</Text>
-                                    </TouchableOpacity>
-                                        
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('CombinedProfile', { combinedScore })}>
+                                            <Text style={{ fontSize: 15, color: '#7B17D3', textDecorationLine: 'underline' }}>{combinedScore.username}</Text>
+                                        </TouchableOpacity>
                                     </Body>
                                     <Right>
                                         <Text note>{combinedScore.Total_Score}</Text>

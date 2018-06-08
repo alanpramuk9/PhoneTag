@@ -6,11 +6,9 @@ import * as usersService from '../services/users';
 import ProfileScore from '../components/profilescore';
 import { getMyPlayerId } from '../services/playergame';
 import * as playergameService from '../services/playergame';
-
 import { RNS3 } from 'react-native-aws3';
 import ImagePicker from 'react-native-image-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
 
 export default class CurrentProfileScreen extends Component {
     constructor(props) {
@@ -27,33 +25,26 @@ export default class CurrentProfileScreen extends Component {
         usersService.whoIsThis(this.state.id)
             .then((player) => {
                 this.setState({ player });
-                this.setState({ photo: player.picture})
+                this.setState({ photo: player.picture })
             }).catch((err) => {
                 console.log(err);
             });
-
-    
     }
-    
 
     static navigationOptions = {
         title: "User Profile",
-        headerStyle: {backgroundColor: '#4054b2' },
-        headerTitleStyle: { color: 'white', paddingLeft: 80  },
-        
+        headerStyle: { backgroundColor: '#4054b2' },
+        headerTitleStyle: { color: 'white', paddingLeft: 80 },
     }
 
-
     render() {
-       
-
         return (
             <Container>
                 <Content contentContainerStyle={{ flex: 0 }}>
                     <View>
                         <View style={styles.main}>
                             <View style={{ alignSelf: 'center', marginBottom: 20, marginTop: 15 }}>
-                                    <Image source={{uri: `${this.state.photo}`}} style={{ height: 150, width: 175, borderRadius: 50 }} />
+                                <Image source={{ uri: `${this.state.photo}` }} style={{ height: 150, width: 175, borderRadius: 50 }} />
                             </View>
                             <View style={{ alignItems: 'center', marginBottom: 15 }}>
                                 <Text style={styles.lessbold}><Text style={styles.lessbold}>@{this.state.player.username}</Text></Text>
@@ -62,17 +53,10 @@ export default class CurrentProfileScreen extends Component {
                         <View style={{ height: 280 }}>
                             <ProfileScore value={this.state.player} />
                         </View>
-
-
-
-                        {/* start of badges */}
-
                     </View>
-
                 </Content>
             </Container>
         )
-
     }
 }
 
@@ -82,11 +66,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'white'
     },
-    pictureBtn: {
-
-    },
     lessbold: {
-
         fontSize: 12,
         color: 'white'
     },

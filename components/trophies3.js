@@ -25,8 +25,6 @@ import GoldTrophy from '../images/trophygold.png';
 import NotOnMountain from '../images/MaxPointsBW.png';
 import OnMountain from '../images/MaxPointsC.png';
 
-
-
 export default class Trophies3 extends Component {
     constructor(props) {
         super(props);
@@ -52,84 +50,78 @@ export default class Trophies3 extends Component {
         console.log(this.props.value)
         if (this.props.value > 100000) {
             return (
-             
-            <View style={styles.makeFlex}>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-evenly'}}> 
-                    <Image style={styles.image} source={GoldMedal} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 1,000 Points </Text>
+
+                <View style={styles.makeFlex}>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                        <Image style={styles.image} source={GoldMedal} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 1,000 Points </Text>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                        <Image style={styles.image} source={GoldTrophy} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 10,000 Points </Text>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                        <Image style={styles.image} source={OnMountain} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 100,000 Points </Text>
+                    </View>
                 </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
-                    <Image style={styles.image} source={GoldTrophy} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 10,000 Points </Text>
-                </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
-                    <Image style={styles.image} source={OnMountain} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 100,000 Points </Text>
-               </View>
-            </View>
             )
-        } else if(this.props.value > 10000) { 
+        } else if (this.props.value > 10000) {
             return (
-            <View style={styles.makeFlex}>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-evenly'}}> 
-                    <Image style={styles.image} source={GoldMedal} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 1,000 Points </Text>
+                <View style={styles.makeFlex}>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                        <Image style={styles.image} source={GoldMedal} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 1,000 Points </Text>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                        <Image style={styles.image} source={GoldTrophy} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 10,000 Points </Text>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                        <Image style={styles.image} source={NotOnMountain} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 100,000 Points </Text>
+                    </View>
                 </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
-                    <Image style={styles.image} source={GoldTrophy} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 10,000 Points </Text>
+
+            )
+        } else if (this.props.value > 1000) {
+            return (
+
+                <View style={styles.makeFlex}>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                        <Image style={styles.image} source={GoldMedal} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 1,000 Points </Text>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                        <Image style={styles.image} source={BlackTrophy} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 10,000 Points </Text>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                        <Image style={styles.image} source={NotOnMountain} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 100,000 Points </Text>
+                    </View>
                 </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
-                    <Image style={styles.image} source={NotOnMountain} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 100,000 Points </Text>
-               </View>
-            </View>
-            
-        )
-    } else if(this.props.value > 1000) {
-        return (
-            
-            <View style={styles.makeFlex}>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-evenly'}}> 
-                    <Image style={styles.image} source={GoldMedal} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 1,000 Points </Text>
+            )
+        } else {
+            return (
+                <View style={styles.makeFlex}>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                        <Image style={styles.image} source={BlackMedal} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 1,000 Points </Text>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                        <Image style={styles.image} source={BlackTrophy} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 10,000 Points </Text>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
+                        <Image style={styles.image} source={NotOnMountain} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}> 100,000 Points </Text>
+                    </View>
                 </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
-                    <Image style={styles.image} source={BlackTrophy} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 10,000 Points </Text>
-                </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
-                    <Image style={styles.image} source={NotOnMountain} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 100,000 Points </Text>
-               </View>
-            </View>
-        )
-    } else {
-        return(
-            <View style={styles.makeFlex}>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-evenly'}}> 
-                    <Image style={styles.image} source={BlackMedal} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 1,000 Points </Text>
-                </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
-                    <Image style={styles.image} source={BlackTrophy} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 10,000 Points </Text>
-                </View>
-                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
-                    <Image style={styles.image} source={NotOnMountain} />
-                    <Text style={{fontWeight: 'bold', fontSize: 16, alignSelf: 'center'}}> 100,000 Points </Text>
-               </View>
-            </View>
-        )
+            )
+        }
     }
-
-    }
-
-
-
 }
-
-
 
 const styles = StyleSheet.create({
     image: {
@@ -144,5 +136,4 @@ const styles = StyleSheet.create({
         alignItems: 'center'
 
     }
-
 });

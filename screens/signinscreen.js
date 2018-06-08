@@ -3,12 +3,9 @@ import { createStackNavigator } from 'react-navigation';
 import { Container, Header, Title, Content, Form, Item, Input, Label, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import { StyleSheet, View, Dimensions, TextInput, TouchableOpacity, Image } from 'react-native';
 import App from '../App';
-
 import * as userService from '../services/users';
 import { Fonts } from '../utility/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
-
 export default class SignInScreen extends Component {
     constructor(props) {
         super(props);
@@ -49,9 +46,6 @@ export default class SignInScreen extends Component {
                 <App />
             )
         }
-
-
-
         return (
             <Container style={styles.container} >
                 <Content padder style={{ flex: 1 }} contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
@@ -61,7 +55,6 @@ export default class SignInScreen extends Component {
                             style={{ marginTop: 30, alignSelf: 'center' }} source={require('../images/jellybeansmedium.png')}
                         />
                     </View>
-
                     <View style={{ flex: 1 }}>
                         <Form style={{ marginBottom: 10 }}>
                             <Item >
@@ -69,7 +62,7 @@ export default class SignInScreen extends Component {
                                 <Input placeholderTextColor='black' placeholder="Email" onChangeText={(text) => this.setState({ email: text })} />
                             </Item>
                             <Item>
-                                <Icon active name="lock" style={{ color: '#4054b2'}} />
+                                <Icon active name="lock" style={{ color: '#4054b2' }} />
                                 <TextInput placeholderTextColor='black' style={{ width: 150 }} underlineColorAndroid='transparent' secureTextEntry={true} placeholder="Password" onChangeText={(text) => this.setState({ password: text })} />
                             </Item>
                         </Form>
@@ -77,7 +70,6 @@ export default class SignInScreen extends Component {
                             <Text style={{ color: 'black', fontSize: 30, fontFamily: Fonts.TCB }}>SIGN IN</Text>
                         </Button>
                     </View>
-
                 </Content>
             </Container>
         )
@@ -105,23 +97,3 @@ const styles = StyleSheet.create({
 
     }
 });
-
-
-
-//   <Container>
-//   <Content contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
-//       <Form>
-//           <Item floatingLabel>
-//               <Label>Enter Your Email</Label>
-//               <Input onChangeText={(text) => this.setState({ email: text })} />
-//           </Item>
-//           <Item floatingLabel last>
-//               <Label>Enter Your Password</Label>
-//               <Input onChangeText={(text) => this.setState({ password: text })} />
-//           </Item>
-//       </Form>
-//       <Button onPress={() => this.signup()} block style={{ margin: 15, marginTop: 50 }}>
-//           <Text>SIGN IN</Text>
-//       </Button>
-//   </Content>
-// </Container>

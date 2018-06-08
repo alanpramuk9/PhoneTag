@@ -37,7 +37,7 @@ export default class SignInScreen extends Component {
         title: 'Back',
         headerTintColor: '#ffffff',
         headerStyle: {
-            backgroundColor: '#464C8A'
+            backgroundColor: '#4054b2'
         }
     }
 

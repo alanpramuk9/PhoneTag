@@ -5,8 +5,10 @@ import * as playergameService from '../services/playergame';
 import CurrentProfileScreen from './currentprofilescreen';
 import CombinedProfileScreen from './combinedprofilescreen';
 import LastProfileScreen from './lastprofilescreen';
+import { RNS3 } from 'react-native-aws3';
 
-import { StyleSheet, View, Image, Text } from 'react-native';
+
+import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import {
     Container,
     Header,
@@ -117,12 +119,13 @@ class Leaderboard extends Component {
                                         <Text style={styles.number}>
                                             {i + 1}
                                         </Text>
-                                        {/* <Thumbnail small source={data.img} /> */}
+                                        <Thumbnail small source={{uri: `${currentScore.picture}`}} />
                                     </Left>
                                     <Body>
-                                        <Button style={{backgroundColor: 'transparent'}} onPress={() => this.props.navigation.navigate('CurrentProfile', { currentScore })}>
-                                            <Text>{currentScore.username}</Text>
-                                        </Button>
+                                         <TouchableOpacity onPress={() => this.props.navigation.navigate('CurrentProfile', { currentScore })}>
+                                                <Text style={{ fontSize: 15,  color: '#7B17D3', textDecorationLine: 'underline'}}>{currentScore.username}</Text>
+                                                </TouchableOpacity>
+                                        
                                     </Body>
                                     <Right>
                                         <Text note>{currentScore.total_points}</Text>
@@ -171,12 +174,13 @@ class Leaderboard extends Component {
                                         <Text style={styles.number}>
                                             {i + 1}
                                         </Text>
-                                        {/* <Thumbnail small source={data.img} /> */}
+                                        <Thumbnail small source={{uri: `${lastScore.picture}`}} />
                                     </Left>
                                     <Body>
-                                    <Button style={{backgroundColor: 'transparent'}} onPress={() => this.props.navigation.navigate('LastProfile', { lastScore })}>
-                                            <Text>{lastScore.username}</Text>
-                                        </Button>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('LastProfile', { lastScore })}>
+                                                <Text style={{ fontSize: 15,  color: '#7B17D3', textDecorationLine: 'underline'}}>{lastScore.username}</Text>
+                                                </TouchableOpacity>
+                                        
                                     </Body>
                                     <Right>
                                         <Text note>{lastScore.total_points}</Text>
@@ -225,12 +229,13 @@ class Leaderboard extends Component {
                                         <Text style={styles.number}>
                                             {i + 1}
                                         </Text>
-                                        {/* <Thumbnail small source={data.img} /> */}
+                                        <Thumbnail small source={{uri: `${combinedScore.picture}`}} />
                                     </Left>
                                     <Body>
-                                        <Button style={{backgroundColor: 'transparent'}} onPress={() => this.props.navigation.navigate('CombinedProfile', { combinedScore })}>
-                                            <Text>{combinedScore.username}</Text>
-                                        </Button>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('CombinedProfile', { combinedScore })}>
+                                                <Text style={{ fontSize: 15,  color: '#7B17D3', textDecorationLine: 'underline'}}>{combinedScore.username}</Text>
+                                    </TouchableOpacity>
+                                        
                                     </Body>
                                     <Right>
                                         <Text note>{combinedScore.Total_Score}</Text>
@@ -254,7 +259,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     leaderlist: {
-        justifyContent: 'space-evenly',
+        justifyContent: 'center'
     },
 });
 

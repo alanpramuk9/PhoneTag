@@ -28,7 +28,7 @@ export default class SplashScreen extends Component {
                     </Button>
                 </Content>
                 <Footer style={styles.footer}>
-                    <Button style={{ backgroundColor: '#464C8A', alignSelf: 'flex-end'}} onPress={() => this.props.navigation.navigate('About')}>
+                    <Button style={{ backgroundColor: '#4054b2', alignSelf: 'flex-end'}} onPress={() => this.props.navigation.navigate('About')}>
                         <Text style={{ fontSize: 20, fontFamily: Fonts.TCB}}>About Jelly Drop</Text>
                     </Button>
                 </Footer>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         fontSize: 50,
     },
     footer: {
-        backgroundColor: '#464C8A'
+        backgroundColor: '#4054b2'
     }
 
 

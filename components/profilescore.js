@@ -128,16 +128,7 @@ export default class ProfileScore extends Component {
                             <Text>Score: {this.state.playergame}</Text>
                             <Text>Rank: {this.state.currentRank}</Text>
                         </View>
-                        {/* <View style={styles.boxShadow}>
-                            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-                                <Text style={{textDecorationLine: 'underline', fontWeight: 'bold' }} >Score: </Text>
-                                <Text>{this.state.playergame}</Text>
-                            </View>
-                            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
-                                <Text style={{textDecorationLine: 'underline', fontWeight: 'bold' }}> Rank: </Text>
-                                <Text>{this.state.currentRank}</Text>
-                            </View> 
-                        </View> */}
+                       
                     </Content>
                 </Container>
             );

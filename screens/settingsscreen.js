@@ -25,6 +25,7 @@ export default class SettingsScreen extends Component {
             modalThreeVisible: false,
             switchOn1: false,
             switchOn2: false,
+            switchOn3: false
         }
     }
 
@@ -155,7 +156,7 @@ export default class SettingsScreen extends Component {
                             <Text> Email me updates</Text>
                             <View>
                                 <SwitchToggle
-                                    switchOn={this.state.switchOn1}
+                                    switchOn={this.state.switchOn2}
                                     onPress={this.onPress2}
                                     backgroundColorOn={'#add8e6'}	
                                 />
@@ -166,7 +167,7 @@ export default class SettingsScreen extends Component {
                             <Text> Sounds</Text>
                             <View>
                                 <SwitchToggle
-                                    switchOn={this.state.switchOn1}
+                                    switchOn={this.state.switchOn3}
                                     onPress={this.onPress3}
                                     backgroundColorOn={'#add8e6'}	
                                 />
@@ -200,12 +201,12 @@ export default class SettingsScreen extends Component {
                                 onRequestClose={() => {
                                     this.setModalOneVisible(!this.state.modalOneVisible);
                                 }}>
-                                <View style={{ marginTop: 22, backgroundColor: "#81BCFF"  }}>
+                                <View style={{ backgroundColor: "#81BCFF", flex: 1  }}>
 
                                     <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30 }}>Change Your Email</Text></View>
                                     <View><Text style={{ fontSize: 20, fontStyle: 'italic', marginTop: 80, marginLeft: 15 }}>Your Current Email: {`${player.email}`}</Text></View>
                                     <Item floatingLabel>
-                                        <Label style={{marginLeft: 15}}>Enter New Email</Label>
+                                        <Label style={{marginLeft: 15, marginTop: 10}}>Enter New Email</Label>
                                         <Input onChangeText={(text) => this.setState({ email: text })} />
                                     </Item>
 
@@ -217,10 +218,8 @@ export default class SettingsScreen extends Component {
                                         onPress={() => {
                                             this.setModalOneVisible(!this.state.modalOneVisible);
                                         }}>
-                                        <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 10 }}>GO BACK</Text>
+                                        <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 15 }}>GO BACK</Text>
                                     </TouchableHighlight>
-
-
 
                                 </View>
                             </Modal>
@@ -230,7 +229,7 @@ export default class SettingsScreen extends Component {
                                 onPress={() => {
                                     this.setModalOneVisible(true);
                                 }}>
-                                <Text style={{ fontSize: 15, marginLeft: 15 }} >Change Email</Text>
+                                <Text style={{ fontSize: 15, alignSelf: 'center' }} >Change Email</Text>
                             </TouchableHighlight>
 
 
@@ -247,6 +246,7 @@ export default class SettingsScreen extends Component {
                                     this.setModalTwoVisible(!this.state.modalTwoVisible);
                                 }}>
 
+                                <View style={{backgroundColor: "#81BCFF", flex: 1 }}>
 
                                 <View style={{ marginTop: 22 }} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
 
@@ -254,8 +254,8 @@ export default class SettingsScreen extends Component {
                                     <View>
 
 
-                                        <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30, textDecorationLine: 'underline' }}>Change Password</Text></View>
-
+                                        <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30 }}>Change Password</Text></View>
+                                        <View style={{paddingLeft: 20, paddingRight: 20}}>
                                         <Item floatingLabel>
                                             <Label>Enter Old Password</Label>
                                             <Input onChangeText={(text) => this.setState({ password: text })} />
@@ -279,10 +279,11 @@ export default class SettingsScreen extends Component {
                                             <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 10 }}>GO BACK</Text>
                                         </TouchableHighlight>
 
-
+                                        </View>
                                     </View>
 
 
+                                </View>
                                 </View>
 
 
@@ -320,6 +321,7 @@ export default class SettingsScreen extends Component {
                                         this.setModalThreeVisible(!this.state.modalThreeVisible);
                                     }}>
 
+                                    <View style={{backgroundColor: "#81BCFF", flex: 1 }}>
 
                                     <View style={{ marginTop: 22, backgroundColor: "#81BCFF" }} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
 
@@ -361,6 +363,7 @@ export default class SettingsScreen extends Component {
 
 
                                     </View>
+                                    </View>
 
 
                                 </Modal>
@@ -372,8 +375,6 @@ export default class SettingsScreen extends Component {
                                     <Text style={{ fontSize: 15 }} >Contact Us</Text>
                                 </TouchableHighlight>
 
-
-                            
 
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>

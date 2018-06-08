@@ -59,7 +59,7 @@ export default class CombinedProfileScreen extends Component {
                                 <Text style={styles.lessbold}><Text style={styles.lessbold}>@{this.state.player.username}</Text></Text>
                             </View>
                         </View>
-                        <View>
+                        <View style={{ height: 280 }}>
                             <ProfileScore value={this.state.player} />
                         </View>
 

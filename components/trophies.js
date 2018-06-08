@@ -46,17 +46,63 @@ export default class Trophies extends Component {
 
     render() {
 
-        if (this.props.value > 100) {
+        if (this.props.value > 100000) {
             return (
+                <View>
                 <View>
                     <Image style={styles.image} source={GoldTrophy} />
                 </View>
+                <View>
+                    <Image style={styles.image} source={GoldTrophy} />
+                </View>
+                <View>
+                    <Image style={styles.image} source={GoldTrophy} />
+                </View>
+            </View>
             )
-        } else return (
-            <View>
-                <Image style={styles.image} source={BlackTrophy} />
+        } else if(this.props.value > 10000) { 
+            return (
+                <View>
+                <View>
+                    <Image style={styles.image} source={GoldTrophy} />
+                </View>
+                <View>
+                    <Image style={styles.image} source={GoldTrophy} />
+                </View>
+                <View>
+                    <Image style={styles.image} source={BlackTrophy} />
+                </View>
             </View>
         )
+    } else if(this.props.value > 1000) {
+        return (
+            <View>
+                <View>
+                    <Image style={styles.image} source={GoldTrophy} />
+                </View>
+                <View>
+                    <Image style={styles.image} source={BlackTrophy} />
+                </View>
+                <View>
+                    <Image style={styles.image} source={BlackTrophy} />
+                </View>
+            </View>
+        )
+    } else {
+        return(
+            <View>
+                <View>
+                    <Image style={styles.image} source={BlackTrophy} />
+                </View>
+                <View>
+                    <Image style={styles.image} source={BlackTrophy} />
+                </View>
+                <View>
+                    <Image style={styles.image} source={BlackTrophy} />
+                </View>
+            </View>
+        )
+    }
 
     }
 

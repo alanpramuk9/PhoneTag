@@ -152,7 +152,9 @@ export default class ProfileScore extends Component {
                                 <Text style={{ fontSize: 20 }}>{this.state.currentRank}</Text>
                             </View>
                         </View>
-
+                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+                            {/* <Trophies value={this.state.total[0].Total_Score} /> */}
+                        </View>
                     </Content>
                 </Container>
             );
@@ -190,13 +192,16 @@ export default class ProfileScore extends Component {
 
                         <View style={styles.boxShadow}>
                             <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold' }} >Score: </Text>
-                                <Text>{this.state.lastgame}</Text>
+                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }} >Score: </Text>
+                                <Text style={{ fontSize: 20 }}>{this.state.lastgame}</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}> Rank: </Text>
-                                <Text>{this.state.lastRank}</Text>
+                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }}> Rank: </Text>
+                                <Text style={{ fontSize: 20 }}>{this.state.lastRank}</Text>
                             </View>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+                            {/* <Trophies value={this.state.total[0].Total_Score} /> */}
                         </View>
                     </Content>
                 </Container>
@@ -235,12 +240,12 @@ export default class ProfileScore extends Component {
 
                         <View style={styles.boxShadow}>
                             <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold' }} >Score: </Text>
-                                <Text>{this.state.total[0].Total_Score}</Text>
+                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }} >Score: </Text>
+                                <Text style={{ fontSize: 20 }}>{this.state.total[0].Total_Score}</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}> Rank: </Text>
-                                <Text>{this.state.allTimeRank}</Text>
+                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }}> Rank: </Text>
+                                <Text style={{ fontSize: 20 }}>{this.state.allTimeRank}</Text>
                             </View>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>

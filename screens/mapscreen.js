@@ -6,7 +6,6 @@ import { Fonts } from '../utility/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import JellyBeanBlue from '../images/jellybeanbluesmall.png';
 import JellyBeanGreen from '../images/jellybeangreensmall.png'
-//import Scorecard from '../images/scorecard.png';
 import * as pinsService from '../services/pins';
 import * as playerGameService from '../services/playergame';
 import * as userService from '../services/users';
@@ -20,12 +19,7 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0021;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-// const initialRegion = {
-//     latitude: 36.14319077106534,
-//     longitude: -86.76708101838142,
-//     latitudeDelta: 0.0922,
-//     longitudeDelta: 0.0421,
-//   }
+
 
 class MapScreen extends Component {
     constructor(props) {
@@ -45,25 +39,10 @@ class MapScreen extends Component {
             totalPoints: null,
             numberPins: null,
 
-            //oldMarker: [],
-            // markers: [{
-            //     id: 99,
-            //     coordinate: {
-            //         latitude: 36.142922002619805,
-            //         longitude: -86.7670841419839
-            //     },
-            // },
-            //
-            // ],
+
         }
     }
 
-    // setRegion(region) {
-    //     if(this.state.ready) {
-    //       setTimeout(() => this.map.animateToRegion(region), 10);
-    //     }
-    //     //this.setState({ region });
-    //   }
 
     componentDidMount() {
 
@@ -73,8 +52,7 @@ class MapScreen extends Component {
 
             let lat = parseFloat(position.coords.latitude);
             let long = parseFloat(position.coords.longitude);
-            console.log('Current position lat: ' + lat);
-            console.log('Current position long: ' + long);
+
 
             this.setState({
                 region: {
@@ -102,9 +80,7 @@ class MapScreen extends Component {
             }
 
             this.setState({ region: lastRegion });
-            //this.setState({markerPosition: lastRegion});
-            //this.onRegionChangeComplete(region, region.latitude, region.longitude);
-            //this.map.animateToRegion(region, 100);
+
         })
 
 
@@ -112,8 +88,7 @@ class MapScreen extends Component {
             .then((result) => {
                 this.setState({ id: result.id })
                 this.myPlayerGame(result.id)
-                // console.log('GETTING ID RESULT')
-                // console.log(result);
+
             }).catch((err) => {
                 console.log(err);
             })
@@ -126,7 +101,6 @@ class MapScreen extends Component {
         pinsService.getAllPins()
             .then((result) => {
                 this.setState({ pins: result });
-                // console.log(this.state.pins);
             }).catch((err) => {
                 console.log(err);
             });
@@ -135,18 +109,14 @@ class MapScreen extends Component {
     myPlayerGame(id) {
         playerGameService.getMyPlayergame(id)
             .then((result) => {
-                let currentResult = result[result.length - 1]
-                console.log('HERE IS THE CURRENT RESULT  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
-                console.log(currentResult);
+                let currentResult = result[result.length - 1];
 
                 this.setState({ playerGameId: currentResult.id })
                 this.setState({ playerId: currentResult.player_id })
                 this.setState({ gameId: currentResult.game_id })
                 this.setState({ totalPoints: currentResult.total_points })
                 this.setState({ numberPins: currentResult.number_pins})
-                // console.log('GETTING RESULTS FROM PLAYERGAME TABLE')
-                // console.log(currentResult.player_id);
-                // console.log(currentResult.game_id)
+
 
 
             }).catch((err) => {
@@ -158,7 +128,6 @@ class MapScreen extends Component {
     savePin() {
         pinsService.setPins(this.state.region.latitude, this.state.region.longitude, this.state.gameId, this.state.playerGameId)
             .then((result) => {
-                console.log('A PIN IS BEING SET')
                 this.allThePins();
                 this.myPlayerGame(this.state.id);
 
@@ -171,10 +140,8 @@ class MapScreen extends Component {
     pickUpPin(playerGameId, pinID) {
         pinsService.getOnePin(pinID)
             .then((result) => {
-                // console.log('RESULT OF THE PIN PICKUP - BACK FROM THE SERVER -------------------------------------------------')
-                // console.log(result)
+
                 if (result.playergame_ok_id === playerGameId) {
-                    // console.log('YOU OWN THIS PIN -----------------------------------------------------------------')
                     Alert.alert(
                         "You can't pick up your own pin!",
                         "Nice try though.",
@@ -190,7 +157,6 @@ class MapScreen extends Component {
                 } else {
                     pinsService.pickUpPin(pinID, playerGameId)
                         .then((result) => {
-                            // console.log('A PIN HAS BEEN PICKED UP ------------------------------------------------------------');
                             this.allThePins();
                             this.myPlayerGame(this.state.id);
                         }).catch((err) => {
@@ -204,13 +170,7 @@ class MapScreen extends Component {
 
 
     //updates latLong of current position
-    // onRegionChangeComplete(region, lastLat, lastLong) {
-    //     this.setState({
-    //         initialPosition: region,
-    //         lastLat: lastLat || this.state.lastLat,
-    //         lastLong: lastLong || this.state.lastLong
-    //     });
-    // }
+
     onRegionChangeComplete = (region) => {
         console.log('onRegionChangeComplete', region);
     };
@@ -277,93 +237,10 @@ class MapScreen extends Component {
                 longitude: this.region.longitude
             }
         })
-        //this.map.animateToRegion(this.region, 100);
-        //console.log('lt : ' + region.ltDelta + ' lg : ' + region.lgDelta)
+  
     }
 
-    // onPressAddMarker = () => {
-    //     navigator.geolocation.getCurrentPosition((position) => {
-
-    //         let lat = parseFloat(position.coords.latitude);
-    //         let long = parseFloat(position.coords.longitude);
-    //         console.log('Button pressed position lat2: ' + lat);
-    //         console.log('Button pressed current position long2: ' + long);
-    //         console.log('state of markers ' + this.state.markers);
-
-
-    //         this.setState(prevState => {
-    //             return {
-    //                 markers: {
-    //                     ...prevState.markers,
-    //                     latitude: lat,
-    //                     longitude: long
-    //                 },
-    //                 //ocationChosen: true
-    //             };
-    //         })
-    //         console.log('previously only 5 markers set ' + this.state.markers.coordinate)
-    //     })
-    // }
-
-    // let latLong = [lat, long];
-    // console.log('lanlong array' + latLong);
-    // this.state.oldMarker.concat(latLong);
-    // console.log('oldmarker array' + this.state.oldMarker);
-    // this.setState({
-    //   markers: [...this.state.markers, ...this.state.oldMarker]
-    //   })
-    //   console.log('new marker added to state? 5 things now in markers ' + this.state.markers)
-    // })
-
-
-
-    // this.setState({
-    //   ...markers: {
-    //     latitude: lat,
-    //     longitude: long
-    //   }
-    //   });
-
-
-    // pickLocationHandler = event => {
-    //   const coords = event.nativeEvent.coordinate;
-    //   //smooth animation function
-    //   // this.map.animateToRegion({
-    //   //   ...this.state.focusedLocation,
-    //   //   latitude: coords.latitude,
-    //   //   longitude: coords.longitude
-    //   // });
-    //   this.setState(prevState => {
-    //     return {
-    //       focusedLocation: {
-    //         ...prevState.focusedLocation,
-    //         latitude: coords.latitude,
-    //         longitude: coords.longitude
-    //       },
-    //       //ocationChosen: true
-    //     };
-    //   });
-    // };
-
-    //locates the user
-    // getLocationHandler = () => {
-    //   navigator.geolocation.getCurrentPosition(pos => {
-    //     const coordsEvent = {
-    //       nativeEvent: {
-    //         coordinate: {
-    //           latitude: pos.coords.latitude,
-    //           longitude: pos.coords.longitude
-    //         }
-    //       }
-    //     };
-    //     this.pickLocationHandler(coordsEvent);
-    //   },
-    // err => {
-    //   console.log(err);
-    //   alert("Fetching the Position failed, please pick one manually!");
-    // })
-    // }
-
+    
 
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchID);
@@ -371,42 +248,34 @@ class MapScreen extends Component {
 
     render() {
 
-        //console.log('region is ' + this.state.focusedLocation)
+
 
         return (
             <View>
             <View style={styles.container}>
                 <MapView
                     //initialRegion={this.state.initialRegion}
-                    //provider={"google"}
                     provider={PROVIDER_GOOGLE}
                     region={this.state.region}
                     style={styles.map}
                     customMapStyle={CustomMap}
-                    // onPress={(e) => this.onMapPress(e)}
                     mapType={"standard"}
-                    //onPress={this.onMapPress(e)}
                     showsScale={true}
                     showsCompass={true}
                     showsUserLocation={true}
                     followsUserLocation={true}
                     zoomEnabled={true}
-                    //onRegionChange={this.onRegionChange.bind(this)}
                     //onRegionChange={this.onRegionChange}
                     onRegionChangeComplete={this.onRegionChangeComplete}
-                    // customMapStyle={mapStyle}
                     loadingEnabled={true}
                     loadingIndicatorColor={'#606060'}
                     loadingBackgroundColor={'#FFFFFF'}
-                    //onMarkerSelect= callback for when a marker on map becomes selected
 
                     //store a reference to the MapView object so that we can call method animate 
                     //to region in the pickLocationHandler
                     ref={map => this.map = map}
-                //textStyle={{ color: '#bc8b00' }}
-                //containerStyle={{backgroundColor: 'white', borderColor: '#BC8B00'}}
-
                 >
+
 
                     {this.state.pins.map((pin, index) => {
 
@@ -414,10 +283,10 @@ class MapScreen extends Component {
                         let pincolor;
 
                         if (this.state.pins[index].playergame_ok_id === this.state.playerGameId) {
-                            console.log('color should be blue');
+                            
                             pincolor = JellyBeanBlue
                         } else {
-                            console.log('color should be green');
+                            
                             pincolor = JellyBeanGreen
                         }
 
@@ -432,7 +301,6 @@ class MapScreen extends Component {
                                 key={Math.random()}
                                 coordinate={latLong}
                             >
-                                {/* <Image source={pincolor} style={{width: 70, height: 70}} /> */}
                             </MapView.Marker>
                         )
                     })}
@@ -544,17 +412,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
         borderRadius: 3
     
-        // bottom: 0,
-        // right: 5,
-        // marginLeft: 15,
-        // marginTop: 15
-    },
-    scoreboardItems: {
-        // flex: 1,
-        // flexDirection: 'column',
-        // alignItems: 'center'
-        // width: 250,
-        // height: 100
+
     },
     scorePic: {
         height: 55,

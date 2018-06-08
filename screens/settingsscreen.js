@@ -23,8 +23,10 @@ export default class SettingsScreen extends Component {
             modalOneVisible: false,
             modalTwoVisible: false,
             modalThreeVisible: false,
+            modalFourVisible: false,
             switchOn1: false,
             switchOn2: false,
+            switchOn3: false
         }
     }
 
@@ -39,6 +41,9 @@ export default class SettingsScreen extends Component {
 
     setModalThreeVisible(visible) {
         this.setState({ modalThreeVisible: visible });
+    }
+    setModalFourVisible(visible) {
+        this.setState({ modalFourVisible: visible });
     }
 
 
@@ -155,7 +160,7 @@ export default class SettingsScreen extends Component {
                             <Text> Email me updates</Text>
                             <View>
                                 <SwitchToggle
-                                    switchOn={this.state.switchOn1}
+                                    switchOn={this.state.switchOn2}
                                     onPress={this.onPress2}
                                     backgroundColorOn={'#add8e6'}	
                                 />
@@ -166,13 +171,13 @@ export default class SettingsScreen extends Component {
                             <Text> Sounds</Text>
                             <View>
                                 <SwitchToggle
-                                    switchOn={this.state.switchOn1}
+                                    switchOn={this.state.switchOn3}
                                     onPress={this.onPress3}
                                     backgroundColorOn={'#add8e6'}	
                                 />
                             </View>
                         </View> 
-                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start' }}>
+                        {/* <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start' }}>
                             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start'}} > 
                                 <FontAwesome style={{ color: 'black', fontSize: 20, marginLeft:15 }} name="info-circle" />
                                 <Text> About Game </Text>
@@ -180,7 +185,7 @@ export default class SettingsScreen extends Component {
                             <View style={{flex: 1, paddingRight: 15}}>
                                 <FontAwesome style={{ color: 'black', fontSize: 20, marginLeft:15 }} name="angle-right" />
                             </View>
-                        </View>
+                        </View> */}
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start' }}>
                             <Icon style={{ color: 'black', fontSize: 20, marginLeft:15 }} name="list" />
                             <Text> Privacy Policy </Text>
@@ -200,12 +205,12 @@ export default class SettingsScreen extends Component {
                                 onRequestClose={() => {
                                     this.setModalOneVisible(!this.state.modalOneVisible);
                                 }}>
-                                <View style={{ marginTop: 22, backgroundColor: "#81BCFF"  }}>
+                                <View style={{ backgroundColor: "#81BCFF", flex: 1  }}>
 
                                     <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30 }}>Change Your Email</Text></View>
                                     <View><Text style={{ fontSize: 20, fontStyle: 'italic', marginTop: 80, marginLeft: 15 }}>Your Current Email: {`${player.email}`}</Text></View>
                                     <Item floatingLabel>
-                                        <Label style={{marginLeft: 15}}>Enter New Email</Label>
+                                        <Label style={{marginLeft: 15, marginTop: 10}}>Enter New Email</Label>
                                         <Input onChangeText={(text) => this.setState({ email: text })} />
                                     </Item>
 
@@ -217,10 +222,8 @@ export default class SettingsScreen extends Component {
                                         onPress={() => {
                                             this.setModalOneVisible(!this.state.modalOneVisible);
                                         }}>
-                                        <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 10 }}>GO BACK</Text>
+                                        <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 15 }}>GO BACK</Text>
                                     </TouchableHighlight>
-
-
 
                                 </View>
                             </Modal>
@@ -230,7 +233,7 @@ export default class SettingsScreen extends Component {
                                 onPress={() => {
                                     this.setModalOneVisible(true);
                                 }}>
-                                <Text style={{ fontSize: 15, marginLeft: 15 }} >Change Email</Text>
+                                <Text style={{ fontSize: 15, alignSelf: 'center' }} >Change Email</Text>
                             </TouchableHighlight>
 
 
@@ -247,6 +250,7 @@ export default class SettingsScreen extends Component {
                                     this.setModalTwoVisible(!this.state.modalTwoVisible);
                                 }}>
 
+                                <View style={{backgroundColor: "#81BCFF", flex: 1 }}>
 
                                 <View style={{ marginTop: 22 }} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
 
@@ -254,8 +258,8 @@ export default class SettingsScreen extends Component {
                                     <View>
 
 
-                                        <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30, textDecorationLine: 'underline' }}>Change Password</Text></View>
-
+                                        <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30 }}>Change Password</Text></View>
+                                        <View style={{paddingLeft: 20, paddingRight: 20}}>
                                         <Item floatingLabel>
                                             <Label>Enter Old Password</Label>
                                             <Input onChangeText={(text) => this.setState({ password: text })} />
@@ -279,10 +283,11 @@ export default class SettingsScreen extends Component {
                                             <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 10 }}>GO BACK</Text>
                                         </TouchableHighlight>
 
-
+                                        </View>
                                     </View>
 
 
+                                </View>
                                 </View>
 
 
@@ -294,7 +299,7 @@ export default class SettingsScreen extends Component {
                                 }}>
                                 <View> 
                                     <View> 
-                                        <Text style={{ fontSize: 15, marginLeft: 15  }} >Change Password</Text>
+                                        <Text style={{ fontSize: 15, alignSelf: 'center' }} >Change Password</Text>
                                     </View> 
                                 </View> 
                             </TouchableOpacity>
@@ -320,6 +325,7 @@ export default class SettingsScreen extends Component {
                                         this.setModalThreeVisible(!this.state.modalThreeVisible);
                                     }}>
 
+                                    <View style={{backgroundColor: "#81BCFF", flex: 1 }}>
 
                                     <View style={{ marginTop: 22, backgroundColor: "#81BCFF" }} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
 
@@ -361,6 +367,7 @@ export default class SettingsScreen extends Component {
 
 
                                     </View>
+                                    </View>
 
 
                                 </Modal>
@@ -369,11 +376,55 @@ export default class SettingsScreen extends Component {
                                     onPress={() => {
                                         this.setModalThreeVisible(true);
                                     }}>
-                                    <Text style={{ fontSize: 15 }} >Contact Us</Text>
+                                    <Text style={{ fontSize: 15, alignSelf: 'center' }} >Contact Us</Text>
                                 </TouchableHighlight>
 
 
-                            
+                        </View>
+                        {/* Privacy Policy -------------------------------------------------------- */}
+                        <View style={{ marginTop: 22}}>
+
+
+                            <Modal
+                                animationType="fade"
+                                transparent={false}
+                                visible={this.state.modalOneVisible}
+                                onRequestClose={() => {
+                                    this.setModalOneVisible(!this.state.modalOneVisible);
+                                }}>
+                                <View style={{ backgroundColor: "#81BCFF", flex: 1  }}>
+
+                                    <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30 }}>Privacy Policy</Text></View>
+                                    <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                                        <Text> 
+                                        Alan Pramuk, Robert Tate, and Justin Head built the Jelly Drop app as a Free app. This SERVICE is provided by Alan Pramuk, Robert Tate, and Justin Head at no cost and is intended for use as is.
+                                        </Text>
+                                        <Text>
+                                        If you choose to use my Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that I collect is used for providing and improving the Service.
+                                        </Text>
+                                        <Text>For a better experience, while using our Service, I may require you to provide us with certain personally identifiable information, including but not limited to Name, Email, and Username.  </Text>
+                                        <Text>The app does use third party services that may collect information used to identify you. </Text>
+                                        <Text> I value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and I cannot guarantee its absolute security. </Text>
+                                    </View>
+
+                                    <TouchableHighlight
+                                        onPress={() => {
+                                            this.setModalFourVisible(!this.state.modalFourVisible);
+                                        }}>
+                                        <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 15 }}>GO BACK</Text>
+                                    </TouchableHighlight>
+                                            
+                                </View>
+                            </Modal>
+
+
+                            <TouchableHighlight
+                                onPress={() => {
+                                    this.setModalFourVisible(true);
+                                }}>
+                                <Text style={{ fontSize: 15, alignSelf: 'center' }} >Privacy Content</Text>
+                            </TouchableHighlight>
+
 
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>

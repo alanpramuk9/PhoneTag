@@ -143,7 +143,7 @@ class MapScreen extends Component {
 
                 if (result.playergame_ok_id === playerGameId) {
                     Alert.alert(
-                        "You can't pick up your own pin!",
+                        "You can't pick up your own Jellies!",
                         "Nice try though.",
                         [
                             {
@@ -314,11 +314,14 @@ class MapScreen extends Component {
                 {/* Leaderboard component */}
                 <View style={styles.scoreboard}>
                         <View style={{flex:1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}} >
-                            <FontAwesome
+                        <Image
+                        source={require('../images/jellybeanbluextrasmall.png')}
+                    />
+                            {/* <FontAwesome
                                         name="map-marker"
                                         style={{color: '#81BCFF'}}
                                         size={40}
-                            />
+                            /> */}
                             <Text style={{marginLeft: 12, fontSize: 20, fontFamily: Fonts.TCB}}> {this.state.numberPins} remaining </Text>
                         </View>
                         <View style={{flex:1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 

@@ -21,11 +21,11 @@ export default class AboutScreen extends Component {
                                                   backgroundColor: '#81BCFF'}}>
 
                     <ScrollView>
-                        <View style={{alignSelf: 'center', marginTop: 10}}><Image source={require('../images/fake_dashboard.png')}/></View>
-                        <H1 style={{fontFamily: Fonts.TCB, textAlign: 'center', marginBottom: 10, marginTop: 10 }}>How To Play</H1>
+                        <View style={{alignSelf: 'center', marginTop: 10}}><Image style={{height: 500, width: 500}} source={require('../images/phonescreen.png')}/></View>
+                        <H1 style={{fontFamily: Fonts.TCB, textAlign: 'center', marginBottom: 10, marginTop: 10, textDecorationLine: 'underline' }}>How To Play</H1>
                         <View style={styles.color}>
                             <View style={styles.rules}>
-                                <Text style={{ fontSize: 35, fontFamily: Fonts.TCB, marginBottom: 15, textAlign: 'center' }}>Every Day, you get 20 Jellies.</Text>
+                                <Text style={{ fontSize: 30, fontFamily: Fonts.TCB, marginBottom: 15, textAlign: 'center' }}>Every Day, you get 20 Jellies.</Text>
                                 <Text style={{ fontSize: 25,  marginBottom: 15, textAlign: 'center' }}><Text style={{ fontSize: 25, fontFamily: Fonts.TCB, marginBottom: 9, textDecorationLine: 'underline'}}>2 POINTS:</Text> Walk around and drop them (you don't like that flavor)</Text>
                                 <Text style={{ fontSize: 25,  marginBottom: 15, textAlign: 'center' }}><Text style={{ fontSize: 25, fontFamily: Fonts.TCB, marginBottom: 9, textDecorationLine: 'underline'}}>24 POINTS:</Text> Pick up other Jellies! Now you have one more to drop (don't be selfish)</Text>
                                 <Text style={{ fontSize: 25,  marginBottom: 15, textAlign: 'center' }}><Text style={{ fontSize: 25, fontFamily: Fonts.TCB, marginBottom: 9, textDecorationLine: 'underline'}}>DAILY BONUS:</Text> Drop 20 Jellies in one day! (100pts)</Text>

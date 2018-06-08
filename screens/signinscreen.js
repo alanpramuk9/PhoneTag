@@ -14,8 +14,8 @@ export default class SignInScreen extends Component {
         super(props);
         this.state = {
             feedbackMessage: '',
-            email: 'B@b.com',
-            password: 'bobby'
+            email: '',
+            password: ''
         };
     }
 
@@ -56,21 +56,21 @@ export default class SignInScreen extends Component {
             <Container style={styles.container} >
                 <Content padder style={{ flex: 1 }} contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
                     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-evenly', paddingTop: 20 }}>
-                        <View><Text style={{ fontSize: 40, textAlign: 'center', fontFamily: Fonts.TCB }}>Returning Player?</Text></View>
+                        <View><Text style={{ fontSize: 40, textAlign: 'center', fontFamily: Fonts.TCB }}>Welcome Back!</Text></View>
                         <Image
                             style={{ marginTop: 30, alignSelf: 'center' }} source={require('../images/jellybeansmedium.png')}
                         />
                     </View>
 
                     <View style={{ flex: 1 }}>
-                        <Form style={{ marginBottom: 120 }}>
+                        <Form style={{ marginBottom: 10 }}>
                             <Item >
-                                <FontAwesome style={{ color: 'black', fontSize: 20 }} active name="envelope" />
-                                <Input placeholder="Email" onChangeText={(text) => this.setState({ email: text })} />
+                                <FontAwesome style={{ color: '#4054b2', fontSize: 20 }} active name="envelope" />
+                                <Input placeholderTextColor='black' placeholder="Email" onChangeText={(text) => this.setState({ email: text })} />
                             </Item>
                             <Item>
-                                <Icon active name="lock" />
-                                <TextInput style={{ width: 150 }} underlineColorAndroid='transparent' secureTextEntry={true} placeholder="Password" onChangeText={(text) => this.setState({ password: text })} />
+                                <Icon active name="lock" style={{ color: '#4054b2'}} />
+                                <TextInput placeholderTextColor='black' style={{ width: 150 }} underlineColorAndroid='transparent' secureTextEntry={true} placeholder="Password" onChangeText={(text) => this.setState({ password: text })} />
                             </Item>
                         </Form>
                         <Button onPress={() => this.signup()} block style={styles.button}>
@@ -94,14 +94,14 @@ const styles = StyleSheet.create({
     button: {
         paddingLeft: 40,
         paddingRight: 40,
-        paddingTop: 30,
-        paddingBottom: 30,
-        marginBottom: 100,
+        paddingTop: 20,
+        paddingBottom: 20,
+        marginBottom: 15,
         alignSelf: 'center',
         backgroundColor: '#00FF72',
         borderColor: 'black',
         borderRadius: 25,
-        borderWidth: 7,
+        borderWidth: 5,
 
     }
 });

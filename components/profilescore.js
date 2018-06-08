@@ -232,7 +232,7 @@ export default class ProfileScore extends Component {
                     <Content
                         contentContainerStyle={{
                             flex: 1,
-                            flexDirection: 'column',
+                            flexDirection: 'row',
                             justifyContent: 'flex-start',
                             paddingLeft: 10,
                             paddingRight: 10
@@ -248,7 +248,7 @@ export default class ProfileScore extends Component {
                                 <Text style={{ fontSize: 20 }}>{this.state.allTimeRank}</Text>
                             </View>
                         </View>
-                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                             <Trophies value={this.state.total[0].Total_Score} />
                         </View>
                     </Content>

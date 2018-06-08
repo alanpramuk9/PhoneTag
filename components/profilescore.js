@@ -19,6 +19,8 @@ import {
 } from 'native-base';
 
 import Trophies from './trophies';
+import Trophies2 from './trophies2';
+import Trophies3 from './trophies3';
 
 
 
@@ -33,6 +35,8 @@ export default class ProfileScore extends Component {
             currentGameId: '',
             lastGameId: '',
             total: '',
+            aTotal: '',
+            bTotal: '',
             currentRank: '',
             lastRank: '',
             allTimeRank: ''
@@ -69,6 +73,10 @@ export default class ProfileScore extends Component {
 
         playergameService.getMyAllTimeScore(id)
             .then((total) => {
+                let aTotal = total;
+                this.setState({ aTotal });
+                let bTotal = total;
+                this.setState({ bTotal })
                 this.setState({ total });
             }).catch((err) => {
                 console.log(err);
@@ -135,25 +143,25 @@ export default class ProfileScore extends Component {
                     <Content
                         contentContainerStyle={{
                             flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'flex-start'
+                            flexDirection: 'row',
+                            justifyContent: 'flex-start',
+                            paddingLeft: 10,
+                            paddingRight: 10
                         }}>
-                        {/* <View>
-                            <Text>Score: {this.state.playergame}</Text>
-                            <Text>Rank: {this.state.currentRank}</Text>
-                        </View> */}
-                        <View style={styles.boxShadow}>
-                            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }} >Score: </Text>
-                                <Text style={{ fontSize: 20 }}>{this.state.playergame}</Text>
+                       <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
+                            <View style={styles.boxShadow}>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                    <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }} >Score: </Text>
+                                    <Text style={{ fontSize: 20 }}>{this.state.playergame}</Text>
+                                </View>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                    <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }}> Rank: </Text>
+                                    <Text style={{ fontSize: 20 }}>{this.state.currentRank}</Text>
+                                </View>
                             </View>
-                            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }}> Rank: </Text>
-                                <Text style={{ fontSize: 20 }}>{this.state.currentRank}</Text>
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                            {/* <Trophies value={this.state.aTotal[0].Total_Score} /> */}
                             </View>
-                        </View>
-                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                            {/* <Trophies value={this.state.total[0].Total_Score} /> */}
                         </View>
                     </Content>
                 </Container>
@@ -184,24 +192,25 @@ export default class ProfileScore extends Component {
                     <Content
                         contentContainerStyle={{
                             flex: 1,
-                            flexDirection: 'column',
+                            flexDirection: 'row',
                             justifyContent: 'flex-start',
                             paddingLeft: 10,
                             paddingRight: 10
                         }}>
-
-                        <View style={styles.boxShadow}>
-                            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }} >Score: </Text>
-                                <Text style={{ fontSize: 20 }}>{this.state.lastgame}</Text>
+                         <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
+                            <View style={styles.boxShadow}>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                    <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }} >Score: </Text>
+                                    <Text style={{ fontSize: 20 }}>{this.state.lastgame}</Text>
+                                </View>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                    <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }}> Rank: </Text>
+                                    <Text style={{ fontSize: 20 }}>{this.state.lastRank}</Text>
+                                </View>
                             </View>
-                            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }}> Rank: </Text>
-                                <Text style={{ fontSize: 20 }}>{this.state.lastRank}</Text>
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                             <Trophies2 value={this.state.aTotal[0].Total_Score} />
                             </View>
-                        </View>
-                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                            {/* <Trophies value={this.state.total[0].Total_Score} /> */}
                         </View>
                     </Content>
                 </Container>
@@ -238,19 +247,21 @@ export default class ProfileScore extends Component {
                             paddingRight: 10
                         }}>
 
-                        <View style={styles.boxShadow}>
-                            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }} >Score: </Text>
-                                <Text style={{ fontSize: 20 }}>{this.state.total[0].Total_Score}</Text>
+                        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}> 
+                            <View style={styles.boxShadow}>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                    <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }} >Score: </Text>
+                                    <Text style={{ fontSize: 20 }}>{this.state.total[0].Total_Score}</Text>
+                                </View>
+                                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                    <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }}> Rank: </Text>
+                                    <Text style={{ fontSize: 20 }}>{this.state.allTimeRank}</Text>
+                                </View>
                             </View>
-                            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ textDecorationLine: 'underline', fontWeight: 'bold', fontSize: 30, paddingTop: 10 }}> Rank: </Text>
-                                <Text style={{ fontSize: 20 }}>{this.state.allTimeRank}</Text>
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                <Trophies3 value={this.state.total[0].Total_Score} />
                             </View>
-                        </View>
-                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                            <Trophies value={this.state.total[0].Total_Score} />
-                        </View>
+                        </View> 
                     </Content>
                 </Container>
             );

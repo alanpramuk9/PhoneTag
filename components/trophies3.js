@@ -27,7 +27,7 @@ import OnMountain from '../images/MaxPointsC.png';
 
 
 
-export default class Trophies extends Component {
+export default class Trophies3 extends Component {
     constructor(props) {
         super(props);
         this.state = {

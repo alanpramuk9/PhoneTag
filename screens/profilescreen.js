@@ -26,18 +26,10 @@ export default class ProfileScreen extends Component {
         usersService.profile()
             .then((player) => {
                 this.setState({ player });
-                this.setState({ photo: player.picture})
+                this.setState({ photo: player.picture })
             }).catch((err) => {
                 console.log(err);
             });
-
-        // usersService.getPhoto(this.state.player.id)
-        // .then((result) => {
-        //     console.log(result);
-        //     this.setState({ photo: result.picture})
-        // }).catch((err) => {
-        //     console.log(err);
-        // });
 
     }
 
@@ -92,7 +84,6 @@ export default class ProfileScreen extends Component {
 
     render() {
         let playerInfo = this.state.player;
-
         return (
             <Container>
                 <Header style={{ borderBottomWidth: 0, shadowOffset: { height: 0, width: 0 }, shadowOpacity: 0, elevation: 0 }}>
@@ -118,7 +109,7 @@ export default class ProfileScreen extends Component {
                                     style={styles.pictureBtn}
                                     onPress={() => this.pickImageHandler()}
                                 >
-                                    <Image source={{uri: `${this.state.photo}`}} style={{ height: 150, width: 175, borderRadius: 50 }} />
+                                    <Image source={{ uri: `${this.state.photo}` }} style={{ height: 150, width: 175, borderRadius: 50 }} />
                                     <View style={{ position: 'absolute', top: 120, left: 0, right: 0 }}>
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', width: 150, marginLeft: 15, opacity: 0.9, borderRadius: 50 }}>
                                             <FontAwesome
@@ -136,9 +127,10 @@ export default class ProfileScreen extends Component {
                                 <Text style={styles.lessbold}><Text style={styles.lessbold}>@{this.state.player.username}</Text></Text>
                             </View>
                         </View>
-                        <View>
+                        <View style={{ height: 280 }}>
                             <ProfileScore value={this.state.player} />
                         </View>
+
 
 
 

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Item, Label, Input, Form, Textarea } from 'native-base';
-import { StyleSheet, View, Dimensions, Modal, TouchableHighlight, Alert } from 'react-native';
+import { StyleSheet, View, Dimensions, Modal, TouchableHighlight, Alert, TouchableOpacity } from 'react-native';
 
 import * as contactService from '../services/contactService';
 import * as userService from '../services/users';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import SwitchToggle from 'react-native-switch-toggle';
 
 
 export default class SettingsScreen extends Component {
@@ -21,6 +23,8 @@ export default class SettingsScreen extends Component {
             modalOneVisible: false,
             modalTwoVisible: false,
             modalThreeVisible: false,
+            switchOn1: false,
+            switchOn2: false,
         }
     }
 
@@ -90,21 +94,103 @@ export default class SettingsScreen extends Component {
 
     }
 
-
+    onPress1 = () => {
+        this.setState({ switchOn1: !this.state.switchOn1 });
+    }
+    onPress2 = () => {
+        this.setState({ switchOn2: !this.state.switchOn2 });
+    }
+    onPress3 = () => {
+        this.setState({ switchOn3: !this.state.switchOn3 });
+    }
+    
     render() {
         const player = this.props.navigation.state.params.playerInfo;
         return (
             <Container>
-                <Content contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                    <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 50, textDecorationLine: 'underline' }}>Settings</Text></View>
+                <Content contentContainerStyle={{ flex: 1 }}>
+                    {/* <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 50, textDecorationLine: 'underline' }}>Settings</Text></View> */}
 
-                    <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                    <View style={{flex:1}}>
+                            <Text style={{fontSize: 25, textAlign: 'center'}}> Profile Information: </Text>
+                            
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start' }}>
+                                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start'}} > 
+                                    <Icon style={{ color: 'black', fontSize: 20, marginLeft:15 }} name="person" />
+                                    <Text style={{  }}>Player Name: {`${player.name}`}</Text>
+                                </View>
+                                <Text style={{flex: 1}}> </Text>
+                                
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start' }}>
+                                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start'}} > 
+                                    <FontAwesome style={{ color: 'black', fontSize: 20, marginLeft:15 }} name="envelope" />
+                                    <Text style={{  }}>Email: {`${player.email}`}</Text>
+                                </View>
+                                <Text style={{flex: 1}}> </Text>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start' }}>
+                                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start'}} > 
+                                    <FontAwesome style={{ color: 'black', fontSize: 20, marginLeft:15 }} name="gamepad" />
+                                    <Text style={{ }}>Username: {`${player.email}`} </Text>
+                                </View>
+                                <Text style={{flex: 1}}> </Text>
+                            </View>
+                           
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start', paddingRight: 15 }}>
+                             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start'}} > 
+                                <FontAwesome style={{ color: 'black', fontSize: 20, marginLeft:15  }} name="bell" />
+                                <Text> Push Notifications </Text>
+                            </View>
+                            <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                                <SwitchToggle
+                                    switchOn={this.state.switchOn1}
+                                    onPress={this.onPress1}
+                                    backgroundColorOn={'#add8e6'}	
+                                />
+                            </View>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start', paddingRight: 15 }}>
+                            <FontAwesome style={{ color: 'black', fontSize: 20, marginLeft:15  }} name="comment" />
+                            <Text> Email me updates</Text>
+                            <View>
+                                <SwitchToggle
+                                    switchOn={this.state.switchOn1}
+                                    onPress={this.onPress2}
+                                    backgroundColorOn={'#add8e6'}	
+                                />
+                            </View>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start', paddingRight: 15 }} >
+                            <FontAwesome style={{ color: 'black', fontSize: 20, marginLeft:15  }} name="volume-up" />
+                            <Text> Sounds</Text>
+                            <View>
+                                <SwitchToggle
+                                    switchOn={this.state.switchOn1}
+                                    onPress={this.onPress3}
+                                    backgroundColorOn={'#add8e6'}	
+                                />
+                            </View>
+                        </View> 
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start' }}>
+                            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start'}} > 
+                                <FontAwesome style={{ color: 'black', fontSize: 20, marginLeft:15 }} name="info-circle" />
+                                <Text> About Game </Text>
+                            </View>
+                            <View style={{flex: 1, paddingRight: 15}}>
+                                <FontAwesome style={{ color: 'black', fontSize: 20, marginLeft:15 }} name="angle-right" />
+                            </View>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'flex-start' }}>
+                            <Icon style={{ color: 'black', fontSize: 20, marginLeft:15 }} name="list" />
+                            <Text> Privacy Policy </Text>
+                            <FontAwesome style={{ color: 'black', fontSize: 20 }} name="angle-right" />
+                        </View>
 
-                        <View><Text style={{ fontSize: 35 }}>{`${player.name}`}</Text></View>
-                        <View><Text style={{ fontSize: 30, fontStyle: 'italic' }}>{`${player.email}`}</Text></View>
+                       
 
                         {/* Change Email -------------------------------------------------------- */}
-                        <View style={{ marginTop: 22 }}>
+                        <View style={{ marginTop: 22}}>
 
 
                             <Modal
@@ -114,12 +200,12 @@ export default class SettingsScreen extends Component {
                                 onRequestClose={() => {
                                     this.setModalOneVisible(!this.state.modalOneVisible);
                                 }}>
-                                <View style={{ marginTop: 22 }}>
+                                <View style={{ marginTop: 22, backgroundColor: "#81BCFF"  }}>
 
-                                    <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30, textDecorationLine: 'underline' }}>Change Email</Text></View>
-                                    <View><Text style={{ fontSize: 20, fontStyle: 'italic', marginTop: 80 }}>{`${player.email}`}</Text></View>
+                                    <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30 }}>Change Your Email</Text></View>
+                                    <View><Text style={{ fontSize: 20, fontStyle: 'italic', marginTop: 80, marginLeft: 15 }}>Your Current Email: {`${player.email}`}</Text></View>
                                     <Item floatingLabel>
-                                        <Label>Enter New Email</Label>
+                                        <Label style={{marginLeft: 15}}>Enter New Email</Label>
                                         <Input onChangeText={(text) => this.setState({ email: text })} />
                                     </Item>
 
@@ -144,14 +230,14 @@ export default class SettingsScreen extends Component {
                                 onPress={() => {
                                     this.setModalOneVisible(true);
                                 }}>
-                                <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#7B17D3' }} >Change Email</Text>
+                                <Text style={{ fontSize: 15, marginLeft: 15 }} >Change Email</Text>
                             </TouchableHighlight>
 
 
                         </View>
 
                         {/* Change Password --------------------------------------------------- */}
-                        <View style={{ marginTop: 22 }}>
+                        <View style={{flex: 1, marginTop: 22 }}>
 
                             <Modal
                                 animationType="fade"
@@ -201,92 +287,100 @@ export default class SettingsScreen extends Component {
 
 
                             </Modal>
-
-                            <TouchableHighlight
+                            <View style={{flex: 1}}>
+                            <TouchableOpacity
                                 onPress={() => {
                                     this.setModalTwoVisible(true);
                                 }}>
-                                <Text style={{ fontSize: 20, textDecorationLine: 'underline', color: '#7B17D3' }} >Change Password</Text>
-                            </TouchableHighlight>
-
+                                <View> 
+                                    <View> 
+                                        <Text style={{ fontSize: 15, marginLeft: 15  }} >Change Password</Text>
+                                    </View> 
+                                </View> 
+                            </TouchableOpacity>
+                            </View>
 
                         </View>
 
 
-                    </View>
-
-                    {/* CONTACT FORM -------------------------------------- */}
-
-                    <View style={{ alignSelf: 'center', marginTop: 50, marginBottom: 10, }}>
 
 
-                        <View style={{ marginTop: 22 }}>
+                        {/* CONTACT FORM -------------------------------------- */}
 
-                            <Modal
-                                animationType="fade"
-                                transparent={false}
-                                visible={this.state.modalThreeVisible}
-                                onRequestClose={() => {
-                                    this.setModalThreeVisible(!this.state.modalThreeVisible);
-                                }}>
+                        <View>
 
 
-                                <View style={{ marginTop: 22 }} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                           
+
+                                <Modal
+                                    animationType="fade"
+                                    transparent={false}
+                                    visible={this.state.modalThreeVisible}
+                                    onRequestClose={() => {
+                                        this.setModalThreeVisible(!this.state.modalThreeVisible);
+                                    }}>
 
 
-                                    <View>
+                                    <View style={{ marginTop: 22, backgroundColor: "#81BCFF" }} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
 
 
-                                        <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30, textDecorationLine: 'underline' }}>Contact Us</Text></View>
-
-                                        <Item floatingLabel>
-                                            <Label>Enter Name</Label>
-                                            <Input onChangeText={(text) => this.setState({ name: text })} />
-                                        </Item>
+                                        <View>
 
 
-                                        <Item floatingLabel>
-                                            <Label>Enter Email</Label>
-                                            <Input onChangeText={(text) => this.setState({ email: text })} />
-                                        </Item>
+                                            <View style={{ alignSelf: 'center', marginTop: 40, marginBottom: 5 }}><Text style={{ fontSize: 30 }}>Contact Us</Text></View>
 
-                                        <Form>
-                                            <Textarea onChangeText={(text) => this.setState({ message: text })} rowSpan={5} bordered placeholder="What's Up?" />
-                                        </Form>
-
-                                        <Button onPress={() => this.sendEmail()} block style={{ margin: 15, marginTop: 50 }}>
-                                            <Text>SUBMIT</Text>
-                                        </Button>
+                                            <Item floatingLabel style={{marginLeft: 15}}>
+                                                <Label>Enter Name</Label>
+                                                <Input onChangeText={(text) => this.setState({ name: text })} />
+                                            </Item>
 
 
-                                        <TouchableHighlight
-                                            onPress={() => {
-                                                this.setModalThreeVisible(!this.state.modalThreeVisible);
-                                            }}>
-                                            <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 10 }}>GO BACK</Text>
-                                        </TouchableHighlight>
+                                            <Item floatingLabel style={{marginLeft: 15}}>
+                                                <Label>Enter Email</Label>
+                                                <Input onChangeText={(text) => this.setState({ email: text })} />
+                                            </Item>
+
+                                            <Form>
+                                                <Textarea onChangeText={(text) => this.setState({ message: text })} rowSpan={5} bordered placeholder="What's Up?" />
+                                            </Form>
+
+                                            <Button onPress={() => this.sendEmail()} block style={{ margin: 15, marginTop: 50 }}>
+                                                <Text>SUBMIT</Text>
+                                            </Button>
+
+
+                                            <TouchableHighlight
+                                                onPress={() => {
+                                                    this.setModalThreeVisible(!this.state.modalThreeVisible);
+                                                }}>
+                                                <Text style={{ fontSize: 15, alignSelf: 'center', color: '#7B17D3', textDecorationLine: 'underline', marginTop: 10 }}>GO BACK</Text>
+                                            </TouchableHighlight>
+
+
+                                        </View>
 
 
                                     </View>
 
 
-                                </View>
+                                </Modal>
+
+                                <TouchableHighlight
+                                    onPress={() => {
+                                        this.setModalThreeVisible(true);
+                                    }}>
+                                    <Text style={{ fontSize: 15 }} >Contact Us</Text>
+                                </TouchableHighlight>
 
 
-                            </Modal>
-
-                            <TouchableHighlight
-                                onPress={() => {
-                                    this.setModalThreeVisible(true);
-                                }}>
-                                <Text style={{ fontSize: 15, textDecorationLine: 'underline', color: '#796789' }} >Contact Us</Text>
-                            </TouchableHighlight>
-
+                            
 
                         </View>
-
+                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text> Beta Version 1.0.1 </Text>
+                            <Text> Developer By: Alan Pramuk, Robert Tate, Justin Head </Text>
+                        </View>
                     </View>
-
                 </Content>
             </Container>
         )

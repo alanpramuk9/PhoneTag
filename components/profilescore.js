@@ -73,9 +73,9 @@ export default class ProfileScore extends Component {
 
         playergameService.getMyAllTimeScore(id)
             .then((total) => {
-                let aTotal = total;
+                let aTotal = total[0].Total_Score;
                 this.setState({ aTotal });
-                let bTotal = total;
+                let bTotal = total[0].Total_Score;
                 this.setState({ bTotal })
                 this.setState({ total });
             }).catch((err) => {
@@ -160,7 +160,7 @@ export default class ProfileScore extends Component {
                                 </View>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                            {/* <Trophies value={this.state.aTotal[0].Total_Score} /> */}
+                            <Trophies value={this.state.bTotal} />
                             </View>
                         </View>
                     </Content>
@@ -209,7 +209,7 @@ export default class ProfileScore extends Component {
                                 </View>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                             <Trophies2 value={this.state.aTotal[0].Total_Score} />
+                             <Trophies2 value={this.state.aTotal} />
                             </View>
                         </View>
                     </Content>

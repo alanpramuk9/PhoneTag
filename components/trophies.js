@@ -45,7 +45,6 @@ export default class Trophies extends Component {
     }
 
     render() {
-        console.log(this.props.value)
         if (this.props.value > 100000) {
             return (
 

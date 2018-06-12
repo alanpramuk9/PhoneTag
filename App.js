@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { isLoggedIn } from './services/users';
 import { createRootNavigator } from './components/navigator';
-import SettingsPage from './screens/settingsscreen';
 
 
 
@@ -26,7 +25,6 @@ export default class App extends Component {
     
     const Layout = createRootNavigator(this.state.signedIn);
     return <Layout />
-    //return <SettingsPage /> 
     
    
   }

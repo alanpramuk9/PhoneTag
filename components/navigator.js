@@ -1,5 +1,5 @@
 import React from 'react';
-import { StackNavigator, TabNavigator, TabBarBottom, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator, TabNavigator, TabBarBottom, createSwitchNavigator } from 'react-navigation';
 import { Icon } from 'native-base';
 
 import MapScreen from '../screens/mapscreen';
@@ -14,7 +14,7 @@ import CurrentProfileScreen from '../screens/currentprofilescreen';
 import LastProfileScreen from '../screens/lastprofilescreen';
 import CombinedProfileScreen from '../screens/combinedprofilescreen';
 
-export const ProfileNav = StackNavigator(
+export const ProfileNav = createStackNavigator(
     {
         Profile: ProfileScreen,
         Settings: SettingsScreen
@@ -24,7 +24,7 @@ export const ProfileNav = StackNavigator(
     }
 )
 
-export const LeaderboardNav = StackNavigator(
+export const LeaderboardNav = createStackNavigator(
     {
         Leaderboard: LeaderboardScreen,
         CurrentProfile: CurrentProfileScreen,
@@ -71,7 +71,7 @@ export const SignedIn = TabNavigator(
     }
 );
 
-export const SignedOut = StackNavigator(
+export const SignedOut = createStackNavigator(
     {
         Splash: {
             screen: SplashScreen

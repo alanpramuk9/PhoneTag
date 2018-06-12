@@ -19,8 +19,7 @@ import {
 } from 'native-base';
 
 import Trophies from './trophies';
-import Trophies2 from './trophies2';
-import Trophies3 from './trophies3';
+
 
 
 
@@ -159,6 +158,9 @@ export default class ProfileScore extends Component {
                                     <Text style={{ fontSize: 20 }}>{this.state.currentRank}</Text>
                                 </View>
                             </View>
+                            <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <Text>*Trophies for All Time Score*</Text>
+                            </View>
                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                             <Trophies value={this.state.bTotal} />
                             </View>
@@ -208,8 +210,11 @@ export default class ProfileScore extends Component {
                                     <Text style={{ fontSize: 20 }}>{this.state.lastRank}</Text>
                                 </View>
                             </View>
+                            <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <Text>*Trophies for All Time Score*</Text>
+                            </View>
                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                             <Trophies2 value={this.state.aTotal} />
+                             <Trophies value={this.state.aTotal} />
                             </View>
                         </View>
                     </Content>
@@ -258,8 +263,11 @@ export default class ProfileScore extends Component {
                                     <Text style={{ fontSize: 20 }}>{this.state.allTimeRank}</Text>
                                 </View>
                             </View>
+                            <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <Text>*Trophies for All Time Score*</Text>
+                            </View>
                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Trophies3 value={this.state.total[0].Total_Score} />
+                                <Trophies value={this.state.total[0].Total_Score} />
                             </View>
                         </View> 
                     </Content>

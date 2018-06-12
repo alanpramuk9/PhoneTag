@@ -261,7 +261,7 @@ class MapScreen extends Component {
                         })}
                     </MapView>
 
-                    //Zoom in and Zoom out buttons */}
+                    {/* //Zoom in and Zoom out buttons */} 
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
 
                         {/* Leaderboard component */}
@@ -353,6 +353,7 @@ const styles = StyleSheet.create({
         height: 150,
         marginLeft: 15,
         marginTop: 15,
+        marginRight: 150,
         borderRadius: 3
     },
     scorePic: {

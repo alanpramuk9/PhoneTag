@@ -354,6 +354,7 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         marginTop: 15,
         marginRight: 150,
+        marginRight: 150,
         borderRadius: 3
     },
     scorePic: {

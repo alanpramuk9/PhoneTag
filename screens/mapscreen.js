@@ -261,11 +261,11 @@ class MapScreen extends Component {
                         })}
                     </MapView>
 
-                    {/* //Zoom in and Zoom out buttons */}
-                    {/* <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}> */}
+                    //Zoom in and Zoom out buttons */}
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
 
                         {/* Leaderboard component */}
-                        {/* <View style={styles.scoreboard}>
+                          <View style={styles.scoreboard}>
                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} >
                                 <Image
                                     source={require('../images/jellybeanbluextrasmall.png')}
@@ -275,20 +275,20 @@ class MapScreen extends Component {
                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <Image style={styles.scorePic} source={require('../images/scorecard.png')} />
                                 <Text style={{ marginLeft: 12, fontSize: 20, fontFamily: Fonts.TCB }}> {this.state.totalPoints} points </Text>
-                            </View> */}
-                        {/* </View>
-                        <View style={styles.zoom}>
+                            </View>
+                         </View>
+                        {/* <View style={styles.zoom}>
                             <TouchableOpacity
                                 style={styles.zoomIn}
                                 onPress={() => { () => this.onPressZoomIn() }}
-                            > */}
-                                {/* <Icon
+                            > 
+                                 <Icon
                                     name="add"
                                     style={styles.icon}
                                     size={20}
                                 />
-                            </TouchableOpacity> */}
-                            {/* <TouchableOpacity
+                            </TouchableOpacity> 
+                             <TouchableOpacity
                                 style={styles.zoomOut}
                                 onPress={() => { () => this.onPressZoomOut() }}
                             >
@@ -298,8 +298,8 @@ class MapScreen extends Component {
                                     size={20}
                                 />
                             </TouchableOpacity>
-                        </View>
-                    </View> */}
+                        </View> */}
+                    </View> 
 
                     {/* Add-marker component */}
                     <View style={styles.button}>

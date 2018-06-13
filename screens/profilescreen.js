@@ -77,17 +77,17 @@ export default class ProfileScreen extends Component {
         let playerInfo = this.state.player;
         return (
             <Container>
-                <Header style={{ borderBottomWidth: 0, shadowOffset: { height: 0, width: 0 }, shadowOpacity: 0, elevation: 0 }}>
+                <Header style={{ borderBottomWidth: 0, shadowOffset: { height: 0, width: 0 }, shadowOpacity: 0, elevation: 0,  backgroundColor: '#4054b2' }}>
                     <Left>
-                        <Button onPress={() => this.props.navigation.navigate('Settings', { playerInfo })}>
-                            <Icon name="ios-settings-outline" />
+                        <Button style={{backgroundColor: '#4054b2'}} onPress={() => this.props.navigation.navigate('Settings', { playerInfo })}>
+                            <Icon style={{color: 'white'}} name="ios-settings-outline" />
                         </Button>
                     </Left>
                     <Body>
-                        <Title style={{ paddingLeft: 100 }}>Profile</Title>
+                        <Title style={{ color: 'white'}}>Profile</Title>
                     </Body>
                     <Right>
-                        <Button onPress={() => this.props.navigation.navigate('SignedOut')}>
+                        <Button style={{backgroundColor: '#4054b2'}} onPress={() => this.props.navigation.navigate('SignedOut')}>
                             <Text>Log Out</Text>
                         </Button>
                     </Right>

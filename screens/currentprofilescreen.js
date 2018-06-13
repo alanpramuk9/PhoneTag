@@ -34,7 +34,7 @@ export default class CurrentProfileScreen extends Component {
     static navigationOptions = {
         title: "User Profile",
         headerStyle: { backgroundColor: '#4054b2' },
-        headerTitleStyle: { color: 'white', paddingLeft: 80 },
+        headerTitleStyle: { color: 'white', paddingLeft: 0 },
     }
 
     render() {

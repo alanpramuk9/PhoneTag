@@ -78,9 +78,9 @@ class Leaderboard extends Component {
         if (this.state.seg === 1) {
             return (
                 <Container style={styles.container}>
-                    <Header>
+                    <Header style={{backgroundColor: '#4054b2'}}>
                         <Body>
-                            <Title style={{ paddingLeft: 150 }}>
+                            <Title style={{ paddingLeft: 0, color: 'white' }}>
                                 Leaderboard
                             </Title>
                         </Body>
@@ -131,9 +131,9 @@ class Leaderboard extends Component {
         } else if (this.state.seg === 2) {
             return (
                 <Container style={styles.container}>
-                    <Header>
+                      <Header style={{backgroundColor: '#4054b2'}}>
                         <Body>
-                            <Title style={{ paddingLeft: 150 }}>
+                            <Title style={{ paddingLeft: 0, color: 'white' }}>
                                 Leaderboard
                             </Title>
                         </Body>
@@ -185,9 +185,9 @@ class Leaderboard extends Component {
         } else {
             return (
                 <Container style={styles.container}>
-                    <Header>
+                       <Header style={{backgroundColor: '#4054b2'}}>
                         <Body>
-                            <Title style={{ paddingLeft: 150 }}>
+                            <Title style={{ paddingLeft: 0, color: 'white' }}>
                                 Leaderboard
                             </Title>
                         </Body>

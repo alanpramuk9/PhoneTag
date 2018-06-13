@@ -84,11 +84,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'blue'
     },
     button: {
-        paddingLeft: 40,
-        paddingRight: 40,
-        paddingTop: 20,
-        paddingBottom: 20,
+        // paddingLeft: 40,
+        // paddingRight: 40,
+        // paddingTop: 20,
+        // paddingBottom: 20,
         marginBottom: 15,
+        height: 80,
         alignSelf: 'center',
         backgroundColor: '#00FF72',
         borderColor: 'black',

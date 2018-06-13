@@ -44,14 +44,16 @@ class MapScreen extends Component {
             let lat = parseFloat(position.coords.latitude);
             let long = parseFloat(position.coords.longitude);
 
+            let region = {
+                latitude: lat,
+                longitude: long,
+                latitudeDelta: LATITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA
+            };
             this.setState({
-                region: {
-                    latitude: lat,
-                    longitude: long,
-                    latitudeDelta: LATITUDE_DELTA,
-                    longitudeDelta: LONGITUDE_DELTA
-                }
+                region
             });
+            this.map.animateToRegion(region)
 
         },
             (error) => alert(JSON.stringify(error)),
@@ -69,6 +71,7 @@ class MapScreen extends Component {
             }
 
             this.setState({ region: lastRegion });
+            this.map.animateToRegion(lastRegion);
 
         })
 
@@ -152,6 +155,10 @@ class MapScreen extends Component {
         console.log('onRegionChangeComplete', region);
     };
 
+    onRegionChange = (region) => {
+        // this.setState({ region });
+    }
+
     onPressAnimate = () => {
         Animated.sequence([
             Animated.spring(this.state._legalLabelPositionY, {
@@ -184,15 +191,16 @@ class MapScreen extends Component {
             latitudeDelta: this.state.region.latitudeDelta * 10,
             longitudeDelta: this.state.region.longitudeDelta * 10
         }
-
+        let region = {
+            latitudeDelta: this.region.latitudeDelta,
+            longitudeDelta: this.region.longitudeDelta,
+            latitude: this.region.latitude,
+            longitude: this.region.longitude
+        }
         this.setState({
-            region: {
-                latitudeDelta: this.region.latitudeDelta,
-                longitudeDelta: this.region.longitudeDelta,
-                latitude: this.region.latitude,
-                longitude: this.region.longitude
-            }
+            region
         })
+        this.map.animateToRegion(region);
     }
 
     onPressZoomOut() {
@@ -202,14 +210,16 @@ class MapScreen extends Component {
             latitudeDelta: this.state.region.latitudeDelta / 10,
             longitudeDelta: this.state.region.longitudeDelta / 10
         }
+        let region = {
+            latitudeDelta: this.region.latitudeDelta,
+            longitudeDelta: this.region.longitudeDelta,
+            latitude: this.region.latitude,
+            longitude: this.region.longitude
+        }
         this.setState({
-            region: {
-                latitudeDelta: this.region.latitudeDelta,
-                longitudeDelta: this.region.longitudeDelta,
-                latitude: this.region.latitude,
-                longitude: this.region.longitude
-            }
+            region
         })
+        this.map.animateToRegion(region);
 
     }
     componentWillUnmount() {
@@ -221,17 +231,19 @@ class MapScreen extends Component {
             <View>
                 <View style={styles.container}>
                     <MapView
-                        //initialRegion={this.state.initialRegion}
+                        initialRegion={this.state.region}
                         provider={PROVIDER_GOOGLE}
-                        region={this.state.region}
+                        // region={this.state.region}
                         style={styles.map}
                         customMapStyle={CustomMap}
                         mapType={"standard"}
                         showsScale={true}
                         showsCompass={true}
+                        scrollEnabled={true}
                         showsUserLocation={true}
-                        followsUserLocation={true}
+                        followsUserLocation={false}
                         zoomEnabled={true}
+                        onRegionChange={this.onRegionChange}
                         onRegionChangeComplete={this.onRegionChangeComplete}
                         loadingEnabled={true}
                         loadingIndicatorColor={'#606060'}
@@ -261,8 +273,9 @@ class MapScreen extends Component {
                         })}
                     </MapView>
 
+
                     {/* //Zoom in and Zoom out buttons */} 
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 
                         {/* Leaderboard component */}
                           <View style={styles.scoreboard}>
@@ -299,9 +312,7 @@ class MapScreen extends Component {
                                 />
                             </TouchableOpacity>
                         </View> */}
-                    </View> 
-
-                    {/* Add-marker component */}
+                                            {/* Add-marker component */}
                     <View style={styles.button}>
                         <TouchableOpacity
                             onPress={() => this.savePin()}
@@ -316,6 +327,9 @@ class MapScreen extends Component {
 
                         </TouchableOpacity>
                     </View>
+                    </View> 
+
+
                 </View>
             </View>
         );
@@ -343,15 +357,15 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject
     },
     scoreboard: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
         opacity: 0.8,
-        width: 55,
+        width: 170,
         height: 150,
-        marginLeft: 15,
+        marginLeft: 50,
         marginTop: 15,
         marginRight: 150,
         borderRadius: 3
@@ -361,10 +375,11 @@ const styles = StyleSheet.create({
         width: 40
     },
     button: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'column',
         justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginRight: 50
     },
     zoom: {
         flex: 1,

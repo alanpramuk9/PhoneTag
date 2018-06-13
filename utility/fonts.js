@@ -3,5 +3,5 @@
 export const Fonts = {
     Sunflower: 'Sunflower-Medium',
     IndieFlower: 'IndieFlower',
-    TCB: 'TCB'
+    TCB: 'TwCenMT-Bold'
 }

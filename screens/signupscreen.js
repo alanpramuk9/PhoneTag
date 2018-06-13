@@ -108,10 +108,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'blue'
     },
     button: {
-        paddingLeft: 40,
-        paddingRight: 40,
-        paddingTop: 20,
-        paddingBottom: 20,
+        // paddingLeft: 40,
+        // paddingRight: 40,
+        // paddingTop: 20,
+        // paddingBottom: 20,
+        height: 80,
         marginBottom: 15,
         alignSelf: 'center',
         backgroundColor: '#00FF72',

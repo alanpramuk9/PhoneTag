@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
-import { AppRegistry, View, Image, StyleSheet } from 'react-native';
+import { AppRegistry, Image, StyleSheet } from 'react-native';
 import { Fonts } from '../utility/fonts';
 export default class SplashScreen extends Component {
     static navigationOptions = {
@@ -14,7 +14,7 @@ export default class SplashScreen extends Component {
                         style={{ marginTop: 50, marginBottom: 60 }} source={require('../images/jellybean3.png')}
                     />
                     <Button style={styles.button} onPress={() => this.props.navigation.navigate('SignIn')}>
-                        <Text style={{ color: 'black', fontSize: 30, fontFamily: Fonts.TCB }}>Sign In</Text>
+                        <Text style={{ color: 'black', fontSize: 30, fontFamily: Fonts.TCB, textAlign: 'center' }}>Sign In</Text>
                     </Button>
                     <Button style={styles.button} onPress={() => this.props.navigation.navigate('SignUp')}>
                         <Text style={{ color: 'black', fontSize: 30, fontFamily: Fonts.TCB }}>Sign Up</Text>
@@ -32,10 +32,13 @@ export default class SplashScreen extends Component {
 
 const styles = StyleSheet.create({
     button: {
-        paddingLeft: 40,
-        paddingRight: 40,
-        paddingTop: 30,
-        paddingBottom: 30,
+        // paddingLeft: 40,
+        // paddingRight: 40,
+        // paddingTop: 30,
+        // paddingBottom: 30,
+        flex: 0,
+        alignItems: 'center',
+        height: 80,
         marginBottom: 100,
         alignSelf: 'center',
         backgroundColor: '#00FF72',

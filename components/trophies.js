@@ -45,7 +45,7 @@ export default class Trophies extends Component {
     }
 
     render() {
-        if (this.props.value > 100000) {
+        if (this.props.value >= 100000) {
             return (
 
                 <View style={styles.makeFlex}>
@@ -63,7 +63,7 @@ export default class Trophies extends Component {
                     </View>
                 </View>
             )
-        } else if (this.props.value > 10000) {
+        } else if (this.props.value >= 10000) {
             return (
                 <View style={styles.makeFlex}>
                     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-evenly' }}>
@@ -81,7 +81,7 @@ export default class Trophies extends Component {
                 </View>
 
             )
-        } else if (this.props.value > 1000) {
+        } else if (this.props.value >= 1000) {
             return (
 
                 <View style={styles.makeFlex}>

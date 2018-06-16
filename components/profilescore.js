@@ -47,11 +47,14 @@ export default class ProfileScore extends Component {
         playergameService.getMyPlayergame(id)
             .then((player) => {
                 let playergame = player[player.length - 1].total_points;
+                this.setState({ playergame });
                 let currentGameId = player[player.length - 1].game_id;
-                let lastgame = player[player.length - 2].total_points;
-                let lastGameId = player[player.length - 2].game_id;
-                this.setState({ playergame, lastgame, currentGameId, lastGameId });
+                console.log(currentGameId);
+                console.log(id);
                 this.getMyCurrentRank(currentGameId, id);
+                let lastgame = player[player.length - 2].total_points;
+                this.setState({ lastgame });
+                let lastGameId = player[player.length - 2].game_id;
                 this.getMyLastRank(lastGameId, id);
             }).catch((err) => {
                 console.log(err);
@@ -88,10 +91,12 @@ export default class ProfileScore extends Component {
     getMyCurrentRank(gameId, playerId) {
         playergameService.profileRankings(gameId, playerId)
             .then((rank) => {
+                console.log(rank);
                 let rankLength = rank.length;
                 for (let i = 0; i < rankLength; i++) {
                     if (playerId === rank[i].player_id) {
                         let currentRank = i + 1;
+                        console.log(`this is ${currentRank}`);
                         this.setState({ currentRank })
                     }
                 }
@@ -116,6 +121,7 @@ export default class ProfileScore extends Component {
     }
 
     render() {
+        console.log(this.state.currentRank)
         if (this.state.seg === 1) {
             return (
 

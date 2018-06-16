@@ -1,7 +1,16 @@
-//name the font whatever you like and set it to the filename in assets/fonts/
+import { Platform, StyleSheet } from 'react-native';
 
-export const Fonts = {
-    Sunflower: 'Sunflower-Medium',
-    IndieFlower: 'IndieFlower',
-    TCB: 'TwCenMT-Bold'
-}
+
+let Fonts = Platform.select({
+    android: {
+        Sunflower: 'Sunflower-Medium',
+        IndieFlower: 'IndieFlower',
+        TCB: 'TCB'
+    }, ios: {
+        Sunflower: 'Sunflower-Medium',
+        IndieFlower: 'IndieFlower',
+        TCB: 'TwCenMT-Bold'
+    }
+ });
+
+ export { Fonts };

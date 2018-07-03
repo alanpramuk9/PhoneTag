@@ -53,8 +53,8 @@ export default class ProfileScreen extends Component {
                     keyPrefix: "s3/",
                     bucket: "alanblogimage",
                     region: "us-east-1",
-                    accessKey: "AKIAINN3DOEWB3CYD7XA",
-                    secretKey: "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",
+                    accessKey: "",
+                    secretKey: "",
                     successActionStatus: 201
                 }
                 RNS3.put(file, config)
